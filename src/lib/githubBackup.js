@@ -60,6 +60,7 @@ export async function backup_progress_to_github(uid, progress, profile, { force 
     highest_unlocked: progress.highest_unlocked || "0",
     checks: progress.checks || {},
     answers: progress.answers || {},
+    foundations_complete: progress.foundations_complete || false,
     worksheets: progress.worksheets || {},
     skill_level: progress.skill_level || "",
     weekly_tallies: progress.weekly_tallies || {},

@@ -420,6 +420,13 @@ button.linkish:hover {
   color: var(--accent);
 }
 
+.section-label {
+  font-family: system-ui, sans-serif;
+  font-size: 1.05rem;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--muted);
+}
+
 .answer-field {
   display: grid;
   gap: 0.35rem;

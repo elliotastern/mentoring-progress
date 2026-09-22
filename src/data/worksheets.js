@@ -473,6 +473,187 @@ export const WORKSHEETS = [
       },
     ],
   },
+  {
+    id: "module-exit-0",
+    title: "Module 0 Exit",
+    stage: "m0",
+    blurb: "End-of-module checklist — onboard complete. No mentor meeting required.",
+    sections: [
+      {
+        title: "Lessons (check when done)",
+        fields: [
+          check("agreement", "Signed agreement"),
+          check("overview", "Module & Mentorship Overview"),
+          check("provided", "What Is Provided"),
+          check("expectations_ws", "Expectations worksheet saved in shared folder"),
+          check("communicate", "How To Communicate"),
+        ],
+      },
+      {
+        title: "Networking task",
+        fields: [
+          text("slack_intro", "Slack intro — channel + date posted"),
+          text("slack_replies", "Names of 2–3 people I replied to"),
+          area("intro_draft", "My intro (fill-in blanks used)"),
+        ],
+      },
+      {
+        title: "Habit",
+        fields: [
+          text("health_habit", "Health habit I started (sleep / exercise / water)"),
+          check("ready", "Ready for Module 1"),
+        ],
+      },
+    ],
+  },
+  {
+    id: "module-exit-1",
+    title: "Module 1 Exit",
+    stage: "m1",
+    blurb: "End-of-module checklist — path, goals, habits. No roadmap meeting required.",
+    sections: [
+      {
+        title: "Documents / worksheets saved",
+        fields: [
+          check("overview", "Overview + tools installed"),
+          check("principles", "Principles & Values worksheet saved"),
+          check("bumps", "Bumps Ahead reviewed"),
+          check("goals", "Goals Planning done"),
+          check("roadmap_assess", "Roadmap assessment checklist done"),
+          check("next_steps", "To Start Learning — next actions written"),
+          check("time_energy", "Time & Energy management done"),
+          check("habits", "Habits plan written"),
+          check("swot", "SWOT worksheet saved"),
+          check("optimal", "Optimal Roadmap worksheet saved"),
+        ],
+      },
+      {
+        title: "Fill-ins",
+        fields: [
+          text("primary_goal", "Primary goal this quarter"),
+          area("next_actions", "Next action steps (from To Start Learning)"),
+          text("coding_habit", "Coding practice plan (SQL/Python 30m daily)"),
+          check("ready", "Ready for Module 2 (or portfolio track)"),
+        ],
+      },
+    ],
+  },
+  {
+    id: "module-exit-2",
+    title: "Module 2 Exit",
+    stage: "m2",
+    blurb: "End-of-module checklist — project plan. Skip with reason if going straight to portfolio.",
+    sections: [
+      {
+        title: "Lessons",
+        fields: [
+          check("why", "Why Build Full-Stack Project"),
+          check("plan_doc", "Mentorship Project Plan + next steps"),
+          check("step_by_step", "Project Step-by-Step"),
+          check("planning_ws", "Data Related Project Planning worksheet saved (or N/A)"),
+        ],
+      },
+      {
+        title: "Project",
+        fields: [
+          text("project_name", "Project name (or N/A)"),
+          text("repo_url", "Repo URL (or N/A)"),
+          area("skip_reason", "If skipping Module 2, why / what’s instead"),
+          check("upskill_habit", "Upskilling habit started (30+ mins daily)"),
+          check("ready", "Ready for Module 3"),
+        ],
+      },
+    ],
+  },
+  {
+    id: "module-exit-3",
+    title: "Module 3 Exit",
+    stage: "m3",
+    blurb: "End-of-module checklist — portfolio package ready for search.",
+    sections: [
+      {
+        title: "Lessons + worksheets",
+        fields: [
+          check("overview", "Overview"),
+          check("design", "Designing Yourself As A Product"),
+          check("selling", "Selling Yourself As A Product worksheet saved"),
+          check("impact", "How To Measure Impact"),
+          check("li_max", "Maximize LinkedIn checklist"),
+          check("port_max", "Maximize Portfolio checklist"),
+          check("resume_max", "Maximize Resume checklist"),
+          check("cover_max", "Maximize Cover Letter checklist"),
+        ],
+      },
+      {
+        title: "Product summary (networking task)",
+        fields: [
+          area("product_summary", "Product summary"),
+          text("one_liner", "One-liner"),
+          text("slack_posted", "Posted in #3-optimizing-portfolio (date)"),
+          check("asked_feedback", "Asked for feedback"),
+          check("portfolio_habit", "Portfolio Touch-Up habit started (30m daily)"),
+          check("ready", "Ready for Module 4 — Job Search"),
+        ],
+      },
+    ],
+  },
+  {
+    id: "module-exit-5",
+    title: "Module 5 Exit",
+    stage: "5",
+    blurb: "End-of-module interview checklist — practice without waiting for a company loop.",
+    sections: [
+      {
+        title: "Lessons",
+        fields: [
+          check("overview", "Module 5 Overview"),
+          check("general", "Interviewing In General"),
+          check("prepare", "How to prepare for an interview"),
+          check("technical", "How to prepare for technical interview steps"),
+          check("pre", "Pre-Interview Checklist reviewed"),
+          check("post", "Post-Interview Checklist reviewed"),
+          check("rejection", "Post-Rejection reviewed"),
+        ],
+      },
+      {
+        title: "Worksheets + practice",
+        fields: [
+          check("prep_script", "Interview Prep Script worksheet filled (in app or Drive)"),
+          check("prep_list", "Interview Prep Checklist worksheet filled"),
+          text("mock_peers", "Mock interview partners (2 names) or ask posted in #5-interview-prep"),
+          check("habit", "Interview prep habit started (45m daily)"),
+          check("ready", "Ready for Module 6 / offers"),
+        ],
+      },
+    ],
+  },
+  {
+    id: "module-exit-6",
+    title: "Module 6 Exit",
+    stage: "7",
+    blurb: "End-of-module offer checklist — negotiate without a meeting gate.",
+    sections: [
+      {
+        title: "Lessons",
+        fields: [
+          check("overview", "Overview"),
+          check("general", "Negotiations In General"),
+          check("expected", "How to answer what’s your expected salary"),
+          check("package", "Negotiating The Complete Compensation Package"),
+          check("mistakes", "Learn From mentor mistakes"),
+        ],
+      },
+      {
+        title: "Practice + worksheet",
+        fields: [
+          check("comp_ws", "Complete Compensation Planning worksheet filled"),
+          area("salary_script", "Expected-salary negotiation script (both sides)"),
+          check("daily_practice", "Practicing salary expectation cycle daily"),
+          check("ready", "Module 6 complete"),
+        ],
+      },
+    ],
+  },
 ];
 
 export function worksheet_by_id(id) {

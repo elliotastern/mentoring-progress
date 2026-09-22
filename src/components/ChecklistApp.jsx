@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { STAGES, WEEKLY, STAGE_ORDER } from "../data/stages.js";
+import { FOUNDATIONS } from "../data/foundations.js";
 import {
   empty_progress,
   stage_pass_status,
@@ -7,6 +8,7 @@ import {
   is_stage_open,
   weekly_open,
   auto_unlock_progress,
+  foundations_passed,
 } from "../lib/gates.js";
 import { WorksheetView } from "./WorksheetView.jsx";
 
@@ -65,6 +67,55 @@ function CheckList({ items, checks, disabled, on_toggle, on_open_sheet }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function FoundationCard({ stage, progress, on_change, on_open_sheet }) {
+  const status = stage_pass_status(stage, progress);
+  const checks = progress.checks || {};
+  return (
+    <section className={`stage-card ${status.passed ? "ready" : ""}`}>
+      <div className="stage-head">
+        <h2>{stage.title}</h2>
+        {status.passed ? <span className="badge ok">Complete</span> : <span className="badge">Required</span>}
+      </div>
+      {stage.worksheet?.worksheet_id ? (
+        <p className="worksheet-banner">
+          Fill-in (private):{" "}
+          <button
+            type="button"
+            className="linkish"
+            onClick={() => on_open_sheet(stage.worksheet.worksheet_id)}
+          >
+            {stage.worksheet.label || "Open worksheet"}
+          </button>
+        </p>
+      ) : null}
+      <p className="gate">
+        Pass when: <strong>{status.core_done}/{status.core_need}</strong> checks · answer{" "}
+        {status.answer_filled ? "✓" : "missing"}
+      </p>
+      <CheckList
+        items={stage.items}
+        checks={checks}
+        disabled={false}
+        on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+        on_open_sheet={on_open_sheet}
+      />
+      <label className="answer-field">
+        <span>{stage.answer_label}</span>
+        <input
+          type="text"
+          value={progress.answers?.[stage.answer_key] || ""}
+          onChange={(e) =>
+            on_change({
+              answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
+            })
+          }
+          placeholder="Required"
+        />
+      </label>
+    </section>
   );
 }
 
@@ -353,8 +404,8 @@ export function ChecklistApp({
             ) : null}
           </p>
           <p className="sub guide-line">
-            Worksheets are fill-in forms saved to <strong>your login only</strong>. Guides (Overview)
-            stay read-only for how-to.
+            Worksheets are private fill-ins for your login. Finish Module 0–3 end checklists
+            before Stage 0 opens (already past Stage 0? you’re grandfathered).
           </p>
         </div>
         {github_backup_ok ? (
@@ -368,7 +419,19 @@ export function ChecklistApp({
         ) : null}
       </header>
       {message ? <p className="toast">{message}</p> : null}
+      {!foundations_passed(p) ? (
+        <p className="gate">
+          Foundations: complete Module 0–3 end checklists below to unlock Stage 0 (Job Search).
+        </p>
+      ) : (
+        <p className="hint">Foundations complete · Job Search stages open.</p>
+      )}
       <ol className="map">
+        {FOUNDATIONS.map((f) => (
+          <li key={f.id} className={stage_pass_status(f, p).passed || foundations_passed(p) ? "open" : ""}>
+            {f.id}
+          </li>
+        ))}
         {STAGES.map((s) => (
           <li key={s.id} className={is_stage_open(s.id, p) ? "open" : ""}>
             {s.id}
@@ -376,6 +439,17 @@ export function ChecklistApp({
         ))}
         <li className={weekly_open(p) ? "open" : ""}>W</li>
       </ol>
+      <h2 className="section-label">Module end checklists (0–3)</h2>
+      {FOUNDATIONS.map((stage) => (
+        <FoundationCard
+          key={stage.id}
+          stage={stage}
+          progress={p}
+          on_change={patch}
+          on_open_sheet={set_open_sheet}
+        />
+      ))}
+      <h2 className="section-label">Module 4 — Job Search stages</h2>
       {STAGES.map((stage) => (
         <StageCard
           key={stage.id}

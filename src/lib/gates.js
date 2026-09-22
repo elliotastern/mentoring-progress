@@ -1,4 +1,5 @@
 import { STAGES, WEEKLY } from "../data/stages.js";
+import { FOUNDATIONS } from "../data/foundations.js";
 
 function count_checked(checks, items) {
   return items.filter((item) => checks[item.id]).length;
@@ -63,20 +64,36 @@ export function weekly_pass_status(progress) {
   };
 }
 
+export function foundations_passed(progress) {
+  if (progress.foundations_complete) return true;
+  const unlocked = progress.highest_unlocked || "0";
+  const order = STAGES.map((s) => s.id);
+  // Grandfather mentees already past Stage 0
+  if (order.indexOf(unlocked) > 0) return true;
+  return FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed);
+}
+
+export function mark_foundations_if_ready(progress) {
+  if (progress.foundations_complete) return progress;
+  if (!FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed)) return progress;
+  return { ...progress, foundations_complete: true };
+}
+
 export function highest_unlocked(progress) {
   return progress.highest_unlocked || "0";
 }
 
 export function is_stage_open(stage_id, progress) {
+  if (!foundations_passed(progress)) return false;
   const order = STAGES.map((s) => s.id);
   const unlocked = highest_unlocked(progress);
   return order.indexOf(stage_id) <= order.indexOf(unlocked);
 }
 
 export function weekly_open(progress) {
+  if (!foundations_passed(progress)) return false;
   const unlocked = highest_unlocked(progress);
   const order = STAGES.map((s) => s.id);
-  // Weekly after Stage 3 is unlocked (highest at least "4")
   return order.indexOf(unlocked) >= order.indexOf("4");
 }
 
@@ -99,22 +116,27 @@ export function unlock_next(stage, progress) {
 
 /** Advance as far as checks/answers allow — no mentor meeting or Unlock click. */
 export function auto_unlock_progress(progress) {
-  let highest = progress.highest_unlocked || "0";
+  let next = mark_foundations_if_ready(progress);
+  if (!foundations_passed(next)) return next;
+
+  let highest = next.highest_unlocked || "0";
   let guard = 0;
   while (guard < STAGES.length) {
     guard += 1;
     const stage = stage_by_id(highest);
     if (!stage || !stage.unlocks) break;
-    if (!stage_pass_status(stage, progress).passed) break;
+    if (!stage_pass_status(stage, next).passed) break;
     highest = stage.unlocks;
   }
-  if (highest === (progress.highest_unlocked || "0")) return progress;
-  return { ...progress, highest_unlocked: highest };
+  if (highest === (next.highest_unlocked || "0") && next === progress) return progress;
+  if (highest === (next.highest_unlocked || "0")) return next;
+  return { ...next, highest_unlocked: highest };
 }
 
 export function empty_progress() {
   return {
     highest_unlocked: "0",
+    foundations_complete: false,
     checks: {},
     answers: {},
     worksheets: {},
