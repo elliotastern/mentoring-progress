@@ -27,8 +27,8 @@ export function LoginForm({ on_authed }) {
         <p className="eyebrow">DataShip mentorship</p>
         <h1>Job Search Progress</h1>
         <p className="sub">
-          Sign in with the username your mentor gave you. Checks and fill-ins unlock the next
-          section.
+          Sign in with the username your mentor gave you. Checks and answers open the next
+          stage automatically — no meeting required.
         </p>
 
         <form className="auth-form" onSubmit={submit}>

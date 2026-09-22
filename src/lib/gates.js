@@ -97,6 +97,21 @@ export function unlock_next(stage, progress) {
   return { ok: true, next: highest, message: `Unlocked ${stage.unlocks}.` };
 }
 
+/** Advance as far as checks/answers allow — no mentor meeting or Unlock click. */
+export function auto_unlock_progress(progress) {
+  let highest = progress.highest_unlocked || "0";
+  let guard = 0;
+  while (guard < STAGES.length) {
+    guard += 1;
+    const stage = stage_by_id(highest);
+    if (!stage || !stage.unlocks) break;
+    if (!stage_pass_status(stage, progress).passed) break;
+    highest = stage.unlocks;
+  }
+  if (highest === (progress.highest_unlocked || "0")) return progress;
+  return { ...progress, highest_unlocked: highest };
+}
+
 export function empty_progress() {
   return {
     highest_unlocked: "0",

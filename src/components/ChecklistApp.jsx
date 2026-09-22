@@ -1,13 +1,20 @@
 import { useEffect, useRef } from "react";
-import { STAGES, WEEKLY } from "../data/stages.js";
+import { STAGES, WEEKLY, STAGE_ORDER } from "../data/stages.js";
 import {
   empty_progress,
   stage_pass_status,
   weekly_pass_status,
   is_stage_open,
   weekly_open,
-  unlock_next,
+  auto_unlock_progress,
 } from "../lib/gates.js";
+
+function doc_url(href) {
+  if (!href) return "";
+  if (/^https?:\/\//i.test(href)) return href;
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base}${href.replace(/^\//, "")}`;
+}
 
 function CheckList({ items, checks, disabled, on_toggle }) {
   return (
@@ -21,7 +28,20 @@ function CheckList({ items, checks, disabled, on_toggle }) {
               disabled={disabled}
               onChange={(e) => on_toggle(item.id, e.target.checked)}
             />
-            <span>{item.label}</span>
+            <span className="check-copy">
+              <span>{item.label}</span>
+              {item.doc?.href ? (
+                <a
+                  className="doc-link"
+                  href={doc_url(item.doc.href)}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {item.doc.label || "How-to"}
+                </a>
+              ) : null}
+            </span>
           </label>
         </li>
       ))}
@@ -29,20 +49,29 @@ function CheckList({ items, checks, disabled, on_toggle }) {
   );
 }
 
-function StageCard({ stage, progress, locked, on_change, on_unlock }) {
+function StageCard({ stage, progress, locked, on_change }) {
   const status = stage_pass_status(stage, progress);
   const checks = progress.checks || {};
+  const past =
+    !locked &&
+    stage.unlocks &&
+    STAGE_ORDER.indexOf(progress.highest_unlocked || "0") > STAGE_ORDER.indexOf(stage.id);
+  const done_final = !stage.unlocks && status.passed;
 
   return (
     <section className={`stage-card ${locked ? "locked" : ""} ${status.passed ? "ready" : ""}`}>
       <div className="stage-head">
         <h2>{stage.title}</h2>
         {locked ? <span className="badge">Locked</span> : null}
-        {!locked && status.passed ? <span className="badge ok">Ready to unlock</span> : null}
+        {!locked && past ? <span className="badge ok">Passed · next open</span> : null}
+        {!locked && !past && status.passed && stage.unlocks ? (
+          <span className="badge ok">Passed · Stage {stage.unlocks} unlocked</span>
+        ) : null}
+        {done_final ? <span className="badge ok">Complete</span> : null}
       </div>
 
       {locked ? (
-        <p className="hint">Finish the previous stage to open this one.</p>
+        <p className="hint">Finish the previous stage’s checks + answer to open this one.</p>
       ) : (
         <>
           <p className="gate">
@@ -55,6 +84,7 @@ function StageCard({ stage, progress, locked, on_change, on_unlock }) {
             ) : null}
             {" · "}
             answer {status.answer_filled ? "✓" : "missing"}
+            {" · opens automatically"}
           </p>
 
           <CheckList
@@ -66,7 +96,9 @@ function StageCard({ stage, progress, locked, on_change, on_unlock }) {
 
           {stage.channel_items ? (
             <>
-              <h3>Channel rules ({stage.min_channel_checks} of {stage.channel_items.length})</h3>
+              <h3>
+                Channel rules ({stage.min_channel_checks} of {stage.channel_items.length})
+              </h3>
               <CheckList
                 items={stage.channel_items}
                 checks={checks}
@@ -109,18 +141,9 @@ function StageCard({ stage, progress, locked, on_change, on_unlock }) {
                   answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
                 })
               }
-              placeholder="Required to unlock"
+              placeholder="Required to open the next stage"
             />
           </label>
-
-          <button
-            type="button"
-            className="primary"
-            disabled={!status.passed}
-            onClick={() => on_unlock(stage)}
-          >
-            {stage.unlocks ? `Unlock Stage ${stage.unlocks}` : "Mark Stage 7 complete"}
-          </button>
         </>
       )}
     </section>
@@ -136,10 +159,10 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
     <section className={`stage-card weekly ${locked ? "locked" : ""}`}>
       <div className="stage-head">
         <h2>{WEEKLY.title}</h2>
-        {locked ? <span className="badge">Unlocks after Stage 3</span> : null}
+        {locked ? <span className="badge">Opens after Stage 3</span> : null}
       </div>
       {locked ? (
-        <p className="hint">Complete Stage 3 to unlock the weekly practice loop.</p>
+        <p className="hint">Finish Stage 3 to open the weekly practice loop.</p>
       ) : (
         <>
           <p className="gate">
@@ -209,9 +232,11 @@ export function ChecklistApp({
   }
 
   function patch(partial) {
-    const next = { ...latest_ref.current, ...partial };
-    // Immediate local autosave on every change
-    persist(next, { silent: true });
+    const merged = { ...latest_ref.current, ...partial };
+    const before = merged.highest_unlocked || "0";
+    const next = auto_unlock_progress(merged);
+    const advanced = (next.highest_unlocked || "0") !== before;
+    persist(next, { silent: !advanced, force_github: advanced });
   }
 
   function flush_pending() {
@@ -238,16 +263,6 @@ export function ChecklistApp({
     };
   }, []);
 
-  function handle_unlock(stage) {
-    const result = unlock_next(stage, latest_ref.current);
-    if (!result.ok) {
-      alert(result.reason);
-      return;
-    }
-    const next = { ...latest_ref.current, highest_unlocked: result.next };
-    persist(next, { silent: false, force_github: true });
-  }
-
   function reset_week() {
     const next_checks = { ...latest_ref.current.checks };
     WEEKLY.items.forEach((item) => {
@@ -272,11 +287,19 @@ export function ChecklistApp({
           <p className="eyebrow">DataShip · Module 4</p>
           <h1>Job Search Progress</h1>
           <p className="sub">
-            Highest unlocked stage: <strong>{p.highest_unlocked}</strong>
+            Highest open stage: <strong>{p.highest_unlocked}</strong>
             <span className={`autosave-note status-${save_status}`}> · {status_label}</span>
             {github_backup_ok ? (
               <span className="autosave-note"> · GitHub backup once/day</span>
             ) : null}
+          </p>
+          <p className="sub guide-line">
+            Guide:{" "}
+            <a href={doc_url("docs/view.html?doc=overview-v8.md")} target="_blank" rel="noreferrer">
+              Job Search Overview v8
+            </a>
+            {" · "}
+            Stages open when checks + answer are done — no meeting required.
           </p>
         </div>
         {github_backup_ok ? (
@@ -305,7 +328,6 @@ export function ChecklistApp({
           progress={p}
           locked={!is_stage_open(stage.id, p)}
           on_change={patch}
-          on_unlock={handle_unlock}
         />
       ))}
       <WeeklyCard

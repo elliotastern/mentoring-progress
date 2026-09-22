@@ -283,6 +283,32 @@ button:disabled {
   height: 1.1rem;
 }
 
+.check-copy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  align-items: baseline;
+}
+
+.doc-link {
+  font-size: 0.82rem;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.doc-link:hover {
+  text-decoration: underline;
+}
+
+.guide-line {
+  margin-top: 0.35rem;
+}
+
+.guide-line a {
+  color: var(--accent);
+}
+
 .answer-field {
   display: grid;
   gap: 0.35rem;
