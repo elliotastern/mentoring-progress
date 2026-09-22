@@ -30,6 +30,17 @@ function CheckList({ items, checks, disabled, on_toggle }) {
             />
             <span className="check-copy">
               <span>{item.label}</span>
+              {item.sheet?.href ? (
+                <a
+                  className="doc-link sheet-link"
+                  href={doc_url(item.sheet.href)}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {item.sheet.label || "Worksheet"}
+                </a>
+              ) : null}
               {item.doc?.href ? (
                 <a
                   className="doc-link"
@@ -38,7 +49,7 @@ function CheckList({ items, checks, disabled, on_toggle }) {
                   rel="noreferrer"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {item.doc.label || "How-to"}
+                  {item.doc.label || "Guide"}
                 </a>
               ) : null}
             </span>
@@ -74,6 +85,14 @@ function StageCard({ stage, progress, locked, on_change }) {
         <p className="hint">Finish the previous stage’s checks + answer to open this one.</p>
       ) : (
         <>
+          {stage.worksheet?.href ? (
+            <p className="worksheet-banner">
+              Fill-in:{" "}
+              <a href={doc_url(stage.worksheet.href)} target="_blank" rel="noreferrer">
+                {stage.worksheet.label || "Stage worksheet"}
+              </a>
+            </p>
+          ) : null}
           <p className="gate">
             Pass when: <strong>{status.core_done}/{status.core_need}</strong> checks
             {stage.channel_items ? (
@@ -165,6 +184,14 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
         <p className="hint">Finish Stage 3 to open the weekly practice loop.</p>
       ) : (
         <>
+          {WEEKLY.worksheet?.href ? (
+            <p className="worksheet-banner">
+              Fill-in:{" "}
+              <a href={doc_url(WEEKLY.worksheet.href)} target="_blank" rel="noreferrer">
+                {WEEKLY.worksheet.label || "Weekly worksheet"}
+              </a>
+            </p>
+          ) : null}
           <p className="gate">
             Pass when: <strong>{status.core_done}/{status.core_need}</strong> checks · tallies{" "}
             {status.tallies_ok ? "✓" : "missing"}

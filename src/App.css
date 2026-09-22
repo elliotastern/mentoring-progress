@@ -301,6 +301,25 @@ button:disabled {
   text-decoration: underline;
 }
 
+.sheet-link {
+  font-weight: 600;
+}
+
+.worksheet-banner {
+  font-family: system-ui, sans-serif;
+  font-size: 0.92rem;
+  margin: 0 0 0.65rem;
+  padding: 0.55rem 0.7rem;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+}
+
+.worksheet-banner a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .guide-line {
   margin-top: 0.35rem;
 }
