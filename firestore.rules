@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signed_in() {
+      return request.auth != null;
+    }
+    function is_owner(uid) {
+      return signed_in() && request.auth.uid == uid;
+    }
+    // Replace with your mentor UIDs after first login, or use custom claims later.
+    // For email-based mentor checks, prefer Cloud Functions; client still filters by VITE_MENTOR_EMAILS.
+    // This rule allows any signed-in user to read all progress (mentor dashboard).
+    // Tighten before a large cohort: store mentor UIDs in /config/mentors.
+    function is_mentor() {
+      return signed_in()
+        && exists(/databases/$(database)/documents/config/mentors)
+        && request.auth.token.email.lower()
+          in get(/databases/$(database)/documents/config/mentors).data.emails;
+    }
+
+    match /progress/{uid} {
+      allow read: if is_owner(uid) || is_mentor();
+      allow create, update: if is_owner(uid);
+      allow delete: if false;
+    }
+
+    match /config/mentors {
+      allow read: if signed_in();
+      allow write: if false; // edit only in Firebase console
+    }
+  }
+}
