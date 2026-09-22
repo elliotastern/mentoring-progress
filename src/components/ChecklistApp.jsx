@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { STAGES, WEEKLY, STAGE_ORDER } from "../data/stages.js";
 import {
   empty_progress,
@@ -8,6 +8,7 @@ import {
   weekly_open,
   auto_unlock_progress,
 } from "../lib/gates.js";
+import { WorksheetView } from "./WorksheetView.jsx";
 
 function doc_url(href) {
   if (!href) return "";
@@ -16,7 +17,24 @@ function doc_url(href) {
   return `${base}${href.replace(/^\//, "")}`;
 }
 
-function CheckList({ items, checks, disabled, on_toggle }) {
+function SheetButton({ sheet, on_open }) {
+  if (!sheet?.worksheet_id) return null;
+  return (
+    <button
+      type="button"
+      className="doc-link sheet-link sheet-btn"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        on_open(sheet.worksheet_id);
+      }}
+    >
+      {sheet.label || "Worksheet"}
+    </button>
+  );
+}
+
+function CheckList({ items, checks, disabled, on_toggle, on_open_sheet }) {
   return (
     <ul className="check-list">
       {items.map((item) => (
@@ -30,17 +48,7 @@ function CheckList({ items, checks, disabled, on_toggle }) {
             />
             <span className="check-copy">
               <span>{item.label}</span>
-              {item.sheet?.href ? (
-                <a
-                  className="doc-link sheet-link"
-                  href={doc_url(item.sheet.href)}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {item.sheet.label || "Worksheet"}
-                </a>
-              ) : null}
+              <SheetButton sheet={item.sheet} on_open={on_open_sheet} />
               {item.doc?.href ? (
                 <a
                   className="doc-link"
@@ -60,7 +68,7 @@ function CheckList({ items, checks, disabled, on_toggle }) {
   );
 }
 
-function StageCard({ stage, progress, locked, on_change }) {
+function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
   const status = stage_pass_status(stage, progress);
   const checks = progress.checks || {};
   const past =
@@ -85,12 +93,16 @@ function StageCard({ stage, progress, locked, on_change }) {
         <p className="hint">Finish the previous stage’s checks + answer to open this one.</p>
       ) : (
         <>
-          {stage.worksheet?.href ? (
+          {stage.worksheet?.worksheet_id ? (
             <p className="worksheet-banner">
-              Fill-in:{" "}
-              <a href={doc_url(stage.worksheet.href)} target="_blank" rel="noreferrer">
-                {stage.worksheet.label || "Stage worksheet"}
-              </a>
+              Fill-in (private):{" "}
+              <button
+                type="button"
+                className="linkish"
+                onClick={() => on_open_sheet(stage.worksheet.worksheet_id)}
+              >
+                {stage.worksheet.label || "Open worksheet"}
+              </button>
             </p>
           ) : null}
           <p className="gate">
@@ -111,6 +123,7 @@ function StageCard({ stage, progress, locked, on_change }) {
             checks={checks}
             disabled={locked}
             on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+            on_open_sheet={on_open_sheet}
           />
 
           {stage.channel_items ? (
@@ -123,6 +136,7 @@ function StageCard({ stage, progress, locked, on_change }) {
                 checks={checks}
                 disabled={locked}
                 on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+                on_open_sheet={on_open_sheet}
               />
             </>
           ) : null}
@@ -145,6 +159,7 @@ function StageCard({ stage, progress, locked, on_change }) {
                   checks={checks}
                   disabled={locked}
                   on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+                  on_open_sheet={on_open_sheet}
                 />
               ) : null}
             </>
@@ -169,7 +184,7 @@ function StageCard({ stage, progress, locked, on_change }) {
   );
 }
 
-function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
+function WeeklyCard({ progress, locked, on_change, on_reset_week, on_open_sheet }) {
   const status = weekly_pass_status(progress);
   const checks = progress.checks || {};
   const tallies = progress.weekly_tallies || {};
@@ -184,12 +199,16 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
         <p className="hint">Finish Stage 3 to open the weekly practice loop.</p>
       ) : (
         <>
-          {WEEKLY.worksheet?.href ? (
+          {WEEKLY.worksheet?.worksheet_id ? (
             <p className="worksheet-banner">
-              Fill-in:{" "}
-              <a href={doc_url(WEEKLY.worksheet.href)} target="_blank" rel="noreferrer">
-                {WEEKLY.worksheet.label || "Weekly worksheet"}
-              </a>
+              Fill-in (private):{" "}
+              <button
+                type="button"
+                className="linkish"
+                onClick={() => on_open_sheet(WEEKLY.worksheet.worksheet_id)}
+              >
+                {WEEKLY.worksheet.label || "Open worksheet"}
+              </button>
             </p>
           ) : null}
           <p className="gate">
@@ -210,6 +229,7 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
             checks={checks}
             disabled={false}
             on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+            on_open_sheet={on_open_sheet}
           />
           <h3>Volume tallies (required)</h3>
           <div className="tallies">
@@ -249,6 +269,7 @@ export function ChecklistApp({
   const p = progress || empty_progress();
   const latest_ref = useRef(p);
   const flush_timer = useRef(null);
+  const [open_sheet, set_open_sheet] = useState(null);
 
   latest_ref.current = p;
 
@@ -307,6 +328,17 @@ export function ChecklistApp({
   const status_label =
     save_status === "saving" ? "Saving…" : save_status === "error" ? "Save failed" : "Saved";
 
+  if (open_sheet) {
+    return (
+      <WorksheetView
+        worksheet_id={open_sheet}
+        progress={p}
+        on_change={patch}
+        on_close={() => set_open_sheet(null)}
+      />
+    );
+  }
+
   return (
     <div className="checklist-app">
       <header className="app-header">
@@ -321,12 +353,8 @@ export function ChecklistApp({
             ) : null}
           </p>
           <p className="sub guide-line">
-            Guide:{" "}
-            <a href={doc_url("docs/view.html?doc=overview-v8.md")} target="_blank" rel="noreferrer">
-              Job Search Overview v8
-            </a>
-            {" · "}
-            Stages open when checks + answer are done — no meeting required.
+            Worksheets are fill-in forms saved to <strong>your login only</strong>. Guides (Overview)
+            stay read-only for how-to.
           </p>
         </div>
         {github_backup_ok ? (
@@ -355,6 +383,7 @@ export function ChecklistApp({
           progress={p}
           locked={!is_stage_open(stage.id, p)}
           on_change={patch}
+          on_open_sheet={set_open_sheet}
         />
       ))}
       <WeeklyCard
@@ -362,6 +391,7 @@ export function ChecklistApp({
         locked={!weekly_open(p)}
         on_change={patch}
         on_reset_week={reset_week}
+        on_open_sheet={set_open_sheet}
       />
     </div>
   );

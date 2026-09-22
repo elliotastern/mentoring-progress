@@ -117,6 +117,7 @@ export function empty_progress() {
     highest_unlocked: "0",
     checks: {},
     answers: {},
+    worksheets: {},
     skill_level: "",
     weekly_tallies: {},
     weekly_of: "",

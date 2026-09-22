@@ -305,6 +305,25 @@ button:disabled {
   font-weight: 600;
 }
 
+button.sheet-btn,
+button.linkish {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+button.sheet-btn:hover,
+button.linkish:hover {
+  text-decoration: underline;
+}
+
 .worksheet-banner {
   font-family: system-ui, sans-serif;
   font-size: 0.92rem;
@@ -315,9 +334,82 @@ button:disabled {
   border-radius: 8px;
 }
 
-.worksheet-banner a {
+.worksheet-banner a,
+.worksheet-banner .linkish {
   color: var(--accent);
   font-weight: 600;
+}
+
+.worksheet-panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.1rem 1.15rem 1.5rem;
+}
+
+.worksheet-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.worksheet-panel-head h2 {
+  margin: 0.25rem 0 0.35rem;
+  font-size: 1.55rem;
+}
+
+.ws-section {
+  margin: 1.1rem 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.ws-section h3 {
+  margin: 0 0 0.65rem;
+}
+
+.ws-fields {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.ws-field {
+  display: grid;
+  gap: 0.3rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.92rem;
+}
+
+.ws-field input,
+.ws-field textarea {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+  width: 100%;
+  font: inherit;
+  background: #fffef8;
+}
+
+.ws-field textarea {
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.ws-check {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.ws-check input {
+  margin-top: 0.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .guide-line {
