@@ -188,54 +188,82 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
   );
 }
 
-export function ChecklistApp({ progress, set_progress, on_save, message }) {
+export function ChecklistApp({
+  progress,
+  set_progress,
+  on_save,
+  message,
+  save_status = "saved",
+  github_backup_ok = false,
+}) {
   const p = progress || empty_progress();
-  const save_timer = useRef(null);
+  const latest_ref = useRef(p);
+  const flush_timer = useRef(null);
 
-  function queue_autosave(next) {
-    if (save_timer.current) clearTimeout(save_timer.current);
-    save_timer.current = setTimeout(() => {
-      on_save(next, { silent: true });
-    }, 400);
+  latest_ref.current = p;
+
+  function persist(next, opts = {}) {
+    latest_ref.current = next;
+    set_progress(next);
+    on_save(next, opts);
+  }
+
+  function patch(partial) {
+    const next = { ...latest_ref.current, ...partial };
+    // Immediate local autosave on every change
+    persist(next, { silent: true });
+  }
+
+  function flush_pending() {
+    if (flush_timer.current) {
+      clearTimeout(flush_timer.current);
+      flush_timer.current = null;
+    }
+    on_save(latest_ref.current, { silent: true, flush: true });
   }
 
   useEffect(() => {
+    function on_hide() {
+      if (document.visibilityState === "hidden") flush_pending();
+    }
+    function on_pagehide() {
+      flush_pending();
+    }
+    document.addEventListener("visibilitychange", on_hide);
+    window.addEventListener("pagehide", on_pagehide);
     return () => {
-      if (save_timer.current) clearTimeout(save_timer.current);
+      document.removeEventListener("visibilitychange", on_hide);
+      window.removeEventListener("pagehide", on_pagehide);
+      if (flush_timer.current) clearTimeout(flush_timer.current);
     };
   }, []);
 
-  function patch(partial) {
-    const next = { ...p, ...partial };
-    set_progress(next);
-    queue_autosave(next);
-  }
-
   function handle_unlock(stage) {
-    const result = unlock_next(stage, p);
+    const result = unlock_next(stage, latest_ref.current);
     if (!result.ok) {
       alert(result.reason);
       return;
     }
-    const next = { ...p, highest_unlocked: result.next };
-    set_progress(next);
-    on_save(next, { silent: false, force_github: true });
+    const next = { ...latest_ref.current, highest_unlocked: result.next };
+    persist(next, { silent: false, force_github: true });
   }
 
   function reset_week() {
-    const next_checks = { ...p.checks };
+    const next_checks = { ...latest_ref.current.checks };
     WEEKLY.items.forEach((item) => {
       delete next_checks[item.id];
     });
     const next = {
-      ...p,
+      ...latest_ref.current,
       checks: next_checks,
       weekly_tallies: {},
       weekly_of: "",
     };
-    set_progress(next);
-    on_save(next, { silent: false, force_github: true });
+    persist(next, { silent: false, force_github: true });
   }
+
+  const status_label =
+    save_status === "saving" ? "Saving…" : save_status === "error" ? "Save failed" : "Saved";
 
   return (
     <div className="checklist-app">
@@ -245,12 +273,21 @@ export function ChecklistApp({ progress, set_progress, on_save, message }) {
           <h1>Job Search Progress</h1>
           <p className="sub">
             Highest unlocked stage: <strong>{p.highest_unlocked}</strong>
-            <span className="autosave-note"> · autosaves · GitHub backup once/day</span>
+            <span className={`autosave-note status-${save_status}`}> · {status_label}</span>
+            {github_backup_ok ? (
+              <span className="autosave-note"> · GitHub backup once/day</span>
+            ) : null}
           </p>
         </div>
-        <button type="button" onClick={() => on_save(p, { silent: false, force_github: true })}>
-          Save now
-        </button>
+        {github_backup_ok ? (
+          <button
+            type="button"
+            className="ghost"
+            onClick={() => on_save(latest_ref.current, { silent: false, force_github: true })}
+          >
+            Backup to GitHub
+          </button>
+        ) : null}
       </header>
       {message ? <p className="toast">{message}</p> : null}
       <ol className="map">

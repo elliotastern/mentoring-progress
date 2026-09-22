@@ -128,6 +128,26 @@ h1 {
   font-size: 0.9rem;
 }
 
+.autosave-note.status-saving {
+  color: #a16207;
+}
+
+.autosave-note.status-saved {
+  color: var(--ok);
+}
+
+.autosave-note.status-error {
+  color: #b91c1c;
+}
+
+button.ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
 button {
   border: 1px solid var(--line);
   background: #fff;

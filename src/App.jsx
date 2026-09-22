@@ -50,6 +50,7 @@ export default function App() {
   const [rows, set_rows] = useState([]);
   const [message, set_message] = useState("");
   const [error, set_error] = useState("");
+  const [save_status, set_save_status] = useState("saved");
 
   useEffect(() => {
     ensure_mentor_account().then(() => {
@@ -60,14 +61,13 @@ export default function App() {
   async function handle_save(next, opts = {}) {
     if (!user) return;
     const { silent = false, force_github = false } = opts;
+    set_save_status("saving");
     try {
       save_progress(user.uid, next, user);
+      set_save_status("saved");
       if (!silent) {
-        set_message("Saved locally.");
+        set_message("Saved.");
         setTimeout(() => set_message(""), 2000);
-      } else {
-        set_message("Autosaved.");
-        setTimeout(() => set_message(""), 1200);
       }
 
       if (github_backup_enabled()) {
@@ -80,6 +80,7 @@ export default function App() {
         }
       }
     } catch (err) {
+      set_save_status("error");
       set_error(err.message || "Save failed");
     }
   }
@@ -140,6 +141,8 @@ export default function App() {
           set_progress={set_progress}
           on_save={handle_save}
           message={message}
+          save_status={save_status}
+          github_backup_ok={github_backup_enabled()}
         />
       )}
     </div>
