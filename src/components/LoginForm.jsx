@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { sign_in, get_mentor_username } from "../lib/localAuth.js";
+import { sign_in } from "../lib/localAuth.js";
 
 export function LoginForm({ on_authed }) {
   const [username, set_username] = useState("");
@@ -58,10 +58,6 @@ export function LoginForm({ on_authed }) {
         </form>
 
         {error ? <p className="error">{error}</p> : null}
-        <p className="hint">
-          Mentors: sign in as <code>{get_mentor_username()}</code> (password in app README). Accounts
-          are created in the repo, not on this page.
-        </p>
       </div>
     </div>
   );

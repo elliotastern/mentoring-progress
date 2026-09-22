@@ -19,7 +19,7 @@ const SEEDED_USERS = [
     username: "melissaR",
     displayName: "Melissa R",
     password: "sd7gerh4*",
-    salt: "seed_salt_melissaR_v1",
+    salt: "seed_salt_melissaR_v2",
     role: "mentee",
   },
 ];
@@ -79,11 +79,14 @@ export async function ensure_seeded_accounts() {
     const key = username_key(user.username);
     const password_hash = await hash_password(user.password, user.salt);
     const existing = accounts[key];
+    // Always resync seeded accounts so password/salt changes in the repo take effect.
     if (
       !existing ||
       existing.password_hash !== password_hash ||
       existing.salt !== user.salt ||
-      existing.username !== user.username
+      existing.username !== user.username ||
+      existing.displayName !== user.displayName ||
+      existing.role !== user.role
     ) {
       accounts[key] = {
         username: user.username,
@@ -108,7 +111,7 @@ export async function sign_in({ username, password }) {
   const accounts = read_accounts();
   const account = accounts[key];
   if (!account) throw new Error("No account found for that username.");
-  const password_hash = await hash_password(password, account.salt);
+  const password_hash = await hash_password(String(password || "").trim(), account.salt);
   if (password_hash !== account.password_hash) throw new Error("Incorrect password.");
 
   const user = {
