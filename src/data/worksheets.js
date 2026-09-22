@@ -8,8 +8,11 @@ function area(id, label, placeholder = "") {
   return { id, type: "textarea", label, placeholder };
 }
 
-function check(id, label) {
-  return { id, type: "checkbox", label };
+function check(id, label, opts = {}) {
+  const field = { id, type: "checkbox", label };
+  if (opts.href) field.href = opts.href;
+  if (opts.doc) field.doc = opts.doc;
+  return field;
 }
 
 export const WORKSHEETS = [
@@ -482,11 +485,18 @@ export const WORKSHEETS = [
       {
         title: "Lessons (check when done)",
         fields: [
-          check("agreement", "Signed agreement"),
-          check("overview", "Module & Mentorship Overview"),
-          check("provided", "What Is Provided"),
-          check("expectations_ws", "Expectations worksheet saved in shared folder"),
-          check("communicate", "How To Communicate"),
+          check("overview", "Module & Mentorship Overview", {
+            href: "docs/view.html?doc=m0-welcome.md",
+          }),
+          check("provided", "What Is Provided", {
+            href: "docs/view.html?doc=m0-provided.md",
+          }),
+          check("expectations_ws", "Expectations worksheet saved in shared folder", {
+            href: "docs/view.html?doc=m0-expectations.md",
+          }),
+          check("communicate", "How To Communicate", {
+            href: "docs/view.html?doc=m0-communicate.md",
+          }),
         ],
       },
       {

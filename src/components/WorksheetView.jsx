@@ -1,7 +1,15 @@
 import { worksheet_by_id } from "../data/worksheets.js";
 
+function doc_url(href) {
+  if (!href) return "";
+  if (/^https?:\/\//i.test(href)) return href;
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base}${href.replace(/^\//, "")}`;
+}
+
 function FieldInput({ field, value, on_change }) {
   if (field.type === "checkbox") {
+    const link_href = field.href || field.doc?.href;
     return (
       <label className="ws-check">
         <input
@@ -9,7 +17,19 @@ function FieldInput({ field, value, on_change }) {
           checked={Boolean(value)}
           onChange={(e) => on_change(e.target.checked)}
         />
-        <span>{field.label}</span>
+        {link_href ? (
+          <a
+            className="doc-link"
+            href={doc_url(link_href)}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {field.label}
+          </a>
+        ) : (
+          <span>{field.label}</span>
+        )}
       </label>
     );
   }

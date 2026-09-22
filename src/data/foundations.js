@@ -16,29 +16,28 @@ export const FOUNDATIONS = [
     worksheet: ws("module-exit-0", "Module 0 exit worksheet"),
     items: [
       {
-        id: "m0_agreement",
-        label: "Signed the mentorship agreement",
-        sheet: ws("module-exit-0"),
-      },
-      {
         id: "m0_overview",
         label: "Completed Module & Mentorship Overview",
         sheet: ws("module-exit-0"),
+        doc: { href: "docs/view.html?doc=m0-welcome.md", label: "Guide" },
       },
       {
         id: "m0_provided",
         label: "Read What Is Provided In This Mentorship",
         sheet: ws("module-exit-0"),
+        doc: { href: "docs/view.html?doc=m0-provided.md", label: "Guide" },
       },
       {
         id: "m0_expectations",
         label: "Expectations worksheet completed and saved in shared folder",
         sheet: ws("module-exit-0"),
+        doc: { href: "docs/view.html?doc=m0-expectations.md", label: "Guide" },
       },
       {
         id: "m0_communicate",
         label: "Read How To Communicate",
         sheet: ws("module-exit-0"),
+        doc: { href: "docs/view.html?doc=m0-communicate.md", label: "Guide" },
       },
       {
         id: "m0_slack_intro",
