@@ -26,7 +26,7 @@ async function boot_user(u, set_user, set_progress, set_rows) {
     set_rows([]);
     return;
   }
-  if (is_mentor(u.email)) {
+  if (is_mentor(u.username || u.email)) {
     if (github_backup_enabled()) {
       try {
         const remote = await list_github_progress_backups();
@@ -102,12 +102,12 @@ export default function App() {
     );
   }
 
-  const mentor = is_mentor(user.email);
+  const mentor = is_mentor(user.username || user.email);
 
   return (
     <div className="shell">
       <div className="topbar">
-        <span>{user.displayName || user.email}</span>
+        <span>{user.displayName || user.username || user.email}</span>
         <button
           type="button"
           onClick={async () => {

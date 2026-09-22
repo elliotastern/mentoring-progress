@@ -20,7 +20,7 @@ export function MentorDashboard({ rows, on_refresh }) {
           <thead>
             <tr>
               <th>Mentee</th>
-              <th>Email</th>
+              <th>Username</th>
               <th>Stage</th>
               <th>Updated</th>
               <th>Title answer</th>
@@ -30,7 +30,7 @@ export function MentorDashboard({ rows, on_refresh }) {
             {rows.map((row) => (
               <tr key={row.uid}>
                 <td>{row.displayName || "—"}</td>
-                <td>{row.email || "—"}</td>
+                <td>{row.username || row.email || "—"}</td>
                 <td>
                   <strong>{row.highest_unlocked || "0"}</strong>
                   <span className="stage-name">

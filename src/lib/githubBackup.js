@@ -54,7 +54,8 @@ export async function backup_progress_to_github(uid, progress, profile, { force 
   const path = file_path(uid);
   const payload = {
     uid,
-    email: profile.email || "",
+    username: profile.username || profile.email || "",
+    email: profile.username || profile.email || "",
     displayName: profile.displayName || "",
     highest_unlocked: progress.highest_unlocked || "0",
     checks: progress.checks || {},
@@ -68,7 +69,7 @@ export async function backup_progress_to_github(uid, progress, profile, { force 
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
   const sha = await get_existing_sha(path);
   const body = {
-    message: `progress backup ${day} — ${profile.email || uid}`,
+    message: `progress backup ${day} — ${profile.username || profile.email || uid}`,
     content,
     branch: "master",
   };
@@ -109,7 +110,8 @@ export async function list_github_progress_backups() {
     const data = await file_res.json();
     rows.push({
       uid: data.uid || file.name.replace(/\.json$/, ""),
-      email: data.email || "",
+      email: data.username || data.email || "",
+      username: data.username || data.email || "",
       displayName: data.displayName || "",
       highest_unlocked: data.highest_unlocked || "0",
       updated_at: data.backed_up_at || "",

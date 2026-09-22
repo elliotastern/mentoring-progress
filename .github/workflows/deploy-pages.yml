@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
       - name: Build
         env:
-          VITE_MENTOR_EMAIL: mentor@dataship.local
+          VITE_MENTOR_USERNAME: mentor
           VITE_MENTOR_PASSWORD: DataShipMentor2026
           VITE_MENTOR_NAME: Elliot
           VITE_GITHUB_BACKUP_OWNER: elliotastern
