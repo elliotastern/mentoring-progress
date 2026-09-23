@@ -491,7 +491,7 @@ export const WORKSHEETS = [
           check("provided", "What Is Provided", {
             href: "docs/view.html?doc=m0-provided.md",
           }),
-          check("expectations_ws", "Expectations worksheet saved in shared folder", {
+          check("expectations_ws", "Expectations completed and saved in shared folder", {
             href: "docs/view.html?doc=m0-expectations.md",
           }),
           check("communicate", "How To Communicate", {
