@@ -81,7 +81,7 @@
       document.getElementById("back").href = base.replace(/\/docs\/?$/, "/") || "../";
 
       function slugify(text) {
-        return String(text)
+        return String(text || "")
           .toLowerCase()
           .trim()
           .replace(/[^\w\s-]/g, "")
@@ -90,10 +90,26 @@
           .replace(/^-|-$/g, "");
       }
 
+      function heading_html(text, depth) {
+        const plain = String(text || "").replace(/<[^>]+>/g, "");
+        const id = slugify(plain);
+        const level = Number(depth) || 1;
+        return `<h${level} id="${id}">${text || ""}</h${level}>\n`;
+      }
+
       const renderer = new marked.Renderer();
-      renderer.heading = function ({ text, depth }) {
-        const id = slugify(text.replace(/<[^>]+>/g, ""));
-        return `<h${depth} id="${id}">${text}</h${depth}>`;
+      // marked v12+ may call heading(token) or legacy heading(text, depth)
+      renderer.heading = function (arg1, arg2) {
+        if (arg1 && typeof arg1 === "object") {
+          const text =
+            arg1.text != null
+              ? arg1.text
+              : arg1.tokens && this.parser
+                ? this.parser.parseInline(arg1.tokens)
+                : "";
+          return heading_html(text, arg1.depth);
+        }
+        return heading_html(arg1, arg2);
       };
 
       marked.setOptions({ renderer, gfm: true });
