@@ -1,6 +1,6 @@
 # Tracker Setup — Worksheet
 
-**Save a copy** (File → Make a copy) in your mentorship Drive folder.
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
 
 **Purpose:** one place to log every qualified role so you can see screens / interviews / offers **per hour by source**.
 

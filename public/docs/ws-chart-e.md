@@ -1,6 +1,6 @@
 # Chart E Role Scorecard — Worksheet
 
-**Save a copy** in your mentorship Drive folder. Duplicate the score table for each role you consider.
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.** Duplicate the score table for each role you consider.
 
 **Purpose:** decide effort before you apply. Score 0 / 1 / 2 on five factors; total 0–10.
 

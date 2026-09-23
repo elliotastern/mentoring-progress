@@ -9,28 +9,24 @@ Congratulations on investing in yourself, I am excited to start this journey wit
   <div class="ai-clip-body">
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Mentorship tour</h3>
-    <p>Walkthrough of how DataShip works: shared Google Drive, Slack, sequential modules, worksheets, and how later weeks shift into mocks and offers.</p>
+    <p>How DataShip works on the progress site: login checklist, Guides, in-app worksheets that autosave, Slack for day-to-day communication, and how later weeks shift into mocks and offers.</p>
     <p class="ai-clip-meta">~3 min overview</p>
   </div>
 </aside>
 
-You will have a shared Google Drive to store related documents throughout the mentorship, where we can collaborate on worksheets and ideas.
+Your home base is this **progress site**. Log in, work through the Module 0 checklist, open each **Guide**, and fill worksheets in the app — answers autosave to your login so your mentor can review progress without a shared Drive folder.
 
-Go ahead now and add your resume and cover letter (in PDF or Google Doc format) into the directory called “Resume + Cover”.
+**Resume + cover letter:** Keep your own Google Doc (or a hosted PDF). Share with “anyone with the link can view” (or your mentor’s email), paste the links into the Module 0 exit worksheet, and send the same links in Slack.
 
-Next, you will see a general notes document, please fill in and add links to the fields.
+You will be invited to Slack soon. That is the main day-to-day channel for questions and updates. Feel free to ask in public channels as well — this is not just a one-person show; we can all network and collaborate.
 
-You will be invited to the Slack channel soon. This is the main method of communication throughout the mentorship. Feel free to ask questions in the public channels as well, this is not just a one-person show — we can all network and collaborate!
+This is a project-based 1:1 mentorship. If you want to build a project with guidance, it will be included in planning and typically starts in week 2 through (ideally) your next position.
 
-This is a project-based 1:1 mentorship. Meaning if you are interested in building a project with guidance then it will be included in the mentorship planning and will start in week 2 and be carried out until (ideally) your next position.
+The first portion of the mentorship has about one module per week (unless you allocate under 20 hours/week). Modules are sequential. “BONUS” sections are optional.
 
-The first portion of the mentorship will have a module per week (unless time allocation is less than 20 hours per week). They are in sequential order. There are “BONUS” that are only there for your benefit, they are not required to read/watch.
+Some modules include worksheets — open them from the checklist on this site; they save to your account.
 
-Some modules have a worksheet(s) included which will be saved into your shared Google Drive.
-
-In the later weeks, the modules will be done and the time will be focused on mock interviews and contract negotiations.
-
-These modules will be converted to videos shortly.
+In later weeks, modules wrap and time shifts to mock interviews and contract negotiations.
 
 Awesome, let’s get it! 💪
 # How we start: assess where you are now, find your gaps, and begin with a coding assessment.
@@ -39,16 +35,6 @@ Awesome, let’s get it! 💪
 
 - Get [Speechify to read text](https://share.speechify.com/mzrRgpf) then instal**l the **Google Chrome** **extension or** **[Speechify for Chrome](https://chrome.google.com/webstore/detail/speechify-for-chrome/ljflmlehinmoeknoonhibbjpldiijjmm)** t**o listen to the modules while you read them. (I highly suggest)
 - Install [Loom – Free Screen and Cam Recorder](https://chrome.google.com/webstore/detail/loom-%E2%80%93-free-screen-and-ca/liecbddmkiiihnedobmlmillhodjkdmb) this will allow us to send and share screen captures instantly and store them in the cloud. (A practical way to communicate!)
-- Google Docs tips for the mentorship:
-<aside class="ai-clip" data-clip="m0-gdocs">
-  <div class="ai-clip-stage"><img src="clips/m0-gdocs.png" alt="" /></div>
-  <div class="ai-clip-body">
-    <p class="ai-clip-kicker">Quick overview</p>
-    <h3>Google Docs tips</h3>
-    <p>How we use the shared Drive during mentorship: offline access, commenting, and keeping worksheets easy for your mentor to review.</p>
-    <p class="ai-clip-meta">~1 min overview</p>
-  </div>
-</aside>
 - Module 0 extra material overview:
 <aside class="ai-clip" data-clip="m0-extra">
   <div class="ai-clip-stage"><img src="clips/m0-extra.png" alt="" /></div>

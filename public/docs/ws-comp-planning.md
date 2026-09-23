@@ -1,6 +1,6 @@
 **The Complete Compensation Planning - Worksheet**
 
-**Save a copy** of this in the shared Google Drive for the mentorship. You can do this by **file > Make a copy** then choose where to save it.
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
 
 This worksheet is meant to be done interactively as you complete the Contract Negotiation
 

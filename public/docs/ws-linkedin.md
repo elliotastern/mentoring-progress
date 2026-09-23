@@ -1,6 +1,6 @@
 # LinkedIn Recruiter-Ready — Worksheet
 
-**Save a copy** in your mentorship Drive folder.
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
 
 **Purpose:** one-time setup so recruiters can find you (Chart A rank 1). ~5 hours once; then maintenance.
 

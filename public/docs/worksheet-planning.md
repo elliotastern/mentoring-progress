@@ -1,6 +1,6 @@
 # Job Searching Planning - Worksheet
 
-Save a copy of this in the shared Google Drive for the mentorship. You can do this by **file > Make a copy** then choose where to save it.
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
 
 The goal of this worksheet is to take everything you learned from the Job searching module and plan how you will tackle it, we want to start as simple as possible to build momentum as we go more advanced
 

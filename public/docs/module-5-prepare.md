@@ -316,5 +316,5 @@ For example, *“I’m interviewing for a data science job at Bell, please tell 
 
 # Next Steps
 
-- Save a copy [00 - Interview Prep Checklist - Worksheet](https://docs.google.com/document/d/1-3QlFR2AwNi0VhRfUkYwBErkT-iHGyTRvjC1RNeUUiI/edit?usp=share_link)in your mentorship folder
+- Complete the [00 - Interview Prep Checklist - Worksheet](https://docs.google.com/document/d/1-3QlFR2AwNi0VhRfUkYwBErkT-iHGyTRvjC1RNeUUiI/edit?usp=share_link) in the progress site (or keep your own Doc and paste the share link / Slack your mentor)
 - Complete the ***Behaviour - For All Roles ***Now

@@ -25,7 +25,7 @@ export const FOUNDATIONS = [
       },
       {
         id: "m0_expectations",
-        label: "Expectations completed and saved in shared folder",
+        label: "Expectations guide done; worksheet filled in the app",
         doc: { href: "docs/view.html?doc=m0-expectations.md", label: "Guide" },
       },
       {

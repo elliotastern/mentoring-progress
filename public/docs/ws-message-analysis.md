@@ -1,6 +1,6 @@
 # Message Analysis TEMPLATE
 
-**Save a copy** of this in the shared Google Drive for the mentorship. You can do this by **file > Make a copy** then choose where to save it.
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
 
 **Note**: **Under Construction** - The data tracking here will be moved to the Job Tracker Soon.
 

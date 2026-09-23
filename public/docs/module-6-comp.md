@@ -97,7 +97,7 @@ In your worksheet, go over all the compensation packages and anything else you t
 - Must-haves**
 - Nice-to-haves**
 - Rank** them for both this will give you a guide of what is a priority, what is important for you and what you will negotiate the hardest for.
-I suggest you fill out this worksheet and save it in your shared folder for easier assistance in the stages of the negotiation. You can see an example below.
+I suggest you fill out this worksheet on the progress site (autosaves to your login) so it’s easy to review during negotiation. You can see an example below.
 # Example:
 
 **Must-haves:**

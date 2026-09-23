@@ -491,12 +491,27 @@ export const WORKSHEETS = [
           check("provided", "What Is Provided", {
             href: "docs/view.html?doc=m0-provided.md",
           }),
-          check("expectations_ws", "Expectations completed and saved in shared folder", {
+          check("expectations_ws", "Expectations guide done; worksheet filled in the app", {
             href: "docs/view.html?doc=m0-expectations.md",
           }),
           check("communicate", "How To Communicate", {
             href: "docs/view.html?doc=m0-communicate.md",
           }),
+        ],
+      },
+      {
+        title: "Resume + cover letter (your own Doc links)",
+        fields: [
+          text(
+            "resume_link",
+            "Resume link (Google Doc or hosted PDF)",
+            "https://docs.google.com/..."
+          ),
+          text(
+            "cover_link",
+            "Cover letter link (Google Doc or hosted PDF)",
+            "https://docs.google.com/..."
+          ),
         ],
       },
       {
@@ -626,7 +641,7 @@ export const WORKSHEETS = [
       {
         title: "Worksheets + practice",
         fields: [
-          check("prep_script", "Interview Prep Script worksheet filled (in app or Drive)"),
+          check("prep_script", "Interview Prep Script worksheet filled (in app or Doc link)"),
           check("prep_list", "Interview Prep Checklist worksheet filled"),
           text("mock_peers", "Mock interview partners (2 names) or ask posted in #5-interview-prep"),
           check("habit", "Interview prep habit started (45m daily)"),
