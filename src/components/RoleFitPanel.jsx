@@ -5,6 +5,7 @@ import {
   SEARCH_PATHS,
   suggest_role_track,
 } from "../lib/roleFit.js";
+import { FoldSection } from "./FoldSection.jsx";
 
 function gap_check_url(track_id) {
   const base = import.meta.env.BASE_URL || "/";
@@ -37,7 +38,15 @@ export function RoleFitPanel({ progress, on_change }) {
   const selected = answers.role_track || "";
   const selected_label = ROLE_TRACKS.find((t) => t.id === selected)?.label || "";
   const search_path = answers.search_path || "";
+  const path_label = SEARCH_PATHS.find((p) => p.id === search_path)?.label || "";
   const track_and_path = Boolean(selected && search_path);
+
+  const title = track_and_path ? `${selected_label} · ${path_label}` : "Role + path";
+  const badge = track_and_path ? (
+    <span className="badge ok">Set</span>
+  ) : (
+    <span className="badge">Required</span>
+  );
 
   function set_answer(key, value) {
     const next = { ...answers, [key]: value };
@@ -56,69 +65,16 @@ export function RoleFitPanel({ progress, on_change }) {
   }
 
   return (
-    <section className="stage-card role-fit">
-      <div className="stage-head">
-        <h2>What role are you aiming for?</h2>
-        {track_and_path ? (
-          <span className="badge ok">Track + path set</span>
-        ) : (
-          <span className="badge">Required</span>
-        )}
-      </div>
-      <p className="hint">
-        Fill a few basics for a suggestion. You or your mentor choose the track — suggestion never
-        locks you in.
-      </p>
-
-      <PillRow
-        label="Years of relevant experience"
-        options={YEARS_OPTIONS}
-        value={answers.role_years || ""}
-        on_pick={(v) => set_answer("role_years", v)}
-      />
-      <PillRow
-        label="Python"
-        options={SKILL_OPTIONS}
-        value={answers.role_python || ""}
-        on_pick={(v) => set_answer("role_python", v)}
-      />
-      <PillRow
-        label="SQL"
-        options={SKILL_OPTIONS}
-        value={answers.role_sql || ""}
-        on_pick={(v) => set_answer("role_sql", v)}
-      />
-      <PillRow
-        label="R"
-        options={SKILL_OPTIONS}
-        value={answers.role_r || ""}
-        on_pick={(v) => set_answer("role_r", v)}
-      />
-
-      <label className="role-fit-past">
-        <span>Past jobs / focus (optional)</span>
-        <input
-          type="text"
-          value={answers.role_past_jobs || ""}
-          onChange={(e) => set_answer("role_past_jobs", e.target.value)}
-          placeholder="BI analyst 2y · or · backend + pipelines"
-        />
-      </label>
-
-      <p className={`role-fit-suggest ${suggestion.ready ? "" : "muted"}`}>
-        {suggestion.reason}
-        {suggestion.ready && suggestion.id && suggestion.id !== selected ? (
-          <>
-            {" "}
-            <button type="button" className="linkish" onClick={use_suggestion}>
-              Use suggestion
-            </button>
-          </>
-        ) : null}
-      </p>
-
+    <FoldSection
+      id="rolefit"
+      title={title}
+      badge={badge}
+      defaultOpen={!track_and_path}
+      className="stage-card role-fit fold-card"
+      testId="role-fit"
+    >
       <div className="role-fit-row">
-        <span className="role-fit-label">Your track</span>
+        <span className="role-fit-label">Track</span>
         <div className="role-pills role-pills-tracks" role="group" aria-label="Target role track">
           {ROLE_TRACKS.map((track) => {
             const is_selected = selected === track.id;
@@ -142,13 +98,13 @@ export function RoleFitPanel({ progress, on_change }) {
       {selected ? (
         <p className="role-fit-gap">
           <a className="role-gap-link" href={gap_check_url(selected)} target="_blank" rel="noreferrer">
-            Gap check for {selected_label}
+            Gap check
           </a>
         </p>
       ) : null}
 
       <div className="role-fit-row">
-        <span className="role-fit-label">Path to Stage 0</span>
+        <span className="role-fit-label">Path</span>
         <div className="role-pills role-pills-tracks" role="group" aria-label="Search path">
           {SEARCH_PATHS.map((path) => (
             <button
@@ -163,13 +119,64 @@ export function RoleFitPanel({ progress, on_change }) {
           ))}
         </div>
       </div>
-      {search_path ? (
-        <p className="hint">{SEARCH_PATHS.find((p) => p.id === search_path)?.hint}</p>
-      ) : (
-        <p className="hint">
-          Choose Search-ready (skip Module 2) or Build-proof (complete Module 2).
-        </p>
-      )}
-    </section>
+      {!search_path ? (
+        <p className="hint">Search-ready skips Module 2 · Build-proof requires it</p>
+      ) : null}
+
+      <FoldSection
+        id="rolefit_suggest"
+        title="Suggest track from skills"
+        defaultOpen={false}
+        className="role-fit-suggest-fold"
+        summaryClassName="fold-summary fold-summary-nested"
+      >
+        <PillRow
+          label="Years"
+          options={YEARS_OPTIONS}
+          value={answers.role_years || ""}
+          on_pick={(v) => set_answer("role_years", v)}
+        />
+        <PillRow
+          label="Python"
+          options={SKILL_OPTIONS}
+          value={answers.role_python || ""}
+          on_pick={(v) => set_answer("role_python", v)}
+        />
+        <PillRow
+          label="SQL"
+          options={SKILL_OPTIONS}
+          value={answers.role_sql || ""}
+          on_pick={(v) => set_answer("role_sql", v)}
+        />
+        <PillRow
+          label="R"
+          options={SKILL_OPTIONS}
+          value={answers.role_r || ""}
+          on_pick={(v) => set_answer("role_r", v)}
+        />
+        <label className="role-fit-past">
+          <span>Past jobs (optional)</span>
+          <input
+            type="text"
+            value={answers.role_past_jobs || ""}
+            onChange={(e) => set_answer("role_past_jobs", e.target.value)}
+            placeholder="BI analyst 2y · or · pipelines"
+          />
+        </label>
+        {suggestion.ready ? (
+          <p className="role-fit-suggest">
+            {suggestion.reason}
+            {suggestion.id && suggestion.id !== selected ? (
+              <>
+                {" "}
+                <button type="button" className="linkish" onClick={use_suggestion}>
+                  Use suggestion
+                </button>
+              </>
+            ) : null}
+          </p>
+        ) : null}
+      </FoldSection>
+    </FoldSection>
   );
 }

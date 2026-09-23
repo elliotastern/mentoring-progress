@@ -8,6 +8,7 @@ import {
   list_all_progress,
   sign_out,
   progress_storage_key,
+  try_localhost_auto_sign_in,
 } from "./lib/localAuth.js";
 import {
   backup_progress_to_github,
@@ -60,9 +61,9 @@ export default function App() {
   const [save_status, set_save_status] = useState("saved");
 
   useEffect(() => {
-    ensure_mentor_account().then(() => {
-      boot_user(current_user(), set_user, set_progress, set_rows);
-    });
+    ensure_mentor_account()
+      .then(() => try_localhost_auto_sign_in())
+      .then((u) => boot_user(u || current_user(), set_user, set_progress, set_rows));
   }, []);
 
   useEffect(() => {

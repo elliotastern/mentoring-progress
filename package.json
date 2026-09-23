@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test:guides": "playwright test tests/guides.spec.js"
+    "test:guides": "playwright test tests/guides.spec.js",
+    "test:ui": "playwright test tests/ui-density.spec.js",
+    "test:all": "playwright test tests/guides.spec.js tests/ui-density.spec.js"
   },
   "dependencies": {
     "firebase": "^12.19.0",

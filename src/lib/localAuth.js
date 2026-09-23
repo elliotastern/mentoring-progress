@@ -6,8 +6,8 @@ const mentor_username = (import.meta.env.VITE_MENTOR_USERNAME || "mentor").toLow
 const mentor_password = import.meta.env.VITE_MENTOR_PASSWORD || "MentorshipMentor2026";
 const mentor_name = import.meta.env.VITE_MENTOR_NAME || "Mentor";
 
-/** Add mentees here in the repo — they appear on Sign in after deploy. */
-const SEEDED_USERS = [
+/** Seeded accounts for local auth. Passwords are for localhost testing only. */
+export const SEEDED_USERS = [
   {
     username: "mentor",
     displayName: mentor_name,
@@ -23,6 +23,9 @@ const SEEDED_USERS = [
     role: "mentee",
   },
 ];
+
+/** Default mentee used for localhost auto sign-in / Playwright. */
+export const LOCALHOST_TEST_USER = SEEDED_USERS.find((u) => u.username === "melissaR");
 
 function normalize_username(value) {
   return String(value || "").trim();
@@ -140,6 +143,34 @@ export function current_user() {
   } catch {
     return null;
   }
+}
+
+export function is_localhost_host() {
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname;
+  return host === "localhost" || host === "127.0.0.1";
+}
+
+/**
+ * On localhost only: if no session, sign in as the test mentee (or ?as=mentor).
+ * Never runs on GitHub Pages / production hosts.
+ */
+export async function try_localhost_auto_sign_in() {
+  if (!is_localhost_host()) return current_user();
+  if (current_user()) return current_user();
+
+  await ensure_seeded_accounts();
+  let want = LOCALHOST_TEST_USER;
+  try {
+    const as = new URLSearchParams(window.location.search).get("as");
+    if (as === "mentor") {
+      want = SEEDED_USERS.find((u) => u.role === "mentor") || want;
+    }
+  } catch {
+    /* ignore */
+  }
+  if (!want) return null;
+  return sign_in({ username: want.username, password: want.password });
 }
 
 export function progress_storage_key(uid) {
