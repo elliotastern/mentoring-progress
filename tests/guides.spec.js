@@ -102,7 +102,7 @@ test("overview hash targets exist after render", async ({ page }) => {
   });
   const missing = [];
   for (const hash of hashes) {
-    const el = page.locator(`#${CSS.escape(hash)}`);
+    const el = page.locator(`[id="${hash}"]`);
     if ((await el.count()) === 0) missing.push(hash);
   }
   expect(missing, `missing overview hashes: ${missing.join(", ")}`).toEqual([]);

@@ -8,6 +8,8 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     headless: true,
+    // System Chrome — avoids downloading Playwright's Chromium build
+    channel: "chrome",
     trace: "on-first-retry",
   },
 });
