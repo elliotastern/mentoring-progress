@@ -9,12 +9,15 @@ import {
   weekly_open,
   auto_unlock_progress,
   foundations_passed,
+  modules_foundations_passed,
   overall_progress,
 } from "../lib/gates.js";
 import { toggle_main_check } from "../lib/checkSync.js";
 import { WorksheetView } from "./WorksheetView.jsx";
 import { ProgressPulse } from "./ProgressPulse.jsx";
+import { RoleFitPanel } from "./RoleFitPanel.jsx";
 import { worksheet_by_id } from "../data/worksheets.js";
+import { role_track_chosen } from "../lib/roleFit.js";
 
 function doc_url(href) {
   if (!href) return "";
@@ -452,7 +455,7 @@ export function ChecklistApp({
     <div className="checklist-app">
       <header className="app-header">
         <div>
-          <p className="eyebrow">DataShip · Module 4</p>
+          <p className="eyebrow">Mentorship · Module 4</p>
           <h1>Job Search Progress</h1>
           <p className="sub">
             Highest open stage: <strong>{p.highest_unlocked}</strong>
@@ -481,9 +484,17 @@ export function ChecklistApp({
         ) : null}
       </header>
       {message ? <p className="toast">{message}</p> : null}
+      <RoleFitPanel progress={p} on_change={patch} />
+      {!role_track_chosen(p) ? (
+        <p className="gate">Choose a target role at the top to unlock Stage 0.</p>
+      ) : null}
       {!foundations_passed(p) ? (
         <p className="gate">
-          Foundations: complete Module 0–3 end checklists below to unlock Stage 0 (Job Search).
+          Foundations: complete Module 0–3 end checklists below
+          {role_track_chosen(p) ? "" : " and pick a role track"} to unlock Stage 0 (Job Search).
+          {modules_foundations_passed(p) && !role_track_chosen(p)
+            ? " Modules look done — still need a role pill."
+            : ""}
         </p>
       ) : (
         <p className="hint">Foundations complete · Job Search stages open.</p>

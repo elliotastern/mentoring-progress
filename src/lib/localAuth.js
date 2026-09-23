@@ -1,9 +1,9 @@
-const ACCOUNTS_KEY = "dataship_accounts_v2";
-const SESSION_KEY = "dataship_session_v2";
-const PROGRESS_PREFIX = "dataship_progress_v2_";
+const ACCOUNTS_KEY = "mentorship_accounts_v2";
+const SESSION_KEY = "mentorship_session_v2";
+const PROGRESS_PREFIX = "mentorship_progress_v2_";
 
 const mentor_username = (import.meta.env.VITE_MENTOR_USERNAME || "mentor").toLowerCase();
-const mentor_password = import.meta.env.VITE_MENTOR_PASSWORD || "DataShipMentor2026";
+const mentor_password = import.meta.env.VITE_MENTOR_PASSWORD || "MentorshipMentor2026";
 const mentor_name = import.meta.env.VITE_MENTOR_NAME || "Mentor";
 
 /** Add mentees here in the repo — they appear on Sign in after deploy. */

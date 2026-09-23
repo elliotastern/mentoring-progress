@@ -8,7 +8,7 @@ function today_key() {
 }
 
 function backup_stamp_key(uid) {
-  return `dataship_github_backup_day_${uid}`;
+  return `mentorship_github_backup_day_${uid}`;
 }
 
 export function github_backup_enabled() {

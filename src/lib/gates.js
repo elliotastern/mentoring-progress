@@ -1,5 +1,6 @@
 import { STAGES, WEEKLY } from "../data/stages.js";
 import { FOUNDATIONS } from "../data/foundations.js";
+import { role_track_chosen } from "./roleFit.js";
 
 function count_checked(checks, items) {
   return items.filter((item) => checks[item.id]).length;
@@ -64,18 +65,23 @@ export function weekly_pass_status(progress) {
   };
 }
 
-export function foundations_passed(progress) {
+export function modules_foundations_passed(progress) {
   if (progress.foundations_complete) return true;
+  return FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed);
+}
+
+/** M0–3 complete AND target role pill chosen (grandfather if already past Stage 0). */
+export function foundations_passed(progress) {
   const unlocked = progress.highest_unlocked || "0";
   const order = STAGES.map((s) => s.id);
-  // Grandfather mentees already past Stage 0
   if (order.indexOf(unlocked) > 0) return true;
-  return FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed);
+  return modules_foundations_passed(progress) && role_track_chosen(progress);
 }
 
 export function mark_foundations_if_ready(progress) {
   if (progress.foundations_complete) return progress;
   if (!FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed)) return progress;
+  if (!role_track_chosen(progress)) return progress;
   return { ...progress, foundations_complete: true };
 }
 

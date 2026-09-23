@@ -7,7 +7,7 @@ Username/password login (no self-signup). Gated stages. Mentor dashboard.
 ## Login
 
 - **Mentees:** username + password your mentor assigns (e.g. `melissaR`).
-- **Mentor:** `mentor` / `DataShipMentor2026`
+- **Mentor:** `mentor` / `MentorshipMentor2026`
 
 ## Add a mentee (in this repo)
 

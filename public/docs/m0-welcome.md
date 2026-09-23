@@ -9,12 +9,12 @@ Congratulations on investing in yourself, I am excited to start this journey wit
   <div class="ai-clip-body">
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Mentorship tour</h3>
-    <p>How DataShip works on the progress site: login checklist, Guides, in-app worksheets that autosave, Slack for day-to-day communication, and how later weeks shift into mocks and offers.</p>
+    <p>How mentorship works on the progress site: login checklist, Guides, in-app worksheets that autosave, Slack for day-to-day communication, and how later weeks shift into mocks and offers.</p>
     <p class="ai-clip-meta">~3 min overview</p>
   </div>
 </aside>
 
-Your home base is this **progress site**. Log in, work through the Module 0 checklist, open each **Guide**, and fill worksheets in the app — answers autosave to your login so your mentor can review progress without a shared Drive folder.
+Your home base is this **progress site**. Log in, use the **role fit** panel at the top (suggestion + your pick for DA / DS / MLE / DE / AI research), work through the Module 0 checklist, open each **Guide**, and fill worksheets in the app — answers autosave to your login so your mentor can review progress without a shared Drive folder.
 
 **Resume + cover letter:** Keep your own Google Doc (or a hosted PDF). Share with “anyone with the link can view” (or your mentor’s email), paste the links into the Module 0 exit worksheet, and send the same links in Slack.
 

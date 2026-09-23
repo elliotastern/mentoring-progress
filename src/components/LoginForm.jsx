@@ -24,7 +24,7 @@ export function LoginForm({ on_authed }) {
   return (
     <div className="shell login">
       <div className="login-card">
-        <p className="eyebrow">DataShip mentorship</p>
+        <p className="eyebrow">Mentorship</p>
         <h1>Job Search Progress</h1>
         <p className="sub">
           Sign in with the username your mentor gave you. Checks and answers open the next

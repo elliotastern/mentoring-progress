@@ -335,6 +335,84 @@ button:disabled {
   color: var(--ok);
 }
 
+.role-fit {
+  margin-bottom: 1rem;
+}
+
+.role-fit-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.75rem 0;
+}
+
+.role-fit-label {
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.role-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.role-pill {
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.role-pill:hover {
+  border-color: var(--accent);
+}
+
+.role-pill.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.role-pill.suggested {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.role-fit-past {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+}
+
+.role-fit-past input {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.role-fit-suggest {
+  font-family: system-ui, sans-serif;
+  font-size: 0.92rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.role-fit-suggest.muted {
+  color: var(--muted);
+}
+
 .gate {
   font-family: system-ui, sans-serif;
   font-size: 0.92rem;
