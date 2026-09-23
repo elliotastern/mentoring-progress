@@ -59,6 +59,3 @@ Awesome, let’s get it! 💪
     <p class="ai-clip-meta">~2 min overview</p>
   </div>
 </aside>
-- Turn your Google Drive to Offline Availability, this will allow you to use Google Drive when there is no wifi, which will allow you to always have access to and edit your docs when travelling (This will save you hours in the job search)
-- Download and install [Zoom](https://zoom.us/download)on your computer. It is important to join from the app for the meetings, so the mentor can request control of your screen to help you.
-- OPTIONAL**: Download (1) **Google Docs, **(2) **Google Sheets, **and (3) **Google Drive **onto your phone (This will save you hours in the job search and going through the modules)
