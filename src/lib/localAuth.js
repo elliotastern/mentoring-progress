@@ -122,21 +122,28 @@ export async function sign_in({ username, password }) {
     displayName: account.displayName,
     role: account.role || (is_mentor(account.username) ? "mentor" : "mentee"),
   };
-  sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  // localStorage so worksheet/guide tabs opened with target=_blank stay signed in
+  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  sessionStorage.removeItem(SESSION_KEY);
   return user;
 }
 
 export function sign_out() {
+  localStorage.removeItem(SESSION_KEY);
   sessionStorage.removeItem(SESSION_KEY);
 }
 
 export function current_user() {
   try {
-    const raw = sessionStorage.getItem(SESSION_KEY);
+    const raw = localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
   }
+}
+
+export function progress_storage_key(uid) {
+  return PROGRESS_PREFIX + uid;
 }
 
 export function load_progress(uid) {

@@ -145,7 +145,7 @@ You can see in these examples that both extremes are bad. Neither party should l
   - E.g. Taking lower pay for more stock but you can’t cash out the stocks until after 4 years
   - Not knowing what a definition is for the other parties
 
-I made all of these (and more) mistakes during my job search and I have discussed them in the “Learn From Jaret’s Mistakes” lesson.
+I made all of these (and more) mistakes during my job search and I have discussed them in the “Learn From Mistakes” lesson.
 
 # What-If
 

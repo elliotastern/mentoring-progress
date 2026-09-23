@@ -189,7 +189,7 @@ I know how it feels to feel stuck, looking for any and all help…
 
 Try the two bonus techniques and if you still want to talk about it, let’s talk about it
 
-Book a [motivational call here](https://calendly.com/jaret_andre_schedule/08-motivation-meeting)
+Book a motivational call with your mentor
 
 Don’t feel guilty about booking this meeting, this is my favourite topic to help with and that’s what the mentor is for 🙂
 

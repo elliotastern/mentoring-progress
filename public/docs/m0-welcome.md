@@ -12,7 +12,7 @@ Go ahead now and add your resume and cover letter (in PDF or Google Doc format) 
 
 Next, you will see a general notes document, please fill in and add links to the fields.
 
-You will be invited to the Slack channel soon. This is the main method of communication throughout the mentorship. Feel free to ask questions in the public channels as well, this is not just the “Jaret Show” we can all network and collaborate!
+You will be invited to the Slack channel soon. This is the main method of communication throughout the mentorship. Feel free to ask questions in the public channels as well, this is not just a one-person show — we can all network and collaborate!
 
 This is a project-based 1:1 mentorship. Meaning if you are interested in building a project with guidance then it will be included in the mentorship planning and will start in week 2 and be carried out until (ideally) your next position.
 

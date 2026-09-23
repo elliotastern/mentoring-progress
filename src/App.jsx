@@ -7,6 +7,7 @@ import {
   save_progress,
   list_all_progress,
   sign_out,
+  progress_storage_key,
 } from "./lib/localAuth.js";
 import {
   backup_progress_to_github,
@@ -57,6 +58,21 @@ export default function App() {
       boot_user(current_user(), set_user, set_progress, set_rows);
     });
   }, []);
+
+  useEffect(() => {
+    if (!user || is_mentor(user.username || user.email)) return undefined;
+    const key = progress_storage_key(user.uid);
+    function on_storage(e) {
+      if (e.key !== key || e.newValue == null) return;
+      try {
+        set_progress(JSON.parse(e.newValue));
+      } catch {
+        /* ignore bad payload */
+      }
+    }
+    window.addEventListener("storage", on_storage);
+    return () => window.removeEventListener("storage", on_storage);
+  }, [user]);
 
   async function handle_save(next, opts = {}) {
     if (!user) return;

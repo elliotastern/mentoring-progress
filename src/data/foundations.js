@@ -11,8 +11,6 @@ export const FOUNDATIONS = [
     id: "m0",
     title: "Module 0 — Onboard (end checklist)",
     min_checks: 5,
-    answer_label: "Answer — Slack intro posted (channel + date)",
-    answer_key: "m0_intro",
     worksheet: ws("module-exit-0", "Module 0 exit worksheet"),
     items: [
       {
@@ -97,11 +95,6 @@ export const FOUNDATIONS = [
       {
         id: "m1_habits",
         label: "Habits plan set (incl. coding practice 30 mins daily)",
-        sheet: ws("module-exit-1"),
-      },
-      {
-        id: "m1_swot",
-        label: "SWOT Analysis worksheet completed and saved",
         sheet: ws("module-exit-1"),
       },
       {

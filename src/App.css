@@ -306,7 +306,9 @@ button:disabled {
 }
 
 button.sheet-btn,
-button.linkish {
+button.linkish,
+a.sheet-btn,
+a.linkish {
   font: inherit;
   font-size: 0.82rem;
   font-weight: 600;
@@ -320,7 +322,9 @@ button.linkish {
 }
 
 button.sheet-btn:hover,
-button.linkish:hover {
+button.linkish:hover,
+a.sheet-btn:hover,
+a.linkish:hover {
   text-decoration: underline;
 }
 

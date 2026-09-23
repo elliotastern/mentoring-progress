@@ -502,7 +502,6 @@ export const WORKSHEETS = [
       {
         title: "Networking task",
         fields: [
-          text("slack_intro", "Slack intro — channel + date posted"),
           text("slack_replies", "Names of 2–3 people I replied to"),
           area("intro_draft", "My intro (fill-in blanks used)"),
         ],
@@ -533,7 +532,6 @@ export const WORKSHEETS = [
           check("next_steps", "To Start Learning — next actions written"),
           check("time_energy", "Time & Energy management done"),
           check("habits", "Habits plan written"),
-          check("swot", "SWOT worksheet saved"),
           check("optimal", "Optimal Roadmap worksheet saved"),
         ],
       },

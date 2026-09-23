@@ -258,7 +258,7 @@ But this is actually **great **because now we can reflect on the interview, and 
 
 Then if they do get back to you, great I had 0 expectations what a great day!
 
-However, this is how Jaret thinks, *they couldn’t find anything better, so they circled back to me*… ah I see, I will remember this when I accept your offer, delay the start date and look for better opportunities 🙃
+However, this is how I think, *they couldn’t find anything better, so they circled back to me*… ah I see, I will remember this when I accept your offer, delay the start date and look for better opportunities 🙃
 
 ### Question #2 - Improved:
 

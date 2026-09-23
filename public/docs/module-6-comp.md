@@ -17,8 +17,8 @@
 - To Know/Remember About Asking (For More):
 - Questions To Indirectly Ask About Compensation
 - How to handle multiple offers
-- Jaret’s Activity For Preparing For The Ask Or An Uncomfortable Situation
-- Jaret’s Advice
+- Activity For Preparing For The Ask Or An Uncomfortable Situation
+- Mentor Advice
 - What-If
 
 # Why Should You Negotiate The Complete Compensation Package?
@@ -98,7 +98,7 @@ In your worksheet, go over all the compensation packages and anything else you t
 - Nice-to-haves**
 - Rank** them for both this will give you a guide of what is a priority, what is important for you and what you will negotiate the hardest for.
 I suggest you fill out this worksheet and save it in your shared folder for easier assistance in the stages of the negotiation. You can see an example below.
-# Jaret’s Example:
+# Example:
 
 **Must-haves:**
 - Remote work (worldwide)
@@ -300,7 +300,7 @@ Your options are slim, but you do have options even if you've already made the m
 
 # How To Handle Multiple Offers
 
-“Jaret, you told me to aim for 4 offers, now my #2 is offering me the job but I don’t know whether to accept it because I’m still interviewing with #1 and it’s going well. What should I do?”
+“You told me to aim for 4 offers, now my #2 is offering me the job but I don’t know whether to accept it because I’m still interviewing with #1 and it’s going well. What should I do?”
 
 I hear you!
 
@@ -330,7 +330,7 @@ Should you fear to do the same?
 As I mentioned earlier, if the employer doesn’t care about you, you shouldn’t either.
 
 Make the decision that’s best for YOU.
-# Jaret’s Activity For Preparing For The Ask Or An Uncomfortable Situation
+# Activity For Preparing For The Ask Or An Uncomfortable Situation
 
 **Tip: **When you plan to ask for more either through contract negotiation or for a raise you want to prepare as much as possible. An activity I do for difficult situations, I plan for how the conversation is going to go. I typically use a mind map to get all my fears, worries, thoughts, and ideas out then I try to make it a step-by-step plan.
 
@@ -356,7 +356,7 @@ Some of the questions are more for general negotiations so I will include an exa
   - “No - ARE YOU SERIOUS!? YOU ARE NOT WORTH THAT MUCH”
   - Then you branch off each of those answers and keep repeating this process
 
-# Jaret’s Advice
+# Mentor Advice
 
 You will always matter to yourself and your loved ones more than to a company.
 

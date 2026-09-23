@@ -14,7 +14,7 @@ export function stage_pass_status(stage, progress) {
   const answers = progress.answers || {};
   const core_done = count_checked(checks, stage.items);
   const core_ok = core_done >= stage.min_checks;
-  const answer_filled = answer_ok(answers, stage.answer_key);
+  const answer_filled = !stage.answer_key || answer_ok(answers, stage.answer_key);
 
   let channel_ok = true;
   let channel_done = 0;

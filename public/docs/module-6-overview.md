@@ -17,11 +17,11 @@
   - How to value yourself in the market
   - Red flags
   - How to gain leverage
-  - Jaret’s Advice
+  - Mentor Advice
 - Post Job Offer Acceptance
   - Tips for asking for a raise
   - Top three ways to get promoted
-- Learning from Jaret’s Mistakes
+- Learning from Mistakes
 
 In this module, there will be a [worksheet](https://docs.google.com/document/d/1BFxlL3UzwgHMyiwDAZshNS5Zn3Ab5b9GaaYcqL4nz-w/edit?usp=sharing) to interactively follow along.
 

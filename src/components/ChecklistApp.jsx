@@ -11,6 +11,7 @@ import {
   foundations_passed,
 } from "../lib/gates.js";
 import { WorksheetView } from "./WorksheetView.jsx";
+import { worksheet_by_id } from "../data/worksheets.js";
 
 function doc_url(href) {
   if (!href) return "";
@@ -19,24 +20,49 @@ function doc_url(href) {
   return `${base}${href.replace(/^\//, "")}`;
 }
 
-function SheetButton({ sheet, on_open }) {
+function worksheet_url(id) {
+  if (!id) return "";
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base}?ws=${encodeURIComponent(id)}`;
+}
+
+function read_ws_param() {
+  try {
+    const id = new URLSearchParams(window.location.search).get("ws");
+    return id && worksheet_by_id(id) ? id : null;
+  } catch {
+    return null;
+  }
+}
+
+function clear_ws_param() {
+  try {
+    const u = new URL(window.location.href);
+    if (!u.searchParams.has("ws")) return;
+    u.searchParams.delete("ws");
+    const next = u.pathname + (u.searchParams.toString() ? `?${u.searchParams}` : "") + u.hash;
+    window.history.replaceState({}, "", next);
+  } catch {
+    /* ignore */
+  }
+}
+
+function SheetButton({ sheet }) {
   if (!sheet?.worksheet_id) return null;
   return (
-    <button
-      type="button"
+    <a
       className="doc-link sheet-link sheet-btn"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        on_open(sheet.worksheet_id);
-      }}
+      href={worksheet_url(sheet.worksheet_id)}
+      target="_blank"
+      rel="noreferrer"
+      onClick={(e) => e.stopPropagation()}
     >
       {sheet.label || "Worksheet"}
-    </button>
+    </a>
   );
 }
 
-function CheckList({ items, checks, disabled, on_toggle, on_open_sheet }) {
+function CheckList({ items, checks, disabled, on_toggle }) {
   return (
     <ul className="check-list">
       {items.map((item) => (
@@ -50,7 +76,7 @@ function CheckList({ items, checks, disabled, on_toggle, on_open_sheet }) {
             />
             <span className="check-copy">
               <span>{item.label}</span>
-              <SheetButton sheet={item.sheet} on_open={on_open_sheet} />
+              <SheetButton sheet={item.sheet} />
               {item.doc?.href ? (
                 <a
                   className="doc-link"
@@ -70,7 +96,7 @@ function CheckList({ items, checks, disabled, on_toggle, on_open_sheet }) {
   );
 }
 
-function FoundationCard({ stage, progress, on_change, on_open_sheet }) {
+function FoundationCard({ stage, progress, on_change }) {
   const status = stage_pass_status(stage, progress);
   const checks = progress.checks || {};
   return (
@@ -82,44 +108,48 @@ function FoundationCard({ stage, progress, on_change, on_open_sheet }) {
       {stage.worksheet?.worksheet_id ? (
         <p className="worksheet-banner">
           Fill-in (private):{" "}
-          <button
-            type="button"
+          <a
             className="linkish"
-            onClick={() => on_open_sheet(stage.worksheet.worksheet_id)}
+            href={worksheet_url(stage.worksheet.worksheet_id)}
+            target="_blank"
+            rel="noreferrer"
           >
             {stage.worksheet.label || "Open worksheet"}
-          </button>
+          </a>
         </p>
       ) : null}
       <p className="gate">
-        Pass when: <strong>{status.core_done}/{status.core_need}</strong> checks · answer{" "}
-        {status.answer_filled ? "✓" : "missing"}
+        Pass when: <strong>{status.core_done}/{status.core_need}</strong> checks
+        {stage.answer_key ? (
+          <> · answer {status.answer_filled ? "✓" : "missing"}</>
+        ) : null}
       </p>
       <CheckList
         items={stage.items}
         checks={checks}
         disabled={false}
         on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
-        on_open_sheet={on_open_sheet}
       />
-      <label className="answer-field">
-        <span>{stage.answer_label}</span>
-        <input
-          type="text"
-          value={progress.answers?.[stage.answer_key] || ""}
-          onChange={(e) =>
-            on_change({
-              answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
-            })
-          }
-          placeholder="Required"
-        />
-      </label>
+      {stage.answer_key ? (
+        <label className="answer-field">
+          <span>{stage.answer_label}</span>
+          <input
+            type="text"
+            value={progress.answers?.[stage.answer_key] || ""}
+            onChange={(e) =>
+              on_change({
+                answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
+              })
+            }
+            placeholder="Required"
+          />
+        </label>
+      ) : null}
     </section>
   );
 }
 
-function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
+function StageCard({ stage, progress, locked, on_change }) {
   const status = stage_pass_status(stage, progress);
   const checks = progress.checks || {};
   const past =
@@ -147,13 +177,14 @@ function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
           {stage.worksheet?.worksheet_id ? (
             <p className="worksheet-banner">
               Fill-in (private):{" "}
-              <button
-                type="button"
+              <a
                 className="linkish"
-                onClick={() => on_open_sheet(stage.worksheet.worksheet_id)}
+                href={worksheet_url(stage.worksheet.worksheet_id)}
+                target="_blank"
+                rel="noreferrer"
               >
                 {stage.worksheet.label || "Open worksheet"}
-              </button>
+              </a>
             </p>
           ) : null}
           <p className="gate">
@@ -165,8 +196,10 @@ function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
               <> · level row <strong>{status.level_done}/{status.level_need || "?"}</strong></>
             ) : null}
             {" · "}
-            answer {status.answer_filled ? "✓" : "missing"}
-            {" · opens automatically"}
+            {stage.answer_key ? (
+              <>answer {status.answer_filled ? "✓" : "missing"} · </>
+            ) : null}
+            opens automatically
           </p>
 
           <CheckList
@@ -174,7 +207,6 @@ function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
             checks={checks}
             disabled={locked}
             on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
-            on_open_sheet={on_open_sheet}
           />
 
           {stage.channel_items ? (
@@ -187,7 +219,6 @@ function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
                 checks={checks}
                 disabled={locked}
                 on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
-                on_open_sheet={on_open_sheet}
               />
             </>
           ) : null}
@@ -210,32 +241,33 @@ function StageCard({ stage, progress, locked, on_change, on_open_sheet }) {
                   checks={checks}
                   disabled={locked}
                   on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
-                  on_open_sheet={on_open_sheet}
                 />
               ) : null}
             </>
           ) : null}
 
-          <label className="answer-field">
-            <span>{stage.answer_label}</span>
-            <input
-              type="text"
-              value={progress.answers?.[stage.answer_key] || ""}
-              onChange={(e) =>
-                on_change({
-                  answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
-                })
-              }
-              placeholder="Required to open the next stage"
-            />
-          </label>
+          {stage.answer_key ? (
+            <label className="answer-field">
+              <span>{stage.answer_label}</span>
+              <input
+                type="text"
+                value={progress.answers?.[stage.answer_key] || ""}
+                onChange={(e) =>
+                  on_change({
+                    answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
+                  })
+                }
+                placeholder="Required to open the next stage"
+              />
+            </label>
+          ) : null}
         </>
       )}
     </section>
   );
 }
 
-function WeeklyCard({ progress, locked, on_change, on_reset_week, on_open_sheet }) {
+function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
   const status = weekly_pass_status(progress);
   const checks = progress.checks || {};
   const tallies = progress.weekly_tallies || {};
@@ -253,13 +285,14 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week, on_open_sheet 
           {WEEKLY.worksheet?.worksheet_id ? (
             <p className="worksheet-banner">
               Fill-in (private):{" "}
-              <button
-                type="button"
+              <a
                 className="linkish"
-                onClick={() => on_open_sheet(WEEKLY.worksheet.worksheet_id)}
+                href={worksheet_url(WEEKLY.worksheet.worksheet_id)}
+                target="_blank"
+                rel="noreferrer"
               >
                 {WEEKLY.worksheet.label || "Open worksheet"}
-              </button>
+              </a>
             </p>
           ) : null}
           <p className="gate">
@@ -280,7 +313,6 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week, on_open_sheet 
             checks={checks}
             disabled={false}
             on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
-            on_open_sheet={on_open_sheet}
           />
           <h3>Volume tallies (required)</h3>
           <div className="tallies">
@@ -320,9 +352,14 @@ export function ChecklistApp({
   const p = progress || empty_progress();
   const latest_ref = useRef(p);
   const flush_timer = useRef(null);
-  const [open_sheet, set_open_sheet] = useState(null);
+  const [open_sheet, set_open_sheet] = useState(() => read_ws_param());
 
   latest_ref.current = p;
+
+  function close_sheet() {
+    set_open_sheet(null);
+    clear_ws_param();
+  }
 
   function persist(next, opts = {}) {
     latest_ref.current = next;
@@ -385,7 +422,7 @@ export function ChecklistApp({
         worksheet_id={open_sheet}
         progress={p}
         on_change={patch}
-        on_close={() => set_open_sheet(null)}
+        on_close={close_sheet}
       />
     );
   }
@@ -441,13 +478,7 @@ export function ChecklistApp({
       </ol>
       <h2 className="section-label">Module end checklists (0–3)</h2>
       {FOUNDATIONS.map((stage) => (
-        <FoundationCard
-          key={stage.id}
-          stage={stage}
-          progress={p}
-          on_change={patch}
-          on_open_sheet={set_open_sheet}
-        />
+        <FoundationCard key={stage.id} stage={stage} progress={p} on_change={patch} />
       ))}
       <h2 className="section-label">Module 4 — Job Search stages</h2>
       {STAGES.map((stage) => (
@@ -457,7 +488,6 @@ export function ChecklistApp({
           progress={p}
           locked={!is_stage_open(stage.id, p)}
           on_change={patch}
-          on_open_sheet={set_open_sheet}
         />
       ))}
       <WeeklyCard
@@ -465,7 +495,6 @@ export function ChecklistApp({
         locked={!weekly_open(p)}
         on_change={patch}
         on_reset_week={reset_week}
-        on_open_sheet={set_open_sheet}
       />
     </div>
   );
