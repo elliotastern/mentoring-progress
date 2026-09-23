@@ -2,7 +2,15 @@
 
 ## Pre-Work:
 
-- Intro video to **[Module 5 - Interview Stages](https://www.loom.com/share/c3164a04972a45e3820937c8c820728a)** **
+<aside class="ai-clip" data-clip="m5-intro">
+  <div class="ai-clip-stage"><img src="clips/m5-intro.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>Module 5 — Interview stages</h3>
+    <p>Map of the interview module: mindset, prep systems, technical rounds, post-interview notes, and building a ~45-minute daily interview habit.</p>
+    <p class="ai-clip-meta">~3 min overview · replaces Loom</p>
+  </div>
+</aside>
 
 ## **Overview: **What this module is about
 

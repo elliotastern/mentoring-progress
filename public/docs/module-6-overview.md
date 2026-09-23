@@ -1,6 +1,14 @@
 # Module Overview
 
-**Intro video to **[Module 6 - Contract Negotiation](https://www.loom.com/share/3f55db2850464579ab53151f58d312b2)** **
+<aside class="ai-clip" data-clip="m6-intro">
+  <div class="ai-clip-stage"><img src="clips/m6-intro.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>Module 6 — Contract negotiation</h3>
+    <p>What this module covers: negotiation basics, full compensation packages, answering expected-salary questions, leverage, and post-offer habits—plus the worksheet you’ll fill as you go.</p>
+    <p class="ai-clip-meta">~3 min overview · replaces Loom</p>
+  </div>
+</aside>
 
 **What will be covered in this module:**
 - Negotiations in general

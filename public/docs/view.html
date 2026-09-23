@@ -67,6 +67,91 @@
         padding: 0.8rem 1rem;
         border-radius: 8px;
       }
+      .ai-clip {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+        gap: 0;
+        margin: 1.1rem 0 1.35rem;
+        border: 1px solid #e7e5e4;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+        font-family: system-ui, sans-serif;
+      }
+      .ai-clip-stage {
+        position: relative;
+        min-height: 160px;
+        overflow: hidden;
+        background: #f5f5f4;
+      }
+      .ai-clip-stage::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #0f766e, #14b8a6, #0f766e);
+        background-size: 200% 100%;
+        animation: ai-clip-bar 2.8s linear infinite;
+      }
+      .ai-clip-stage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 0;
+        border-radius: 0;
+        display: block;
+        transform: scale(1.06);
+        animation: ai-clip-pan 9s ease-in-out infinite alternate;
+      }
+      .ai-clip-body {
+        padding: 0.95rem 1rem 1.05rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .ai-clip-kicker {
+        margin: 0;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #0f766e;
+        font-weight: 650;
+      }
+      .ai-clip-body h3 {
+        margin: 0;
+        font-family: "Source Serif 4", Georgia, serif;
+        font-size: 1.15rem;
+        line-height: 1.25;
+        color: #1c1917;
+        border: 0;
+        padding: 0;
+      }
+      .ai-clip-body p:not(.ai-clip-kicker) {
+        margin: 0;
+        font-size: 0.92rem;
+        line-height: 1.45;
+        color: #57534e;
+      }
+      .ai-clip-meta {
+        margin-top: 0.35rem;
+        font-size: 0.78rem;
+        color: #78716c;
+      }
+      @media (max-width: 640px) {
+        .ai-clip { grid-template-columns: 1fr; }
+        .ai-clip-stage { min-height: 140px; }
+      }
+      @keyframes ai-clip-pan {
+        from { transform: scale(1.06) translate(0, 0); }
+        to { transform: scale(1.12) translate(-2.5%, -1.5%); }
+      }
+      @keyframes ai-clip-bar {
+        from { background-position: 0% 0; }
+        to { background-position: 200% 0; }
+      }
     </style>
   </head>
   <body>

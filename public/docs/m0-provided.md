@@ -12,7 +12,15 @@
 - Watch [How to win (At ANYTHING) - Alex Hormozi](https://www.youtube.com/watch?v=MNll1BaskLA)
 - Watch ["Is this program going to work for me?"](https://youtu.be/3Ju1I37jWUM?si=jxVFcGzcS91K_NBf&t=13)
 
-Video Version [Here](https://www.loom.com/share/8d07d3aebae546f29d2263acbef86521)
+<aside class="ai-clip" data-clip="m0-provided">
+  <div class="ai-clip-stage"><img src="clips/m0-provided.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>What this mentorship provides</h3>
+    <p>Narrated walkthrough of support you’ll get: mindset help, accountability, reviews (resume, LinkedIn, GitHub), community, and how the week-by-week plan gets tailored to you.</p>
+    <p class="ai-clip-meta">~5 min overview · replaces Loom</p>
+  </div>
+</aside>
 
 ## What Does This Mentorship Provide:
 

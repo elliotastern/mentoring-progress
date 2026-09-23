@@ -10,7 +10,15 @@
 - Methods Of Communications
 - What Happens When We Communicate Effectively
 
-Video Version [Here](https://www.loom.com/share/951b162ff8fa4d709ea97498200d1c23)
+<aside class="ai-clip" data-clip="m0-communicate">
+  <div class="ai-clip-stage"><img src="clips/m0-communicate.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>How to communicate in DataShip</h3>
+    <p>When to ask, how to phrase a clear question, Slack vs Loom vs meetings, and why fast, specific updates beat waiting for the next call.</p>
+    <p class="ai-clip-meta">~4 min overview · replaces Loom</p>
+  </div>
+</aside>
 
 # Importance Of Communication
 

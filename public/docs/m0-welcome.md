@@ -4,7 +4,15 @@ Welcome to the Data Science Mentorship!
 
 Congratulations on investing in yourself, I am excited to start this journey with you!
 
-Watch[this video](https://www.loom.com/share/66baedc608014a848ef21d7c3e10a742) for a tour
+<aside class="ai-clip" data-clip="m0-tour">
+  <div class="ai-clip-stage"><img src="clips/m0-tour.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>Mentorship tour</h3>
+    <p>Walkthrough of how DataShip works: shared Google Drive, Slack, sequential modules, worksheets, and how later weeks shift into mocks and offers.</p>
+    <p class="ai-clip-meta">~3 min overview · replaces Loom</p>
+  </div>
+</aside>
 
 You will have a shared Google Drive to store related documents throughout the mentorship, where we can collaborate on worksheets and ideas.
 
@@ -30,9 +38,27 @@ Awesome, let’s get it! 💪
 # **Pre-Work:**
 
 - Get [Speechify to read text](https://share.speechify.com/mzrRgpf) then instal**l the **Google Chrome** **extension or** **[Speechify for Chrome](https://chrome.google.com/webstore/detail/speechify-for-chrome/ljflmlehinmoeknoonhibbjpldiijjmm)** t**o listen to the modules while you read them. (I highly suggest)
-- Install [Loom – Free Screen and Cam Recorder](https://chrome.google.com/webstore/detail/loom-%E2%80%93-free-screen-and-ca/liecbddmkiiihnedobmlmillhodjkdmb) this will allow us to send and share screen captures instantly and store them in the cloud. (An example is the intro video above) A very practical way to communicate!
-- Watch **Google Docs Tips For The Mentorship****: **[Video](https://www.loom.com/share/bdce0f36650f408b899c3d0a5922ba03)
-- Watch: [Module 0: Extra Material Module Overview](https://www.loom.com/share/02f694bd0e2d4719902a2bb501377358)** **
+- Install [Loom – Free Screen and Cam Recorder](https://chrome.google.com/webstore/detail/loom-%E2%80%93-free-screen-and-ca/liecbddmkiiihnedobmlmillhodjkdmb) this will allow us to send and share screen captures instantly and store them in the cloud. (A practical way to communicate!)
+- Google Docs tips for the mentorship:
+<aside class="ai-clip" data-clip="m0-gdocs">
+  <div class="ai-clip-stage"><img src="clips/m0-gdocs.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>Google Docs tips</h3>
+    <p>How we use the shared Drive during mentorship: offline access, commenting, and keeping worksheets easy for your mentor to review.</p>
+    <p class="ai-clip-meta">~1 min overview · replaces Loom</p>
+  </div>
+</aside>
+- Module 0 extra material overview:
+<aside class="ai-clip" data-clip="m0-extra">
+  <div class="ai-clip-stage"><img src="clips/m0-extra.png" alt="" /></div>
+  <div class="ai-clip-body">
+    <p class="ai-clip-kicker">Quick overview</p>
+    <h3>Module 0 extra material</h3>
+    <p>What the optional Module 0 extras cover and how to use them without slowing your required checklist.</p>
+    <p class="ai-clip-meta">~2 min overview · replaces Loom</p>
+  </div>
+</aside>
 - Turn your Google Drive to Offline Availability, this will allow you to use Google Drive when there is no wifi, which will allow you to always have access to and edit your docs when travelling (This will save you hours in the job search)
 - Download and install [Zoom](https://zoom.us/download)on your computer. It is important to join from the app for the meetings, so the mentor can request control of your screen to help you.
 - OPTIONAL**: Download (1) **Google Docs, **(2) **Google Sheets, **and (3) **Google Drive **onto your phone (This will save you hours in the job search and going through the modules)
