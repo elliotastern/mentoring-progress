@@ -14,7 +14,8 @@ import {
   github_backup_enabled,
   list_github_progress_backups,
 } from "./lib/githubBackup.js";
-import { empty_progress } from "./lib/gates.js";
+import { empty_progress, auto_unlock_progress } from "./lib/gates.js";
+import { reconcile_checks } from "./lib/checkSync.js";
 import { ChecklistApp } from "./components/ChecklistApp.jsx";
 import { MentorDashboard } from "./components/MentorDashboard.jsx";
 import { LoginForm } from "./components/LoginForm.jsx";
@@ -42,7 +43,12 @@ async function boot_user(u, set_user, set_progress, set_rows) {
     set_rows(list_all_progress());
     return;
   }
-  set_progress(load_progress(u.uid) || empty_progress());
+  const loaded = load_progress(u.uid) || empty_progress();
+  const reconciled = auto_unlock_progress(reconcile_checks(loaded));
+  set_progress(reconciled);
+  if (JSON.stringify(reconciled) !== JSON.stringify(loaded)) {
+    save_progress(u.uid, reconciled, u);
+  }
 }
 
 export default function App() {

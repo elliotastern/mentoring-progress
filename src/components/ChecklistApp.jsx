@@ -9,8 +9,11 @@ import {
   weekly_open,
   auto_unlock_progress,
   foundations_passed,
+  overall_progress,
 } from "../lib/gates.js";
+import { toggle_main_check } from "../lib/checkSync.js";
 import { WorksheetView } from "./WorksheetView.jsx";
+import { ProgressPulse } from "./ProgressPulse.jsx";
 import { worksheet_by_id } from "../data/worksheets.js";
 
 function doc_url(href) {
@@ -99,6 +102,12 @@ function CheckList({ items, checks, disabled, on_toggle }) {
 function FoundationCard({ stage, progress, on_change }) {
   const status = stage_pass_status(stage, progress);
   const checks = progress.checks || {};
+
+  function toggle_check(id, val) {
+    const synced = toggle_main_check(progress, id, val);
+    on_change({ checks: synced.checks, worksheets: synced.worksheets });
+  }
+
   return (
     <section className={`stage-card ${status.passed ? "ready" : ""}`}>
       <div className="stage-head">
@@ -128,7 +137,7 @@ function FoundationCard({ stage, progress, on_change }) {
         items={stage.items}
         checks={checks}
         disabled={false}
-        on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+        on_toggle={toggle_check}
       />
       {stage.answer_key ? (
         <label className="answer-field">
@@ -157,6 +166,11 @@ function StageCard({ stage, progress, locked, on_change }) {
     stage.unlocks &&
     STAGE_ORDER.indexOf(progress.highest_unlocked || "0") > STAGE_ORDER.indexOf(stage.id);
   const done_final = !stage.unlocks && status.passed;
+
+  function toggle_check(id, val) {
+    const synced = toggle_main_check(progress, id, val);
+    on_change({ checks: synced.checks, worksheets: synced.worksheets });
+  }
 
   return (
     <section className={`stage-card ${locked ? "locked" : ""} ${status.passed ? "ready" : ""}`}>
@@ -206,7 +220,7 @@ function StageCard({ stage, progress, locked, on_change }) {
             items={stage.items}
             checks={checks}
             disabled={locked}
-            on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+            on_toggle={toggle_check}
           />
 
           {stage.channel_items ? (
@@ -218,7 +232,7 @@ function StageCard({ stage, progress, locked, on_change }) {
                 items={stage.channel_items}
                 checks={checks}
                 disabled={locked}
-                on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+                on_toggle={toggle_check}
               />
             </>
           ) : null}
@@ -240,7 +254,7 @@ function StageCard({ stage, progress, locked, on_change }) {
                   items={stage.level_items[progress.skill_level]}
                   checks={checks}
                   disabled={locked}
-                  on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+                  on_toggle={toggle_check}
                 />
               ) : null}
             </>
@@ -271,6 +285,11 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
   const status = weekly_pass_status(progress);
   const checks = progress.checks || {};
   const tallies = progress.weekly_tallies || {};
+
+  function toggle_check(id, val) {
+    const synced = toggle_main_check(progress, id, val);
+    on_change({ checks: synced.checks, worksheets: synced.worksheets });
+  }
 
   return (
     <section className={`stage-card weekly ${locked ? "locked" : ""}`}>
@@ -312,7 +331,7 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
             items={WEEKLY.items}
             checks={checks}
             disabled={false}
-            on_toggle={(id, val) => on_change({ checks: { ...checks, [id]: val } })}
+            on_toggle={toggle_check}
           />
           <h3>Volume tallies (required)</h3>
           <div className="tallies">
@@ -416,6 +435,8 @@ export function ChecklistApp({
   const status_label =
     save_status === "saving" ? "Saving…" : save_status === "error" ? "Save failed" : "Saved";
 
+  const journey = overall_progress(p);
+
   if (open_sheet) {
     return (
       <WorksheetView
@@ -440,6 +461,10 @@ export function ChecklistApp({
               <span className="autosave-note"> · GitHub backup once/day</span>
             ) : null}
           </p>
+          <ProgressPulse
+            percent={journey.percent}
+            label={`${journey.done} / ${journey.total} requirements`}
+          />
           <p className="sub guide-line">
             Worksheets are private fill-ins for your login. Finish Module 0–3 end checklists
             before Stage 0 opens (already past Stage 0? you’re grandfathered).
@@ -464,17 +489,29 @@ export function ChecklistApp({
         <p className="hint">Foundations complete · Job Search stages open.</p>
       )}
       <ol className="map">
-        {FOUNDATIONS.map((f) => (
-          <li key={f.id} className={stage_pass_status(f, p).passed || foundations_passed(p) ? "open" : ""}>
-            {f.id}
-          </li>
-        ))}
-        {STAGES.map((s) => (
-          <li key={s.id} className={is_stage_open(s.id, p) ? "open" : ""}>
-            {s.id}
-          </li>
-        ))}
-        <li className={weekly_open(p) ? "open" : ""}>W</li>
+        {FOUNDATIONS.map((f) => {
+          const passed = stage_pass_status(f, p).passed || foundations_passed(p);
+          return (
+            <li key={f.id} className={`${passed ? "open passed" : ""}`}>
+              <span className="map-fill" />
+              <span className="map-label">{f.id}</span>
+            </li>
+          );
+        })}
+        {STAGES.map((s) => {
+          const open = is_stage_open(s.id, p);
+          const passed = stage_pass_status(s, p).passed;
+          return (
+            <li key={s.id} className={`${open ? "open" : ""} ${passed ? "passed" : ""}`}>
+              <span className="map-fill" />
+              <span className="map-label">{s.id}</span>
+            </li>
+          );
+        })}
+        <li className={`${weekly_open(p) ? "open" : ""} ${weekly_pass_status(p).passed ? "passed" : ""}`}>
+          <span className="map-fill" />
+          <span className="map-label">W</span>
+        </li>
       </ol>
       <h2 className="section-label">Module end checklists (0–3)</h2>
       {FOUNDATIONS.map((stage) => (

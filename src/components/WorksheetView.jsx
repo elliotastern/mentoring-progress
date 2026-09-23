@@ -1,4 +1,6 @@
 import { worksheet_by_id } from "../data/worksheets.js";
+import { toggle_worksheet_check, sheet_sync_stats } from "../lib/checkSync.js";
+import { ProgressPulse } from "./ProgressPulse.jsx";
 
 function doc_url(href) {
   if (!href) return "";
@@ -73,12 +75,22 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
   }
 
   const answers = progress.worksheets?.[sheet.id] || {};
+  const sync = sheet_sync_stats(progress, sheet.id);
+  const sync_pct = sync.total ? Math.round((100 * sync.done) / sync.total) : 0;
 
-  function set_field(field_id, value) {
+  function set_field(field, value) {
+    if (field.type === "checkbox") {
+      const synced = toggle_worksheet_check(progress, sheet.id, field.id, value);
+      on_change({
+        checks: synced.checks,
+        worksheets: synced.worksheets,
+      });
+      return;
+    }
     on_change({
       worksheets: {
         ...(progress.worksheets || {}),
-        [sheet.id]: { ...answers, [field_id]: value },
+        [sheet.id]: { ...answers, [field.id]: value },
       },
     });
   }
@@ -90,6 +102,13 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
           <p className="eyebrow">Private worksheet · saved to your login</p>
           <h2>{sheet.title}</h2>
           <p className="sub">{sheet.blurb}</p>
+          {sync.total > 0 ? (
+            <ProgressPulse
+              compact
+              percent={sync_pct}
+              label={`Synced checks ${sync.done}/${sync.total}`}
+            />
+          ) : null}
         </div>
         <button type="button" className="ghost" onClick={on_close}>
           ← Back to checklist
@@ -105,14 +124,14 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
                 key={field.id}
                 field={field}
                 value={answers[field.id]}
-                on_change={(val) => set_field(field.id, val)}
+                on_change={(val) => set_field(field, val)}
               />
             ))}
           </div>
         </div>
       ))}
 
-      <p className="hint">Autosaves to your account. Only you see these answers when signed in.</p>
+      <p className="hint">Autosaves to your account. Checks sync with the main progress page.</p>
       <button type="button" className="primary" onClick={on_close}>
         Done — back to checklist
       </button>

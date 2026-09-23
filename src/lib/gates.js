@@ -150,3 +150,42 @@ export function empty_progress() {
 export function stage_by_id(id) {
   return STAGES.find((s) => s.id === id);
 }
+
+/** Overall journey progress for the animated header bar. */
+export function overall_progress(progress) {
+  let done = 0;
+  let total = 0;
+
+  function add_stage(stage) {
+    const status = stage_pass_status(stage, progress);
+    done += Math.min(status.core_done, status.core_need);
+    total += status.core_need;
+    if (stage.channel_items) {
+      done += Math.min(status.channel_done, status.channel_need);
+      total += status.channel_need;
+    }
+    if (stage.needs_level && progress.skill_level && stage.level_min?.[progress.skill_level]) {
+      const need = stage.level_min[progress.skill_level];
+      done += Math.min(status.level_done, need);
+      total += need;
+    }
+    if (stage.answer_key) {
+      total += 1;
+      if (status.answer_filled) done += 1;
+    }
+  }
+
+  FOUNDATIONS.forEach(add_stage);
+  STAGES.forEach(add_stage);
+
+  if (weekly_open(progress) || weekly_pass_status(progress).passed) {
+    const w = weekly_pass_status(progress);
+    done += Math.min(w.core_done, w.core_need);
+    total += w.core_need;
+    total += WEEKLY.tallies.length;
+    if (w.tallies_ok) done += WEEKLY.tallies.length;
+  }
+
+  const percent = total === 0 ? 0 : Math.round((100 * done) / total);
+  return { done, total, percent };
+}
