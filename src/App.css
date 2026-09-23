@@ -365,7 +365,7 @@ button:disabled {
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: var(--card);
+  background: #fff;
   color: var(--ink);
   cursor: pointer;
 }
@@ -399,7 +399,7 @@ button:disabled {
   padding: 0.5rem 0.65rem;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--card);
+  background: #fff;
   color: var(--ink);
 }
 
