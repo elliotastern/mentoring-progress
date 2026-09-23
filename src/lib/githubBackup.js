@@ -118,6 +118,7 @@ export async function list_github_progress_backups() {
       highest_unlocked: data.highest_unlocked || "0",
       updated_at: data.backed_up_at || "",
       answers: data.answers || {},
+      worksheets: data.worksheets || {},
     });
   }
   rows.sort((a, b) => String(b.updated_at || "").localeCompare(String(a.updated_at || "")));

@@ -9,15 +9,14 @@ import {
   weekly_open,
   auto_unlock_progress,
   foundations_passed,
-  modules_foundations_passed,
   overall_progress,
 } from "../lib/gates.js";
-import { toggle_main_check } from "../lib/checkSync.js";
+import { toggle_main_check, sheet_module_stats } from "../lib/checkSync.js";
 import { WorksheetView } from "./WorksheetView.jsx";
 import { ProgressPulse } from "./ProgressPulse.jsx";
 import { RoleFitPanel } from "./RoleFitPanel.jsx";
 import { worksheet_by_id } from "../data/worksheets.js";
-import { role_track_chosen } from "../lib/roleFit.js";
+import { role_track_chosen, is_search_ready, search_path_chosen, proof_label_for_track } from "../lib/roleFit.js";
 
 function doc_url(href) {
   if (!href) return "";
@@ -102,60 +101,66 @@ function CheckList({ items, checks, disabled, on_toggle }) {
   );
 }
 
-function FoundationCard({ stage, progress, on_change }) {
-  const status = stage_pass_status(stage, progress);
-  const checks = progress.checks || {};
-
-  function toggle_check(id, val) {
-    const synced = toggle_main_check(progress, id, val);
-    on_change({ checks: synced.checks, worksheets: synced.worksheets });
+function next_foundation_label(progress) {
+  if (!role_track_chosen(progress) || !search_path_chosen(progress)) {
+    return "pick a role track and path";
   }
+  const skip_m2 = is_search_ready(progress);
+  for (const f of FOUNDATIONS) {
+    if (skip_m2 && f.id === "m2") continue;
+    if (!stage_pass_status(f, progress).passed) {
+      return `finish ${f.title} exit worksheet`;
+    }
+  }
+  return "Foundations complete";
+}
+
+function FoundationCard({ stage, progress, on_open }) {
+  const status = stage_pass_status(stage, progress);
+  const sheet_id = stage.worksheet?.worksheet_id;
+  const stats = sheet_id ? sheet_module_stats(progress, sheet_id) : null;
+  const pct = stats?.total ? Math.round((100 * stats.done) / stats.total) : 0;
+  const search_ready = is_search_ready(progress);
+  const m2_optional = stage.id === "m2" && search_ready;
+  const track_id = progress.answers?.role_track || "";
+  const title =
+    stage.id === "m2"
+      ? `Module 2 — ${proof_label_for_track(track_id)}`
+      : stage.title;
+  const passed = status.passed || m2_optional;
 
   return (
-    <section className={`stage-card ${status.passed ? "ready" : ""}`}>
+    <section className={`stage-card ${passed ? "ready" : ""}`}>
       <div className="stage-head">
-        <h2>{stage.title}</h2>
-        {status.passed ? <span className="badge ok">Complete</span> : <span className="badge">Required</span>}
+        <h2>{title}</h2>
+        {m2_optional ? (
+          <span className="badge ok">Optional</span>
+        ) : passed ? (
+          <span className="badge ok">Complete</span>
+        ) : (
+          <span className="badge">Required</span>
+        )}
       </div>
-      {stage.worksheet?.worksheet_id ? (
-        <p className="worksheet-banner">
-          Fill-in (private):{" "}
-          <a
-            className="linkish"
-            href={worksheet_url(stage.worksheet.worksheet_id)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {stage.worksheet.label || "Open worksheet"}
-          </a>
-        </p>
+      {stats && !m2_optional ? (
+        <ProgressPulse
+          compact
+          percent={pct}
+          label={`${stats.done}/${stats.total} · checks ${stats.sync.done}/${stats.sync.total} · fill-ins ${stats.fill.done}/${stats.fill.total}`}
+        />
       ) : null}
       <p className="gate">
-        Pass when: <strong>{status.core_done}/{status.core_need}</strong> checks
-        {stage.answer_key ? (
-          <> · answer {status.answer_filled ? "✓" : "missing"}</>
-        ) : null}
+        {m2_optional
+          ? "Optional — skipped for Search-ready path"
+          : passed
+            ? "Module complete"
+            : "Open the exit worksheet to check lessons and complete required fill-ins"}
       </p>
-      <CheckList
-        items={stage.items}
-        checks={checks}
-        disabled={false}
-        on_toggle={toggle_check}
-      />
-      {stage.answer_key ? (
-        <label className="answer-field">
-          <span>{stage.answer_label}</span>
-          <input
-            type="text"
-            value={progress.answers?.[stage.answer_key] || ""}
-            onChange={(e) =>
-              on_change({
-                answers: { ...(progress.answers || {}), [stage.answer_key]: e.target.value },
-              })
-            }
-            placeholder="Required"
-          />
-        </label>
+      {sheet_id ? (
+        <button type="button" className="primary" onClick={() => on_open(sheet_id)}>
+          {m2_optional
+            ? "Open Module 2 (optional)"
+            : stage.worksheet.label || "Open module worksheet"}
+        </button>
       ) : null}
     </section>
   );
@@ -372,6 +377,7 @@ export function ChecklistApp({
   github_backup_ok = false,
 }) {
   const p = progress || empty_progress();
+  const foundations_ok = foundations_passed(p);
   const latest_ref = useRef(p);
   const flush_timer = useRef(null);
   const [open_sheet, set_open_sheet] = useState(() => read_ws_param());
@@ -381,6 +387,19 @@ export function ChecklistApp({
   function close_sheet() {
     set_open_sheet(null);
     clear_ws_param();
+  }
+
+  function open_sheet_id(id) {
+    if (!id || !worksheet_by_id(id)) return;
+    set_open_sheet(id);
+    try {
+      const u = new URL(window.location.href);
+      u.searchParams.set("ws", id);
+      const next = u.pathname + `?${u.searchParams}` + u.hash;
+      window.history.replaceState({}, "", next);
+    } catch {
+      /* ignore */
+    }
   }
 
   function persist(next, opts = {}) {
@@ -469,8 +488,8 @@ export function ChecklistApp({
             label={`${journey.done} / ${journey.total} requirements`}
           />
           <p className="sub guide-line">
-            Worksheets are private fill-ins for your login. Finish Module 0–3 end checklists
-            before Stage 0 opens (already past Stage 0? you’re grandfathered).
+            Foundations: finish Module 0–3 exits (Search-ready skips Module 2). Then Job Search
+            stages open. Already past Stage 0? You’re grandfathered.
           </p>
         </div>
         {github_backup_ok ? (
@@ -484,24 +503,18 @@ export function ChecklistApp({
         ) : null}
       </header>
       {message ? <p className="toast">{message}</p> : null}
-      <RoleFitPanel progress={p} on_change={patch} />
-      {!role_track_chosen(p) ? (
-        <p className="gate">Choose a target role at the top to unlock Stage 0.</p>
-      ) : null}
-      {!foundations_passed(p) ? (
+      {!foundations_ok ? (
         <p className="gate">
-          Foundations: complete Module 0–3 end checklists below
-          {role_track_chosen(p) ? "" : " and pick a role track"} to unlock Stage 0 (Job Search).
-          {modules_foundations_passed(p) && !role_track_chosen(p)
-            ? " Modules look done — still need a role pill."
-            : ""}
+          Foundations mode · Next: {next_foundation_label(p)}. Job Search unlocks after Foundations.
         </p>
       ) : (
-        <p className="hint">Foundations complete · Job Search stages open.</p>
+        <p className="hint">Job Search mode · Stages open.</p>
       )}
       <ol className="map">
         {FOUNDATIONS.map((f) => {
-          const passed = stage_pass_status(f, p).passed || foundations_passed(p);
+          const skip_m2 = is_search_ready(p) && f.id === "m2";
+          const passed =
+            skip_m2 || stage_pass_status(f, p).passed || foundations_ok;
           return (
             <li key={f.id} className={`${passed ? "open passed" : ""}`}>
               <span className="map-fill" />
@@ -509,41 +522,54 @@ export function ChecklistApp({
             </li>
           );
         })}
-        {STAGES.map((s) => {
-          const open = is_stage_open(s.id, p);
-          const passed = stage_pass_status(s, p).passed;
-          return (
-            <li key={s.id} className={`${open ? "open" : ""} ${passed ? "passed" : ""}`}>
-              <span className="map-fill" />
-              <span className="map-label">{s.id}</span>
-            </li>
-          );
-        })}
-        <li className={`${weekly_open(p) ? "open" : ""} ${weekly_pass_status(p).passed ? "passed" : ""}`}>
-          <span className="map-fill" />
-          <span className="map-label">W</span>
-        </li>
+        {foundations_ok
+          ? STAGES.map((s) => {
+              const open = is_stage_open(s.id, p);
+              const passed = stage_pass_status(s, p).passed;
+              return (
+                <li key={s.id} className={`${open ? "open" : ""} ${passed ? "passed" : ""}`}>
+                  <span className="map-fill" />
+                  <span className="map-label">{s.id}</span>
+                </li>
+              );
+            })
+          : null}
+        {foundations_ok ? (
+          <li
+            className={`${weekly_open(p) ? "open" : ""} ${weekly_pass_status(p).passed ? "passed" : ""}`}
+          >
+            <span className="map-fill" />
+            <span className="map-label">W</span>
+          </li>
+        ) : null}
       </ol>
-      <h2 className="section-label">Module end checklists (0–3)</h2>
+      <RoleFitPanel progress={p} on_change={patch} />
+      <h2 className="section-label">{foundations_ok ? "Foundations (reference)" : "Foundations"}</h2>
       {FOUNDATIONS.map((stage) => (
-        <FoundationCard key={stage.id} stage={stage} progress={p} on_change={patch} />
+        <FoundationCard key={stage.id} stage={stage} progress={p} on_open={open_sheet_id} />
       ))}
-      <h2 className="section-label">Module 4 — Job Search stages</h2>
-      {STAGES.map((stage) => (
-        <StageCard
-          key={stage.id}
-          stage={stage}
-          progress={p}
-          locked={!is_stage_open(stage.id, p)}
-          on_change={patch}
-        />
-      ))}
-      <WeeklyCard
-        progress={p}
-        locked={!weekly_open(p)}
-        on_change={patch}
-        on_reset_week={reset_week}
-      />
+      {foundations_ok ? (
+        <>
+          <h2 className="section-label">Job Search</h2>
+          {STAGES.map((stage) => (
+            <StageCard
+              key={stage.id}
+              stage={stage}
+              progress={p}
+              locked={!is_stage_open(stage.id, p)}
+              on_change={patch}
+            />
+          ))}
+          <WeeklyCard
+            progress={p}
+            locked={!weekly_open(p)}
+            on_change={patch}
+            on_reset_week={reset_week}
+          />
+        </>
+      ) : (
+        <p className="hint">Job Search unlocks after Foundations.</p>
+      )}
     </div>
   );
 }

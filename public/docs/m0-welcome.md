@@ -1,6 +1,6 @@
 **Module & Mentorship Overview**
 
-Welcome to the Data Science Mentorship!
+Welcome to the data career mentorship!
 
 Congratulations on investing in yourself, I am excited to start this journey with you!
 
@@ -29,7 +29,7 @@ Some modules include worksheets — open them from the checklist on this site; t
 In later weeks, modules wrap and time shifts to mock interviews and contract negotiations.
 
 Awesome, let’s get it! 💪
-# How we start: assess where you are now, find your gaps, and begin with a coding assessment.
+# How we start: Pick your track (DA · DS · MLE · DE · AI research) on the progress site → run the gap check for that track.
 
 # **Pre-Work:**
 

@@ -491,12 +491,23 @@ export const WORKSHEETS = [
           check("provided", "What Is Provided", {
             href: "docs/view.html?doc=m0-provided.md",
           }),
-          check("expectations_ws", "Expectations guide done; worksheet filled in the app", {
-            href: "docs/view.html?doc=m0-expectations.md",
-          }),
           check("communicate", "How To Communicate", {
             href: "docs/view.html?doc=m0-communicate.md",
           }),
+        ],
+      },
+      {
+        title: "Expectations (structured)",
+        fields: [
+          check("expectations_ws", "Expectations guide done", {
+            href: "docs/view.html?doc=m0-expectations.md",
+          }),
+          text("hours_week", "Hours/week I can commit", "e.g. 20"),
+          text(
+            "success_outcome",
+            "Success looks like (one line)",
+            "e.g. DA offer in 12 weeks"
+          ),
         ],
       },
       {
@@ -522,7 +533,7 @@ export const WORKSHEETS = [
         ],
       },
       {
-        title: "Habit",
+        title: "BONUS — Habit",
         fields: [
           text("health_habit", "Health habit I started (sleep / exercise / water)"),
           check("ready", "Ready for Module 1"),
@@ -539,15 +550,33 @@ export const WORKSHEETS = [
       {
         title: "Documents / worksheets saved",
         fields: [
-          check("overview", "Overview + tools installed"),
-          check("principles", "Principles & Values worksheet saved"),
-          check("bumps", "Bumps Ahead reviewed"),
-          check("goals", "Goals Planning done"),
-          check("roadmap_assess", "Roadmap assessment checklist done"),
-          check("next_steps", "To Start Learning — next actions written"),
-          check("time_energy", "Time & Energy management done"),
-          check("habits", "Habits plan written"),
-          check("optimal", "Optimal Roadmap worksheet saved"),
+          check("overview", "Module 1 overview", {
+            href: "docs/view.html?doc=m1-overview.md",
+          }),
+          check("principles", "Principles & Values", {
+            href: "docs/view.html?doc=m1-principles.md",
+          }),
+          check("bumps", "Bumps Ahead", {
+            href: "docs/view.html?doc=m1-bumps.md",
+          }),
+          check("goals", "Goals Planning", {
+            href: "docs/view.html?doc=m1-goals.md",
+          }),
+          check("roadmap_assess", "Roadmap assessment for your track", {
+            href: "docs/view.html?doc=m1-roadmap.md",
+          }),
+          check("next_steps", "To Start Learning/Practicing", {
+            href: "docs/view.html?doc=m1-next.md",
+          }),
+          check("time_energy", "Time & Energy management", {
+            href: "docs/view.html?doc=m1-time.md",
+          }),
+          check("habits", "Habits plan", {
+            href: "docs/view.html?doc=m1-habits.md",
+          }),
+          check("optimal", "Creating the Optimal Roadmap", {
+            href: "docs/view.html?doc=m1-optimal.md",
+          }),
         ],
       },
       {
@@ -565,21 +594,30 @@ export const WORKSHEETS = [
     id: "module-exit-2",
     title: "Module 2 Exit",
     stage: "m2",
-    blurb: "End-of-module checklist — project plan. Skip with reason if going straight to portfolio.",
+    blurb:
+      "End-of-module checklist — role-specific proof. Skip with reason if on Search-ready path.",
     sections: [
       {
         title: "Lessons",
         fields: [
-          check("why", "Why Build Full-Stack Project"),
-          check("plan_doc", "Mentorship Project Plan + next steps"),
-          check("step_by_step", "Project Step-by-Step"),
-          check("planning_ws", "Data Related Project Planning worksheet saved (or N/A)"),
+          check("why", "Why build role-specific portfolio proof", {
+            href: "docs/view.html?doc=m2-why.md",
+          }),
+          check("plan_doc", "Mentorship Project Plan", {
+            href: "docs/view.html?doc=m2-plan.md",
+          }),
+          check("step_by_step", "Project Step-by-Step", {
+            href: "docs/view.html?doc=m2-steps.md",
+          }),
+          check("planning_ws", "Project planning worksheet (or skip noted)", {
+            href: "docs/view.html?doc=m2-planning-ws.md",
+          }),
         ],
       },
       {
-        title: "Project",
+        title: "Proof project",
         fields: [
-          text("project_name", "Project name (or N/A)"),
+          text("project_name", "Proof name (or N/A)"),
           text("repo_url", "Repo URL (or N/A)"),
           area("skip_reason", "If skipping Module 2, why / what’s instead"),
           check("upskill_habit", "Upskilling habit started (30+ mins daily)"),
@@ -597,14 +635,30 @@ export const WORKSHEETS = [
       {
         title: "Lessons + worksheets",
         fields: [
-          check("overview", "Overview"),
-          check("design", "Designing Yourself As A Product"),
-          check("selling", "Selling Yourself As A Product worksheet saved"),
-          check("impact", "How To Measure Impact"),
-          check("li_max", "Maximize LinkedIn checklist"),
-          check("port_max", "Maximize Portfolio checklist"),
-          check("resume_max", "Maximize Resume checklist"),
-          check("cover_max", "Maximize Cover Letter checklist"),
+          check("overview", "Module 3 overview", {
+            href: "docs/view.html?doc=m3-overview.md",
+          }),
+          check("design", "Designing Yourself As A Product", {
+            href: "docs/view.html?doc=m3-design.md",
+          }),
+          check("selling", "Selling Yourself As A Product", {
+            href: "docs/view.html?doc=m3-selling.md",
+          }),
+          check("impact", "How To Measure Impact", {
+            href: "docs/view.html?doc=m3-impact.md",
+          }),
+          check("li_max", "Maximize LinkedIn", {
+            href: "docs/view.html?doc=m3-linkedin.md",
+          }),
+          check("port_max", "Maximize Portfolio", {
+            href: "docs/view.html?doc=m3-portfolio.md",
+          }),
+          check("resume_max", "Maximize Resume", {
+            href: "docs/view.html?doc=m3-resume.md",
+          }),
+          check("cover_max", "Maximize Cover Letter", {
+            href: "docs/view.html?doc=m3-cover.md",
+          }),
         ],
       },
       {
@@ -685,4 +739,75 @@ export function worksheet_by_id(id) {
 
 export function empty_worksheet_answers() {
   return {};
+}
+
+/** Required text/area fields for Module 0–3 exit worksheets (gates + progress). */
+export const EXIT_REQUIRED = {
+  "module-exit-0": {
+    all: [
+      "hours_week",
+      "success_outcome",
+      "resume_link",
+      "cover_link",
+      "slack_replies",
+      "intro_draft",
+    ],
+  },
+  "module-exit-1": {
+    all: ["primary_goal", "next_actions", "coding_habit"],
+  },
+  "module-exit-2": {
+    all: [],
+    any_groups: [["project_name", "skip_reason"]],
+  },
+  "module-exit-3": {
+    all: ["product_summary", "one_liner", "slack_posted"],
+  },
+};
+
+const EXIT_SHEET_IDS = Object.keys(EXIT_REQUIRED);
+
+function field_filled(sheet, field_id) {
+  return Boolean(String(sheet?.[field_id] || "").trim());
+}
+
+export function sheet_fillin_stats(progress, sheet_id) {
+  const req = EXIT_REQUIRED[sheet_id];
+  if (!req) return { done: 0, total: 0 };
+  const sheet = progress.worksheets?.[sheet_id] || {};
+  let done = 0;
+  let total = 0;
+  for (const id of req.all || []) {
+    total += 1;
+    if (field_filled(sheet, id)) done += 1;
+  }
+  for (const group of req.any_groups || []) {
+    total += 1;
+    if (group.some((id) => field_filled(sheet, id))) done += 1;
+  }
+  return { done, total };
+}
+
+export function sheet_fillins_complete(progress, sheet_id) {
+  const stats = sheet_fillin_stats(progress, sheet_id);
+  return stats.total === 0 || stats.done >= stats.total;
+}
+
+/** Text/area answers mentors should review for Module 0–3 exits. */
+export function exit_fillin_fields(sheet_id) {
+  const sheet = worksheet_by_id(sheet_id);
+  if (!sheet) return [];
+  const fields = [];
+  for (const section of sheet.sections || []) {
+    for (const field of section.fields || []) {
+      if (field.type === "text" || field.type === "textarea") {
+        fields.push({ id: field.id, label: field.label, type: field.type });
+      }
+    }
+  }
+  return fields;
+}
+
+export function module_exit_sheet_ids() {
+  return EXIT_SHEET_IDS.slice();
 }

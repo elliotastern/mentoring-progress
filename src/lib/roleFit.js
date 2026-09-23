@@ -8,8 +8,43 @@ export const ROLE_TRACKS = [
   { id: "ai_research", label: "AI Researcher" },
 ];
 
+/** Module 2 proof type by role track. */
+export const PROOF_BY_TRACK = {
+  da: "dashboard / BI proof",
+  ds: "analysis + modeling notebook",
+  mle: "served model / inference API",
+  de: "pipeline / warehouse job",
+  ai_research: "reproducible experiment",
+};
+
+export const SEARCH_PATHS = [
+  {
+    id: "search_ready",
+    label: "Search-ready",
+    hint: "Skip heavy project build — Module 2 optional",
+  },
+  {
+    id: "build_proof",
+    label: "Build-proof",
+    hint: "Complete Module 2 with role-specific proof",
+  },
+];
+
 export const YEARS_OPTIONS = ["0–1", "1–3", "3–5", "5+"];
 export const SKILL_OPTIONS = ["None", "Basic", "Solid", "Strong"];
+
+export function proof_label_for_track(track_id) {
+  return PROOF_BY_TRACK[track_id] || "role-specific portfolio proof";
+}
+
+export function search_path_chosen(progress) {
+  const path = String(progress?.answers?.search_path || "").trim();
+  return path === "search_ready" || path === "build_proof";
+}
+
+export function is_search_ready(progress) {
+  return String(progress?.answers?.search_path || "").trim() === "search_ready";
+}
 
 const TIE_ORDER = ["da", "ds", "de", "mle", "ai_research"];
 

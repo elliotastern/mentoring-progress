@@ -22,8 +22,8 @@ export const STAGES = [
     title: "Stage 0 — Setup",
     unlocks: "1",
     min_checks: 3,
-    answer_label: "Answer — my tracker link or sheet name",
-    answer_key: "tracker",
+    answer_label: "Answer — my primary title",
+    answer_key: "title",
     worksheet: ws("tracker-setup", "Worksheet · Tracker setup"),
     items: [
       {
@@ -33,10 +33,10 @@ export const STAGES = [
         doc: overview("the-numbers-tracking-fields"),
       },
       {
-        id: "li_headline",
-        label: "LinkedIn headline uses draft role keywords (so inbound can find you)",
-        sheet: ws("linkedin"),
-        doc: overview("the-numbers-hours-10wk"),
+        id: "primary_title",
+        label: "One primary title chosen (+ optional adjacent stretch)",
+        sheet: ws("brainstorm"),
+        doc: overview("step-1-job-to-target"),
       },
       {
         id: "public_proof",
@@ -51,16 +51,8 @@ export const STAGES = [
     title: "Stage 1 — Target role",
     unlocks: "2",
     min_checks: 4,
-    answer_label: "Answer — my primary title",
-    answer_key: "title",
     worksheet: ws("brainstorm", "Worksheet · Next position brainstorm"),
     items: [
-      {
-        id: "primary_title",
-        label: "One primary title chosen (+ optional adjacent stretch)",
-        sheet: ws("brainstorm"),
-        doc: overview("step-1-job-to-target"),
-      },
       {
         id: "constraints",
         label: "Level, remote/hybrid, industry, and comp floor written down",
@@ -79,13 +71,19 @@ export const STAGES = [
         sheet: ws("brainstorm"),
         doc: overview("the-numbers-company-list-1015"),
       },
+      {
+        id: "li_headline",
+        label: "LinkedIn headline matches the chosen title keywords",
+        sheet: ws("linkedin"),
+        doc: overview("the-numbers-hours-10wk"),
+      },
     ],
   },
   {
     id: "2",
     title: "Stage 2 — Package",
     unlocks: "3",
-    min_checks: 6,
+    min_checks: 5,
     answer_label: "Answer — link to my best proof artifact",
     answer_key: "proof_link",
     worksheet: ws("package-match", "Worksheet · Package match"),
@@ -119,16 +117,6 @@ export const STAGES = [
         label: "One artifact a stranger in that role can open and understand in ~6 seconds",
         sheet: ws("package-match"),
         doc: overview("step-2-portfolio-resume-for-that-role"),
-      },
-      {
-        id: "m3_oneliner_live",
-        label: "Product one-liner + summary live (Module 3 exit)",
-        sheet: ws("module-exit-3"),
-      },
-      {
-        id: "m3_resume_max",
-        label: "Module 3 maximize-resume / cover-letter checklists done",
-        sheet: ws("module-exit-3"),
       },
     ],
   },

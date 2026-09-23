@@ -2,8 +2,14 @@ import {
   ROLE_TRACKS,
   YEARS_OPTIONS,
   SKILL_OPTIONS,
+  SEARCH_PATHS,
   suggest_role_track,
 } from "../lib/roleFit.js";
+
+function gap_check_url(track_id) {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base}docs/view.html?doc=m1-roadmap.md#${encodeURIComponent(track_id)}`;
+}
 
 function PillRow({ label, options, value, on_pick }) {
   return (
@@ -29,6 +35,9 @@ export function RoleFitPanel({ progress, on_change }) {
   const answers = progress.answers || {};
   const suggestion = suggest_role_track(answers);
   const selected = answers.role_track || "";
+  const selected_label = ROLE_TRACKS.find((t) => t.id === selected)?.label || "";
+  const search_path = answers.search_path || "";
+  const track_and_path = Boolean(selected && search_path);
 
   function set_answer(key, value) {
     const next = { ...answers, [key]: value };
@@ -50,7 +59,11 @@ export function RoleFitPanel({ progress, on_change }) {
     <section className="stage-card role-fit">
       <div className="stage-head">
         <h2>What role are you aiming for?</h2>
-        {selected ? <span className="badge ok">Track set</span> : <span className="badge">Required</span>}
+        {track_and_path ? (
+          <span className="badge ok">Track + path set</span>
+        ) : (
+          <span className="badge">Required</span>
+        )}
       </div>
       <p className="hint">
         Fill a few basics for a suggestion. You or your mentor choose the track — suggestion never
@@ -125,6 +138,38 @@ export function RoleFitPanel({ progress, on_change }) {
           })}
         </div>
       </div>
+
+      {selected ? (
+        <p className="role-fit-gap">
+          <a className="role-gap-link" href={gap_check_url(selected)} target="_blank" rel="noreferrer">
+            Gap check for {selected_label}
+          </a>
+        </p>
+      ) : null}
+
+      <div className="role-fit-row">
+        <span className="role-fit-label">Path to Stage 0</span>
+        <div className="role-pills role-pills-tracks" role="group" aria-label="Search path">
+          {SEARCH_PATHS.map((path) => (
+            <button
+              key={path.id}
+              type="button"
+              className={`role-pill track ${search_path === path.id ? "selected" : ""}`}
+              onClick={() => set_answer("search_path", path.id)}
+              title={path.hint}
+            >
+              {path.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      {search_path ? (
+        <p className="hint">{SEARCH_PATHS.find((p) => p.id === search_path)?.hint}</p>
+      ) : (
+        <p className="hint">
+          Choose Search-ready (skip Module 2) or Build-proof (complete Module 2).
+        </p>
+      )}
     </section>
   );
 }

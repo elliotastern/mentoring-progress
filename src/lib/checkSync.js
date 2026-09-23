@@ -1,4 +1,8 @@
-/** Bidirectional sync between progress.checks and progress.worksheets checkboxes. */
+/** Bidirectional sync between progress.checks and progress.worksheets checkboxes.
+ *  Foundation fill-ins also derive card-only checks + answers.m*_ keys.
+ */
+
+import { sheet_fillin_stats } from "../data/worksheets.js";
 
 export const SYNC_MAP = {
   "module-exit-0": {
@@ -56,6 +60,7 @@ export const SYNC_MAP = {
   linkedin: {
     github_live: "public_proof",
     site_live: "public_proof",
+    li_headline: "li_headline",
   },
   "package-match": {
     resume_skills: "resume",
@@ -94,6 +99,25 @@ export const SYNC_MAP = {
   },
 };
 
+/** Card-only foundation checks derived from exit worksheet fill-ins. */
+const FILLIN_CHECK_RULES = [
+  {
+    sheet_id: "module-exit-0",
+    check_id: "m0_slack_intro",
+    require_all: ["slack_replies", "intro_draft"],
+  },
+  {
+    sheet_id: "module-exit-0",
+    check_id: "m0_expectations",
+    require_all: ["hours_week", "success_outcome"],
+  },
+  {
+    sheet_id: "module-exit-2",
+    check_id: "m2_repo",
+    require_any: ["project_name", "skip_reason"],
+  },
+];
+
 function build_reverse() {
   const reverse = {};
   for (const [sheet_id, fields] of Object.entries(SYNC_MAP)) {
@@ -117,6 +141,10 @@ function set_sheet_field(worksheets, sheet_id, field_id, value) {
   };
 }
 
+function field_filled(sheet, field_id) {
+  return Boolean(String(sheet?.[field_id] || "").trim());
+}
+
 function peers_all_true(worksheets, check_id, override) {
   const peers = REVERSE[check_id] || [];
   if (!peers.length) return false;
@@ -128,13 +156,85 @@ function peers_all_true(worksheets, check_id, override) {
   });
 }
 
+function rule_satisfied(sheet, rule) {
+  if (rule.require_all) {
+    return rule.require_all.every((id) => field_filled(sheet, id));
+  }
+  if (rule.require_any) {
+    return rule.require_any.some((id) => field_filled(sheet, id));
+  }
+  return false;
+}
+
+function derive_m2_project_answer(sheet) {
+  const skip = String(sheet.skip_reason || "").trim();
+  if (skip) return skip;
+  const name = String(sheet.project_name || "").trim();
+  const repo = String(sheet.repo_url || "").trim();
+  if (name || repo) return [name, repo].filter(Boolean).join(" — ");
+  return "";
+}
+
+/** Derive foundation checks + answer_keys from exit worksheet fill-ins. */
+export function apply_fillin_derived(progress) {
+  const worksheets = progress.worksheets || {};
+  const checks = { ...(progress.checks || {}) };
+  const answers = { ...(progress.answers || {}) };
+  let changed = false;
+
+  for (const rule of FILLIN_CHECK_RULES) {
+    const sheet = worksheets[rule.sheet_id] || {};
+    const next = rule_satisfied(sheet, rule);
+    if (Boolean(checks[rule.check_id]) !== next) {
+      checks[rule.check_id] = next;
+      changed = true;
+    }
+  }
+
+  const m1 = worksheets["module-exit-1"] || {};
+  const goal = String(m1.primary_goal || "").trim();
+  if ((answers.m1_goal || "") !== goal) {
+    answers.m1_goal = goal;
+    changed = true;
+  }
+
+  const m2 = worksheets["module-exit-2"] || {};
+  const project = derive_m2_project_answer(m2);
+  if ((answers.m2_project || "") !== project) {
+    answers.m2_project = project;
+    changed = true;
+  }
+
+  const m3 = worksheets["module-exit-3"] || {};
+  const oneliner = String(m3.one_liner || "").trim();
+  if ((answers.m3_oneliner || "") !== oneliner) {
+    answers.m3_oneliner = oneliner;
+    changed = true;
+  }
+
+  const brainstorm = worksheets.brainstorm || {};
+  const title = String(brainstorm.primary_title || "").trim();
+  if (title && (answers.title || "") !== title) {
+    answers.title = title;
+    changed = true;
+  }
+  const title_checked = Boolean(title) || Boolean(String(answers.title || "").trim());
+  if (title_checked && !checks.primary_title) {
+    checks.primary_title = true;
+    changed = true;
+  }
+
+  if (!changed) return progress;
+  return { ...progress, checks, answers, worksheets };
+}
+
 export function toggle_main_check(progress, check_id, value) {
   const checks = { ...(progress.checks || {}), [check_id]: value };
   let worksheets = { ...(progress.worksheets || {}) };
   for (const { sheet_id, field_id } of REVERSE[check_id] || []) {
     worksheets = set_sheet_field(worksheets, sheet_id, field_id, value);
   }
-  return { ...progress, checks, worksheets };
+  return apply_fillin_derived({ ...progress, checks, worksheets });
 }
 
 export function toggle_worksheet_check(progress, sheet_id, field_id, value) {
@@ -148,10 +248,16 @@ export function toggle_worksheet_check(progress, sheet_id, field_id, value) {
       value,
     });
   }
-  return { ...progress, checks, worksheets };
+  return apply_fillin_derived({ ...progress, checks, worksheets });
 }
 
-/** OR-merge so either side being true promotes both. */
+/** Set a text/textarea worksheet field and derive checks + answers. */
+export function set_worksheet_text(progress, sheet_id, field_id, value) {
+  const worksheets = set_sheet_field(progress.worksheets || {}, sheet_id, field_id, value);
+  return apply_fillin_derived({ ...progress, worksheets });
+}
+
+/** OR-merge so either side being true promotes both; then derive fill-ins. */
 export function reconcile_checks(progress) {
   let checks = { ...(progress.checks || {}) };
   let worksheets = { ...(progress.worksheets || {}) };
@@ -177,8 +283,8 @@ export function reconcile_checks(progress) {
     }
   }
 
-  if (!changed) return progress;
-  return { ...progress, checks, worksheets };
+  const merged = changed ? { ...progress, checks, worksheets } : progress;
+  return apply_fillin_derived(merged);
 }
 
 export function sheet_sync_stats(progress, sheet_id) {
@@ -199,4 +305,16 @@ export function sheet_sync_stats(progress, sheet_id) {
 
 export function reverse_peers(check_id) {
   return REVERSE[check_id] || [];
+}
+
+/** Combined check + fill-in progress for a foundation exit worksheet. */
+export function sheet_module_stats(progress, sheet_id) {
+  const sync = sheet_sync_stats(progress, sheet_id);
+  const fill = sheet_fillin_stats(progress, sheet_id);
+  return {
+    done: sync.done + fill.done,
+    total: sync.total + fill.total,
+    sync,
+    fill,
+  };
 }

@@ -335,84 +335,6 @@ button:disabled {
   color: var(--ok);
 }
 
-.role-fit {
-  margin-bottom: 1rem;
-}
-
-.role-fit-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 0.75rem 0;
-}
-
-.role-fit-label {
-  font-family: system-ui, sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--muted);
-}
-
-.role-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.role-pill {
-  font-family: system-ui, sans-serif;
-  font-size: 0.85rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.role-pill:hover {
-  border-color: var(--accent);
-}
-
-.role-pill.selected {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.role-pill.suggested {
-  border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
-}
-
-.role-fit-past {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin: 0.75rem 0;
-  font-family: system-ui, sans-serif;
-  font-size: 0.85rem;
-}
-
-.role-fit-past input {
-  font: inherit;
-  padding: 0.5rem 0.65rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
-  color: var(--ink);
-}
-
-.role-fit-suggest {
-  font-family: system-ui, sans-serif;
-  font-size: 0.92rem;
-  margin: 0.5rem 0 0.25rem;
-}
-
-.role-fit-suggest.muted {
-  color: var(--muted);
-}
-
 .gate {
   font-family: system-ui, sans-serif;
   font-size: 0.92rem;
@@ -669,8 +591,156 @@ a.linkish:hover {
   font-size: 0.85rem;
 }
 
+.mentor-expand {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.55rem;
+}
+
+.mentor-detail-row td {
+  background: #f8fafc;
+}
+
+.mentor-fillins {
+  display: grid;
+  gap: 1rem;
+  padding: 0.35rem 0.15rem 0.5rem;
+}
+
+.mentor-sheet h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.mentor-field {
+  margin: 0 0 0.45rem;
+}
+
+.mentor-field dt {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.15rem;
+}
+
+.mentor-field dd {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 0.88rem;
+}
+
+.mentor-field dd.empty {
+  color: var(--muted);
+}
+
+.stage-card > button.primary {
+  margin-top: 0.35rem;
+}
+
 h3 {
   margin: 0.85rem 0 0.35rem;
   font-size: 1rem;
   font-family: system-ui, sans-serif;
+}
+
+.role-fit .hint {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.role-fit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.75rem;
+  align-items: center;
+  margin: 0.55rem 0;
+}
+
+.role-fit-label {
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-width: 9.5rem;
+}
+
+.role-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.role-pill {
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.role-pill:hover {
+  border-color: var(--accent);
+}
+
+.role-pill.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.role-pill.suggested:not(.selected) {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.role-pill.track {
+  font-weight: 600;
+}
+
+.role-fit-past {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0.65rem 0 0.35rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.role-fit-past input {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.role-fit-suggest {
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.role-fit-suggest.muted {
+  color: var(--muted);
+}
+
+.role-fit-gap {
+  margin: 0.85rem 0 0;
+}
+
+a.role-gap-link {
+  display: inline-block;
+  text-decoration: none;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+}
+
+a.role-gap-link:hover {
+  filter: brightness(1.05);
 }

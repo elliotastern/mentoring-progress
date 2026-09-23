@@ -1,6 +1,7 @@
 import { STAGES, WEEKLY } from "../data/stages.js";
 import { FOUNDATIONS } from "../data/foundations.js";
-import { role_track_chosen } from "./roleFit.js";
+import { sheet_fillin_stats, sheet_fillins_complete } from "../data/worksheets.js";
+import { role_track_chosen, search_path_chosen, is_search_ready } from "./roleFit.js";
 
 function count_checked(checks, items) {
   return items.filter((item) => checks[item.id]).length;
@@ -8,6 +9,10 @@ function count_checked(checks, items) {
 
 function answer_ok(answers, key) {
   return Boolean(String(answers[key] || "").trim());
+}
+
+function is_foundation(stage) {
+  return FOUNDATIONS.some((f) => f.id === stage.id);
 }
 
 export function stage_pass_status(stage, progress) {
@@ -38,7 +43,18 @@ export function stage_pass_status(stage, progress) {
     }
   }
 
-  const passed = core_ok && channel_ok && level_ok && answer_filled;
+  let fillins_ok = true;
+  let fillin_done = 0;
+  let fillin_need = 0;
+  const sheet_id = stage.worksheet?.worksheet_id;
+  if (is_foundation(stage) && sheet_id) {
+    const fill = sheet_fillin_stats(progress, sheet_id);
+    fillin_done = fill.done;
+    fillin_need = fill.total;
+    fillins_ok = sheet_fillins_complete(progress, sheet_id);
+  }
+
+  const passed = core_ok && channel_ok && level_ok && answer_filled && fillins_ok;
   return {
     passed,
     core_done,
@@ -48,6 +64,9 @@ export function stage_pass_status(stage, progress) {
     level_done,
     level_need,
     answer_filled,
+    fillin_done,
+    fillin_need,
+    fillins_ok,
   };
 }
 
@@ -65,23 +84,36 @@ export function weekly_pass_status(progress) {
   };
 }
 
+/** Module 0–3 exit worksheets complete (ignores role track / path). */
 export function modules_foundations_passed(progress) {
   if (progress.foundations_complete) return true;
-  return FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed);
+  const skip_m2 = is_search_ready(progress);
+  return FOUNDATIONS.every((f) => {
+    if (skip_m2 && f.id === "m2") return true;
+    return stage_pass_status(f, progress).passed;
+  });
 }
 
-/** M0–3 complete AND target role pill chosen (grandfather if already past Stage 0). */
 export function foundations_passed(progress) {
   const unlocked = progress.highest_unlocked || "0";
   const order = STAGES.map((s) => s.id);
+  // Grandfather mentees already past Stage 0
   if (order.indexOf(unlocked) > 0) return true;
-  return modules_foundations_passed(progress) && role_track_chosen(progress);
+  return (
+    modules_foundations_passed(progress) &&
+    role_track_chosen(progress) &&
+    search_path_chosen(progress)
+  );
 }
 
 export function mark_foundations_if_ready(progress) {
   if (progress.foundations_complete) return progress;
-  if (!FOUNDATIONS.every((f) => stage_pass_status(f, progress).passed)) return progress;
-  if (!role_track_chosen(progress)) return progress;
+  const skip_m2 = is_search_ready(progress);
+  const modules_ok = FOUNDATIONS.every((f) => {
+    if (skip_m2 && f.id === "m2") return true;
+    return stage_pass_status(f, progress).passed;
+  });
+  if (!modules_ok) return progress;
   return { ...progress, foundations_complete: true };
 }
 
@@ -175,9 +207,13 @@ export function overall_progress(progress) {
       done += Math.min(status.level_done, need);
       total += need;
     }
-    if (stage.answer_key) {
+    if (stage.answer_key && !(is_foundation(stage) && status.fillin_need > 0)) {
       total += 1;
       if (status.answer_filled) done += 1;
+    }
+    if (is_foundation(stage) && status.fillin_need > 0) {
+      total += status.fillin_need;
+      done += Math.min(status.fillin_done, status.fillin_need);
     }
   }
 

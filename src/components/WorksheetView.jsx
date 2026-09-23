@@ -1,6 +1,14 @@
-import { worksheet_by_id } from "../data/worksheets.js";
-import { toggle_worksheet_check, sheet_sync_stats } from "../lib/checkSync.js";
+import {
+  worksheet_by_id,
+  sheet_fillin_stats,
+} from "../data/worksheets.js";
+import {
+  toggle_worksheet_check,
+  set_worksheet_text,
+  sheet_module_stats,
+} from "../lib/checkSync.js";
 import { ProgressPulse } from "./ProgressPulse.jsx";
+import { proof_label_for_track } from "../lib/roleFit.js";
 
 function doc_url(href) {
   if (!href) return "";
@@ -61,8 +69,28 @@ function FieldInput({ field, value, on_change }) {
   );
 }
 
+function patch_module_exit_2(sheet, track_id) {
+  const proof = proof_label_for_track(track_id);
+  return {
+    ...sheet,
+    blurb: `End-of-module checklist — build a ${proof}. Skip with reason if on Search-ready path.`,
+    sections: sheet.sections.map((section) => ({
+      ...section,
+      fields: section.fields.map((field) => {
+        if (field.id === "why") {
+          return { ...field, label: `Why build a ${proof}` };
+        }
+        if (field.id === "project_name") {
+          return { ...field, label: `${proof} name (or N/A)` };
+        }
+        return field;
+      }),
+    })),
+  };
+}
+
 export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
-  const sheet = worksheet_by_id(worksheet_id);
+  let sheet = worksheet_by_id(worksheet_id);
   if (!sheet) {
     return (
       <section className="worksheet-panel">
@@ -74,9 +102,15 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
     );
   }
 
+  if (sheet.id === "module-exit-2") {
+    sheet = patch_module_exit_2(sheet, progress.answers?.role_track || "");
+  }
+
   const answers = progress.worksheets?.[sheet.id] || {};
-  const sync = sheet_sync_stats(progress, sheet.id);
-  const sync_pct = sync.total ? Math.round((100 * sync.done) / sync.total) : 0;
+  const stats = sheet_module_stats(progress, sheet.id);
+  const fill = sheet_fillin_stats(progress, sheet.id);
+  const pct = stats.total ? Math.round((100 * stats.done) / stats.total) : 0;
+  const is_module_exit = sheet.id.startsWith("module-exit-");
 
   function set_field(field, value) {
     if (field.type === "checkbox") {
@@ -84,14 +118,15 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
       on_change({
         checks: synced.checks,
         worksheets: synced.worksheets,
+        answers: synced.answers,
       });
       return;
     }
+    const synced = set_worksheet_text(progress, sheet.id, field.id, value);
     on_change({
-      worksheets: {
-        ...(progress.worksheets || {}),
-        [sheet.id]: { ...answers, [field.id]: value },
-      },
+      checks: synced.checks,
+      worksheets: synced.worksheets,
+      answers: synced.answers,
     });
   }
 
@@ -99,19 +134,27 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
     <section className="worksheet-panel">
       <div className="worksheet-panel-head">
         <div>
-          <p className="eyebrow">Private worksheet · saved to your login</p>
+          <p className="eyebrow">
+            {is_module_exit
+              ? "Module worksheet · saved to your login"
+              : "Private worksheet · saved to your login"}
+          </p>
           <h2>{sheet.title}</h2>
           <p className="sub">{sheet.blurb}</p>
-          {sync.total > 0 ? (
+          {stats.total > 0 ? (
             <ProgressPulse
               compact
-              percent={sync_pct}
-              label={`Synced checks ${sync.done}/${sync.total}`}
+              percent={pct}
+              label={
+                fill.total > 0
+                  ? `${stats.done}/${stats.total} · checks ${stats.sync.done}/${stats.sync.total} · fill-ins ${fill.done}/${fill.total}`
+                  : `Synced checks ${stats.sync.done}/${stats.sync.total}`
+              }
             />
           ) : null}
         </div>
         <button type="button" className="ghost" onClick={on_close}>
-          ← Back to checklist
+          ← Back to progress
         </button>
       </div>
 
@@ -131,9 +174,13 @@ export function WorksheetView({ worksheet_id, progress, on_change, on_close }) {
         </div>
       ))}
 
-      <p className="hint">Autosaves to your account. Checks sync with the main progress page.</p>
+      <p className="hint">
+        {is_module_exit
+          ? "Autosaves to your account. This worksheet is the module — checks and fill-ins count toward unlock."
+          : "Autosaves to your account. Checks sync with the main progress page."}
+      </p>
       <button type="button" className="primary" onClick={on_close}>
-        Done — back to checklist
+        Done — back to progress
       </button>
     </section>
   );

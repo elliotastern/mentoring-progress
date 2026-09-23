@@ -1,5 +1,5 @@
-/** Module 0–3 end checklists — must pass before Stage 0 (job search) opens.
- *  No mentor meeting required; self-attest + fill-in worksheet.
+/** Module 0–3 — must pass before Stage 0 (job search) opens.
+ *  Exit worksheet is the interactive surface; cards show progress only.
  */
 
 function ws(id, label = "Worksheet") {
@@ -9,9 +9,9 @@ function ws(id, label = "Worksheet") {
 export const FOUNDATIONS = [
   {
     id: "m0",
-    title: "Module 0 — Onboard (end checklist)",
+    title: "Module 0 — Onboard",
     min_checks: 5,
-    worksheet: ws("module-exit-0", "Module 0 exit worksheet"),
+    worksheet: ws("module-exit-0", "Open Module 0 exit worksheet"),
     items: [
       {
         id: "m0_overview",
@@ -25,7 +25,7 @@ export const FOUNDATIONS = [
       },
       {
         id: "m0_expectations",
-        label: "Expectations guide done; worksheet filled in the app",
+        label: "Expectations guide done; hours + success filled in",
         doc: { href: "docs/view.html?doc=m0-expectations.md", label: "Guide" },
       },
       {
@@ -37,85 +37,95 @@ export const FOUNDATIONS = [
         id: "m0_slack_intro",
         label: "Introduced myself in Slack #0-overview-introduction and replied to 2–3 others",
       },
-      {
-        id: "m0_habit",
-        label: "Started one health habit (sleep 7+ / exercise 30m / water 3L)",
-      },
     ],
   },
   {
     id: "m1",
-    title: "Module 1 — Path (end checklist)",
+    title: "Module 1 — Path",
     min_checks: 7,
     answer_label: "Answer — my primary goal this quarter (one line)",
     answer_key: "m1_goal",
-    worksheet: ws("module-exit-1", "Module 1 exit worksheet"),
+    worksheet: ws("module-exit-1", "Open Module 1 exit worksheet"),
     items: [
       {
         id: "m1_overview",
-        label: "Module 1 overview done (Chrome reader + Loom installed if needed)",
+        label: "Module 1 overview",
+        doc: { href: "docs/view.html?doc=m1-overview.md", label: "Guide" },
       },
       {
         id: "m1_principles",
-        label: "Principles & Values worksheet completed and saved",
+        label: "Principles & Values",
+        doc: { href: "docs/view.html?doc=m1-principles.md", label: "Guide" },
       },
       {
         id: "m1_bumps",
-        label: "Bumps Ahead reviewed (worksheet optional)",
+        label: "Bumps Ahead",
+        doc: { href: "docs/view.html?doc=m1-bumps.md", label: "Guide" },
       },
       {
         id: "m1_goals",
-        label: "Goals Planning done",
+        label: "Goals Planning",
+        doc: { href: "docs/view.html?doc=m1-goals.md", label: "Guide" },
       },
       {
         id: "m1_roadmap",
-        label: "Roadmap To Data Science assessment checklist done",
+        label: "Roadmap assessment for your track",
+        doc: { href: "docs/view.html?doc=m1-roadmap.md", label: "Guide" },
       },
       {
         id: "m1_next",
-        label: "To Start Learning/Practicing — next action steps written",
+        label: "To Start Learning/Practicing",
+        doc: { href: "docs/view.html?doc=m1-next.md", label: "Guide" },
       },
       {
         id: "m1_time",
-        label: "Time & Energy management reviewed; time wasters cut plan written",
+        label: "Time & Energy management",
+        doc: { href: "docs/view.html?doc=m1-time.md", label: "Guide" },
       },
       {
         id: "m1_habits",
-        label: "Habits plan set (incl. coding practice 30 mins daily)",
+        label: "Habits plan",
+        doc: { href: "docs/view.html?doc=m1-habits.md", label: "Guide" },
       },
       {
         id: "m1_optimal",
-        label: "Creating the Optimal Roadmap worksheet completed and saved",
+        label: "Creating the Optimal Roadmap",
+        doc: { href: "docs/view.html?doc=m1-optimal.md", label: "Guide" },
       },
     ],
   },
   {
     id: "m2",
-    title: "Module 2 — Project (end checklist)",
+    title: "Module 2 — Project",
     min_checks: 4,
-    answer_label: "Answer — my project name + repo link (or N/A if skipping to portfolio)",
+    answer_label: "Answer — my proof name + repo link (or N/A if Search-ready)",
     answer_key: "m2_project",
-    worksheet: ws("module-exit-2", "Module 2 exit worksheet"),
+    worksheet: ws("module-exit-2", "Open Module 2 exit worksheet"),
     items: [
       {
         id: "m2_why",
-        label: "Read Why Build Full-Stack Portfolio Project",
+        label: "Why build role-specific portfolio proof",
+        doc: { href: "docs/view.html?doc=m2-why.md", label: "Guide" },
       },
       {
         id: "m2_plan",
-        label: "Mentorship Project Plan + next steps written",
+        label: "Mentorship Project Plan",
+        doc: { href: "docs/view.html?doc=m2-plan.md", label: "Guide" },
       },
       {
         id: "m2_steps",
-        label: "Project Step-by-Step reviewed",
+        label: "Project Step-by-Step",
+        doc: { href: "docs/view.html?doc=m2-steps.md", label: "Guide" },
       },
       {
         id: "m2_worksheet",
-        label: "Data Related Project Planning worksheet completed and saved (or skipped with reason)",
+        label: "Project planning worksheet (or skip noted)",
+        doc: { href: "docs/view.html?doc=m2-planning-ws.md", label: "Guide" },
       },
       {
         id: "m2_repo",
-        label: "Project repo set up (cookie-cutter / end-to-end structure) or skip noted",
+        label: "Proof repo setup (or skip noted)",
+        doc: { href: "docs/view.html?doc=m2-repo.md", label: "Guide" },
       },
       {
         id: "m2_habit",
@@ -125,43 +135,51 @@ export const FOUNDATIONS = [
   },
   {
     id: "m3",
-    title: "Module 3 — Portfolio (end checklist)",
+    title: "Module 3 — Portfolio",
     min_checks: 7,
     answer_label: "Answer — my product one-liner",
     answer_key: "m3_oneliner",
-    worksheet: ws("module-exit-3", "Module 3 exit worksheet"),
+    worksheet: ws("module-exit-3", "Open Module 3 exit worksheet"),
     items: [
       {
         id: "m3_overview",
-        label: "Module 3 overview done",
+        label: "Module 3 overview",
+        doc: { href: "docs/view.html?doc=m3-overview.md", label: "Guide" },
       },
       {
         id: "m3_design",
-        label: "Designing Yourself As A Product done",
+        label: "Designing Yourself As A Product",
+        doc: { href: "docs/view.html?doc=m3-design.md", label: "Guide" },
       },
       {
         id: "m3_selling",
-        label: "Selling Yourself As A Product + worksheet saved",
+        label: "Selling Yourself As A Product",
+        doc: { href: "docs/view.html?doc=m3-selling.md", label: "Guide" },
       },
       {
         id: "m3_impact",
-        label: "How To Measure Impact done",
+        label: "How To Measure Impact",
+        doc: { href: "docs/view.html?doc=m3-impact.md", label: "Guide" },
       },
       {
         id: "m3_linkedin",
-        label: "How to Maximize Your LinkedIn checklist done",
+        label: "Maximize LinkedIn",
+        doc: { href: "docs/view.html?doc=m3-linkedin.md", label: "Guide" },
       },
       {
         id: "m3_portfolio",
-        label: "How to Maximize Portfolio checklist done",
+        label: "Maximize Portfolio",
+        doc: { href: "docs/view.html?doc=m3-portfolio.md", label: "Guide" },
       },
       {
         id: "m3_resume",
-        label: "How to Maximize Your Resume checklist done",
+        label: "Maximize Resume",
+        doc: { href: "docs/view.html?doc=m3-resume.md", label: "Guide" },
       },
       {
         id: "m3_cover",
-        label: "How to Maximize Your Cover Letter checklist done",
+        label: "Maximize Cover Letter",
+        doc: { href: "docs/view.html?doc=m3-cover.md", label: "Guide" },
       },
       {
         id: "m3_slack",
