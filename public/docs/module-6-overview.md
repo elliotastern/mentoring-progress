@@ -6,7 +6,7 @@
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Module 6 — Contract negotiation</h3>
     <p>What this module covers: negotiation basics, full compensation packages, answering expected-salary questions, leverage, and post-offer habits—plus the worksheet you’ll fill as you go.</p>
-    <p class="ai-clip-meta">~3 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~3 min overview</p>
   </div>
 </aside>
 

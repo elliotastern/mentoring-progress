@@ -10,7 +10,7 @@ Congratulations on investing in yourself, I am excited to start this journey wit
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Mentorship tour</h3>
     <p>Walkthrough of how DataShip works: shared Google Drive, Slack, sequential modules, worksheets, and how later weeks shift into mocks and offers.</p>
-    <p class="ai-clip-meta">~3 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~3 min overview</p>
   </div>
 </aside>
 
@@ -46,7 +46,7 @@ Awesome, let’s get it! 💪
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Google Docs tips</h3>
     <p>How we use the shared Drive during mentorship: offline access, commenting, and keeping worksheets easy for your mentor to review.</p>
-    <p class="ai-clip-meta">~1 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~1 min overview</p>
   </div>
 </aside>
 - Module 0 extra material overview:
@@ -56,7 +56,7 @@ Awesome, let’s get it! 💪
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Module 0 extra material</h3>
     <p>What the optional Module 0 extras cover and how to use them without slowing your required checklist.</p>
-    <p class="ai-clip-meta">~2 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~2 min overview</p>
   </div>
 </aside>
 - Turn your Google Drive to Offline Availability, this will allow you to use Google Drive when there is no wifi, which will allow you to always have access to and edit your docs when travelling (This will save you hours in the job search)

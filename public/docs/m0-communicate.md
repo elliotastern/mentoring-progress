@@ -16,7 +16,7 @@
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>How to communicate in DataShip</h3>
     <p>When to ask, how to phrase a clear question, Slack vs Loom vs meetings, and why fast, specific updates beat waiting for the next call.</p>
-    <p class="ai-clip-meta">~4 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~4 min overview</p>
   </div>
 </aside>
 

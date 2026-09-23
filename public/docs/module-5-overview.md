@@ -8,7 +8,7 @@
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Module 5 — Interview stages</h3>
     <p>Map of the interview module: mindset, prep systems, technical rounds, post-interview notes, and building a ~45-minute daily interview habit.</p>
-    <p class="ai-clip-meta">~3 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~3 min overview</p>
   </div>
 </aside>
 

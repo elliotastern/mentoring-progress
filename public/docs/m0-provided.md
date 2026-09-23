@@ -18,7 +18,7 @@
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>What this mentorship provides</h3>
     <p>Narrated walkthrough of support you’ll get: mindset help, accountability, reviews (resume, LinkedIn, GitHub), community, and how the week-by-week plan gets tailored to you.</p>
-    <p class="ai-clip-meta">~5 min overview · replaces Loom</p>
+    <p class="ai-clip-meta">~5 min overview</p>
   </div>
 </aside>
 
