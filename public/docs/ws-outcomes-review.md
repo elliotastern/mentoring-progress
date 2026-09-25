@@ -1,10 +1,12 @@
-# Search Outcomes Review — Worksheet
+# Search Outcomes Review - Worksheet
 
-**Save a copy** and fill every **20–30 qualified applications** (or monthly).
+**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
+
+**Save a copy** and fill every **20-30 qualified applications** (or monthly).
 
 **Purpose:** double down only where *your* data shows traction (screens / interviews / offers per hour by source).
 
-Guide: [Overview · Step 3a](../01%20-%20Job%20Search%20Overview%20v8.md#step-3a--applying)
+Guide: [Overview · Step 3a](overview-v8.md#step-3a-applying)
 
 ---
 
@@ -46,4 +48,4 @@ Guide: [Overview · Step 3a](../01%20-%20Job%20Search%20Overview%20v8.md#step-3a
 
 - [ ] Funnel + by-source filled  
 - [ ] One concrete adjustment written  
-- [ ] Progress Stage 7 “review” check can be ticked  
+- [ ] Progress Offer-stage “review” check can be ticked 

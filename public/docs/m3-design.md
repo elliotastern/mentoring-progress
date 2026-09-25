@@ -1,6 +1,5 @@
 # Designing Yourself As A Product`
 
-Video Version [Here](https://www.loom.com/share/e80b0dff18f7436590b7c5febbd986cb?sid=4732cf22-6671-43ee-836a-d115817ad352)
 # Overview
 
 - Why is designing yourself as a product important

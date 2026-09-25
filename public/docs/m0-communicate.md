@@ -11,11 +11,11 @@
 - What Happens When We Communicate Effectively
 
 <aside class="ai-clip" data-clip="m0-communicate">
-  <div class="ai-clip-stage"><img src="clips/m0-communicate.png" alt="" /></div>
+  <div class="ai-clip-stage"><img src="https://elliotastern.github.io/mentoring-progress/docs/clips/m0-communicate.png" alt="" /></div>
   <div class="ai-clip-body">
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>How to communicate in mentorship</h3>
-    <p>When to ask, how to phrase a clear question, Slack vs Loom vs meetings, and why fast, specific updates beat waiting for the next call.</p>
+    <p>When to ask, how to phrase a clear question, Slack vs screenshots vs meetings, and why fast, specific updates beat waiting for the next call.</p>
     <p class="ai-clip-meta">~4 min overview</p>
   </div>
 </aside>
@@ -136,20 +136,13 @@ I have created a channel for each module and general introductions. If you feel 
 If I am the one your question is meant for, send me a direct message.
 The good thing about Slack is that you can respond to questions on a thread. That way, you don’t mix up topics.
 
-- LOOM**
-The second and best way I appreciate communication is through Loom.
+- SCREENSHOTS + SHORT WRITE-UP**
+When Slack text is not enough, show the problem with screenshots (or a Zoom screen share) and a short written thought process.
 
-Loom is good for showing technical problems, explaining points using the mouse or explaining your thought process.
+Explain what you tried, what you see, and what you want next. That usually beats a long meeting.
 
-All you need to do at the start of the course is to download and sign up for Loom.
+Use this for technical blockers, habits check-ins, after an interview, or after an offer.
 
-When you have questions or comments to make, record your screen and use audio to explain what you mean.
-
-It only takes a few minutes of your time but your problem or comments will be understood in-depth by the target audience.
-
-When you’re done recording just press share video, copy the link, and send it to the relevant persons.
-
-You can record a Loom on your energy, habits, struggles, after an interview, after you get a job offer, etc.
 
 ## Feeling Overwhelmed?
 
@@ -210,7 +203,7 @@ Write down what you think you should do next if it’s a no-brainer, then take a
 
 - How do I do ___
 
-Sure, how do you think you should do it? What have you tried? Can you send me a loom of your progress and explain the context? What resources have you tried?
+Sure, how do you think you should do it? What have you tried? Can you send a short Slack update with screenshots and explain the context? What resources have you tried?
 
 - I don’t understand ___
 
@@ -219,8 +212,8 @@ Sure, what do you understand about it? What have you tried? What resources have 
 # Methods Of Communications
 
 - Slack - Instant Messaging
-- Loom - Audio, video and screen capture
-- Code Review - If Git is new it will be with Loom then move to Pull request via GitHub
+- Screenshots + short Slack write-up (or Zoom when you need live screen share)
+- Code Review - If Git is new, start with screenshots/Slack walkthrough, then move to Pull Requests on GitHub
 - Meetings
 # What Happens When We Communicate Effectively
 

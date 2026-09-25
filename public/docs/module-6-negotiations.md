@@ -107,7 +107,7 @@ So the idea is to frame the negotiations in such a way that both parties will no
 
 Be empathetic by putting yourself in the shoes of the employer. After you have looked at the situation from their perspective, think about how you can convince them in a way they won’t feel they are losing.
 
-For example, if they insist that I have to go to the office, yet I want remote full-time, I can say something like, “I will be sending daily looms of my work progress and accomplishments.”
+For example, if they insist that I have to go to the office, yet I want remote full-time, I can say something like, “I will send brief written progress updates of my work and accomplishments.”
 
 You see, it will give them surety that I will still get the work done.
 Another example is if they insist they can’t afford your budget, you can propose a rate increase with time.

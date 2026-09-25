@@ -1,7 +1,5 @@
 **Roadmap To**** Data Science  Assessment Checklist**
 
-### Video Version: [HERE](https://www.loom.com/share/8649fbc851144cafb6c7b7e55fb78e50)
-
 **This image reminds you of what is important in being a data scientist. Yes, you need to know some maths, stats, and computer science but it is also essential to have domain/business knowledge. The list below can vary from position to position. ****View this list as a high-level skill wishlist.**
 
 **NOTE: **You will save one of the below checklists in a future worksheet ([Creating the Optimal Roadmap](https://docs.google.com/document/d/1ZoUIQOJ83esIfYHPdNVa0ATtdhtHLvIxd4g6AIYJ-SI/edit?usp=sharing)), for your own personal assessment.

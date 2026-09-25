@@ -28,7 +28,7 @@ export function LoginForm({ on_authed }) {
         <h1>Job Search Progress</h1>
         <p className="sub">
           Sign in with the username your mentor gave you. Checks and answers open the next
-          stage automatically — no meeting required.
+          stage automatically. No meeting required.
         </p>
 
         <form className="auth-form" onSubmit={submit}>

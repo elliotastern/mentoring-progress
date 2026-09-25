@@ -1,7 +1,5 @@
 # Planning Goals
 
-# Video Version [Here](https://www.loom.com/share/140560715d5e4557b5c845d95b5995cb?sid=8800c7a3-1f33-455b-a5c7-5427d344ab85)
-
 # Motivation:
 
 “If you are not hitting your goal, you need to know whether it is due to a

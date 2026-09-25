@@ -1,7 +1,5 @@
 # What Are Bumps Ahead
 
-## Video Version [Here](https://www.loom.com/share/355778058c6a49489512b78356c1aa31?sid=faaf29d6-d0a7-4c06-bd0c-96c800f87ef7)
-
 # Overview
 
 - What are Bumps?

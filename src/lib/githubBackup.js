@@ -65,6 +65,10 @@ export async function backup_progress_to_github(uid, progress, profile, { force 
     skill_level: progress.skill_level || "",
     weekly_tallies: progress.weekly_tallies || {},
     weekly_of: progress.weekly_of || "",
+    weekly_streak: progress.weekly_streak || 0,
+    weekly_best_streak: progress.weekly_best_streak || 0,
+    weekly_history: progress.weekly_history || [],
+    progress_snapshots: progress.progress_snapshots || [],
     backed_up_at: new Date().toISOString(),
     backup_day: day,
   };
@@ -90,6 +94,23 @@ export async function backup_progress_to_github(uid, progress, profile, { force 
 
   localStorage.setItem(backup_stamp_key(uid), day);
   return { ok: true, skipped: false, path, day };
+}
+
+/** Pull one mentee's GitHub backup JSON (for restore when local is empty). */
+export async function fetch_github_progress_backup(uid) {
+  if (!github_backup_enabled() || !uid) return null;
+  const path = file_path(uid);
+  const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=master`;
+  const res = await fetch(url, { headers: api_headers() });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`GitHub restore failed (${res.status}): ${text.slice(0, 160)}`);
+  }
+  const data = await res.json();
+  if (!data.content) return null;
+  const raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ""))));
+  return JSON.parse(raw);
 }
 
 export async function list_github_progress_backups() {

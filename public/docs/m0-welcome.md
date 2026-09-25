@@ -5,7 +5,7 @@ Welcome to the data career mentorship!
 Congratulations on investing in yourself, I am excited to start this journey with you!
 
 <aside class="ai-clip" data-clip="m0-tour">
-  <div class="ai-clip-stage"><img src="clips/m0-tour.png" alt="" /></div>
+  <div class="ai-clip-stage"><img src="https://elliotastern.github.io/mentoring-progress/docs/clips/m0-tour.png" alt="" /></div>
   <div class="ai-clip-body">
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Mentorship tour</h3>
@@ -14,7 +14,7 @@ Congratulations on investing in yourself, I am excited to start this journey wit
   </div>
 </aside>
 
-Your home base is this **progress site**. Log in, use the **role fit** panel at the top (suggestion + your pick for DA / DS / MLE / DE / AI research), work through the Module 0 checklist, open each **Guide**, and fill worksheets in the app — answers autosave to your login so your mentor can review progress without a shared Drive folder.
+Your home base is the **progress site** ([Job Search Progress](https://elliotastern.github.io/mentoring-progress/)). Log in, use the **role fit** panel at the top (suggestion + your pick for DA / DS / MLE / DE / AI research), work through the Module 0 checklist, open each **Guide**, and fill worksheets in the app — answers autosave to your login so your mentor can review progress without a shared Drive folder.
 
 **Resume + cover letter:** Keep your own Google Doc (or a hosted PDF). Share with “anyone with the link can view” (or your mentor’s email), paste the links into the Module 0 exit worksheet, and send the same links in Slack.
 
@@ -24,7 +24,7 @@ This is a project-based 1:1 mentorship. If you want to build a project with guid
 
 The first portion of the mentorship has about one module per week (unless you allocate under 20 hours/week). Modules are sequential. “BONUS” sections are optional.
 
-Some modules include worksheets — open them from the checklist on this site; they save to your account.
+Some modules include worksheets — open them from the checklist on the progress site; they save to your account.
 
 In later weeks, modules wrap and time shifts to mock interviews and contract negotiations.
 
@@ -34,10 +34,10 @@ Awesome, let’s get it! 💪
 # **Pre-Work:**
 
 - Get [Speechify to read text](https://share.speechify.com/mzrRgpf) then instal**l the **Google Chrome** **extension or** **[Speechify for Chrome](https://chrome.google.com/webstore/detail/speechify-for-chrome/ljflmlehinmoeknoonhibbjpldiijjmm)** t**o listen to the modules while you read them. (I highly suggest)
-- Install [Loom – Free Screen and Cam Recorder](https://chrome.google.com/webstore/detail/loom-%E2%80%93-free-screen-and-ca/liecbddmkiiihnedobmlmillhodjkdmb) this will allow us to send and share screen captures instantly and store them in the cloud. (A practical way to communicate!)
+- Prefer **Slack** for day-to-day updates: short written notes, screenshots, or a quick Zoom when you need to show your screen.
 - Module 0 extra material overview:
 <aside class="ai-clip" data-clip="m0-extra">
-  <div class="ai-clip-stage"><img src="clips/m0-extra.png" alt="" /></div>
+  <div class="ai-clip-stage"><img src="https://elliotastern.github.io/mentoring-progress/docs/clips/m0-extra.png" alt="" /></div>
   <div class="ai-clip-body">
     <p class="ai-clip-kicker">Quick overview</p>
     <h3>Module 0 extra material</h3>

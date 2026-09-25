@@ -1,70 +1,106 @@
-# Loop-Ready Pack — Worksheet
+# Loop-Ready Pack - Worksheet
 
-**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
+**Fill this in the [Progress app](https://elliotastern.github.io/mentoring-progress/)** (autosaves).
 
-**Purpose:** be ready for real interview loops **without waiting for a booked meeting**. Fill this once; reuse per company.
-
-Guides: [Overview · Step 3c](../01%20-%20Job%20Search%20Overview%20v8.md#step-3c--interview-bottleneck) · [Module 5 prep](../../5-Interview/02%20-%20How%20to%20prepare%20for%20an%20interview.md) · [Pre-interview checklist](../../5-Interview/04%20-%20Pre-Interview%20Checklist.md)
+**Purpose:** be ready when Chart A produces a screen - intro, knock-out kit, behavioral stories, day-of. From [Overview · Step 3c](overview-v8.md#step-3c-interview-bottleneck), [Chart A](overview-v8.md#the-numbers-chart-a-offers-per-hour), [This week](overview-v8.md#this-week).
 
 ---
 
-## 1) Loop map (name the rounds)
+## 60-second recruiter intro
 
-Usual path: recruiter → timed SQL → stats/ML judgment → business case → behavioral (± take-home).
+Script (role → one proof metric → why this company type → clear ask):
 
-My notes / variations I’ve seen: __________
+**Example:** "I'm targeting data analyst roles in health tech. Last project cut reporting time 40% with a SQL + dashboard pipeline. I apply to product analytics teams that ship weekly. Would love 15 minutes on how your team measures success."
 
-## 2) 60-second recruiter intro (write, then say aloud)
+**My version:** __________
 
-Template: role I’m targeting → one proof metric → why this company type → clear ask.
+- [ ] Practiced aloud
 
-```
-____________________________________________________________
-____________________________________________________________
-____________________________________________________________
-```
+## Knock-out kit
 
-Practiced aloud: [ ] date __________
+**Timed SQL warm-up set** (complete once under a clock):
 
-## 3) Timed SQL warm-up set
+| # | Prompt | Cap | Link |
+|---|--------|----:|------|
+| 1 | Filter + order | 15 min | [Employee Salaries · HackerRank](https://www.hackerrank.com/challenges/salary-of-employees/problem) |
+| 2 | Group + aggregate | 20 min | [Average Population of Each Continent · HackerRank](https://www.hackerrank.com/challenges/average-population-of-each-continent/problem) |
+| 3 | Join two tables | 25 min | [African Cities · HackerRank](https://www.hackerrank.com/challenges/african-cities/problem) |
 
-| # | Prompt / link | Time limit | Done under clock? | Date |
-|---|---------------|------------|:-----------------:|------|
-| 1 | | min | [ ] | |
-| 2 | | min | [ ] | |
-| 3 | | min | [ ] | |
+Date done once: __________
 
-## 4) Case story (one end-to-end)
+- [ ] Warm-up set completed once under a clock
 
-| Beat | Notes |
-|------|-------|
-| Business problem | |
-| Data / method | |
-| Decision you drove | |
-| Result / metric | |
-| Limits / what you’d do next | |
+**One case story** (problem → method → decision → result):
 
-Practiced as a **business decision** (not a tech dump): [ ]
+**Example shape:** Pricing change → compared cohort retention + tickets → decided keep price, fix onboarding → week-4 retention recovered for users who finished setup.
 
-## 5) Companies I’m ready to interview with
+**My story:** __________
+
+- [ ] Case story drafted end-to-end
+
+## Behavioral story bank (CAR)
+
+Use **CAR**: Context (what was going on) → Action (what *you* did) → Result (metric or outcome). Keep each story under ~90 seconds aloud.
+
+### 1) Conflict / disagreement
+
+- Context: __________  
+- Action: __________  
+- Result (metric): __________  
+
+### 2) Impact / win
+
+- Context: __________  
+- Action: __________  
+- Result (metric): __________  
+
+### 3) Miss / failure / lesson
+
+- Context: __________  
+- Action: __________  
+- Result (metric): __________  
+
+- [ ] All 3 practiced aloud
+
+## Top scripts
+
+**Why this company** (specific product/problem, not "great culture"):
+
+__________
+
+**Walk me through a project** (problem → method → decision → result):
+
+__________
+
+- [ ] Why-this-company + project walk-through practiced aloud
+
+## Day-of (once per real screen)
+
+**Pre**
+
+- JD core terms (title, level, tools, must-haves): __________  
+- 3 questions I will ask: __________  
+- [ ] Mic / camera / quiet space checked  
+
+**Post** (same day)
+
+- One win: __________  
+- One fix next time: __________  
+- Questions they asked that surprised me: __________  
+
+- [ ] Day-of pre/post done once  
+
+## Tracker interview log
+
+- [ ] Tracker columns ready: round, date, what went well, fix next
+
+## After a screen + companies
+
+- [ ] Same-day note habit: one win + one fix  
+- [ ] Follow-up once at 7-10 business days  
+
+Companies I'm ready to interview with:
 
 1. __________  
 2. __________  
-3. __________  
-
-## 6) Tracker interview-notes fields ready
-
-- [ ] Round name  
-- [ ] Date  
-- [ ] What went well  
-- [ ] Fix next  
-- [ ] Thank-you / follow-up sent?  
-
-## When a real interview lands
-
-Use [04 - Pre-Interview Checklist](../../5-Interview/04%20-%20Pre-Interview%20Checklist.md) and [05 - Post-Interview Checklist](../../5-Interview/05%20-%20Post-Interview%20Checklist.md).
-
-## Done when
-
-- [ ] Intro + SQL set + case story complete  
-- [ ] Progress Stage 6 answer = 2–3 company names  
+3. __________

@@ -1,16 +1,18 @@
-/** Module 0–3 — must pass before Stage 0 (job search) opens.
- *  Exit worksheet is the interactive surface; cards show progress only.
+/** Module 0–3 — must pass before Module 4 (Job Search) stages open.
+ *  MODULES = Foundations + Module 4 for the UI list.
+ *  Expanded cards show the full exit worksheet (guides + fill-ins) inline.
  */
 
 function ws(id, label = "Worksheet") {
   return { worksheet_id: id, label };
 }
 
+/** Modules that gate Job Search stages (not including Module 4). */
 export const FOUNDATIONS = [
   {
     id: "m0",
     title: "Module 0 — Onboard",
-    min_checks: 5,
+    min_checks: 4,
     worksheet: ws("module-exit-0", "Open Module 0 exit worksheet"),
     items: [
       {
@@ -32,10 +34,6 @@ export const FOUNDATIONS = [
         id: "m0_communicate",
         label: "Read How To Communicate",
         doc: { href: "docs/view.html?doc=m0-communicate.md", label: "Guide" },
-      },
-      {
-        id: "m0_slack_intro",
-        label: "Introduced myself in Slack #0-overview-introduction and replied to 2–3 others",
       },
     ],
   },
@@ -96,11 +94,11 @@ export const FOUNDATIONS = [
   },
   {
     id: "m2",
-    title: "Module 2 — Project",
+    title: "Project (optional)",
     min_checks: 4,
     answer_label: "Answer — my proof name + repo link (or N/A if Search-ready)",
     answer_key: "m2_project",
-    worksheet: ws("module-exit-2", "Open Module 2 exit worksheet"),
+    worksheet: ws("module-exit-2", "Open Project exit worksheet"),
     items: [
       {
         id: "m2_why",
@@ -124,7 +122,7 @@ export const FOUNDATIONS = [
       },
       {
         id: "m2_repo",
-        label: "Proof repo setup (or skip noted)",
+        label: "Proof repo setup on GitHub (or skip noted)",
         doc: { href: "docs/view.html?doc=m2-repo.md", label: "Guide" },
       },
       {
@@ -182,13 +180,26 @@ export const FOUNDATIONS = [
         doc: { href: "docs/view.html?doc=m3-cover.md", label: "Guide" },
       },
       {
-        id: "m3_slack",
-        label: "Posted product summary + one-liner in #3-optimizing-portfolio and asked for feedback",
-      },
-      {
         id: "m3_habit",
         label: "Portfolio Touch-Up habit started (30 mins daily)",
       },
     ],
   },
 ];
+
+/** Module 4: always listed; all Job Search stages are visible (locked stages are peek-only). */
+export const MODULE_4 = {
+  id: "m4",
+  title: "Module 4 — Job Search",
+  min_checks: 0,
+  items: [
+    {
+      id: "m4_overview",
+      label: "Job Search Overview — start with This week",
+      doc: { href: "docs/view.html?doc=overview-v8.md#this-week", label: "Guide" },
+    },
+  ],
+};
+
+/** All modules shown under Foundations: M0–M3 + Module 4. */
+export const MODULES = [...FOUNDATIONS, MODULE_4];

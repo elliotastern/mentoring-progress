@@ -1,10 +1,10 @@
-# Tracker Setup — Worksheet
+# Tracker Setup - Worksheet
 
 **Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
 
 **Purpose:** one place to log every qualified role so you can see screens / interviews / offers **per hour by source**.
 
-Guide: [Job Search Overview v8 · tracking](../01%20-%20Job%20Search%20Overview%20v8.md#the-numbers--tracking-fields) · App: [Progress checklist](https://elliotastern.github.io/mentoring-progress/)
+Guide: [Job Search Overview v8 · tracking](../01%20-%20Job%20Search%20Overview%20v8.md#the-numbers-tracking-fields) · App: [Progress checklist](https://elliotastern.github.io/mentoring-progress/)
 
 ---
 
@@ -25,7 +25,7 @@ Guide: [Job Search Overview v8 · tracking](../01%20-%20Job%20Search%20Overview%
 | Date posted | [ ] |
 | Date applied | [ ] |
 | Source (warm / careers / LinkedIn / recruiter / other) | [ ] |
-| Chart E score (0–10) | [ ] |
+| Chart E score (0-10; blank until Apply, then score before heavy effort) | [ ] |
 | Résumé version | [ ] |
 | Contact / referrer | [ ] |
 | Stage (saved / applied / screen / interview / offer / closed) | [ ] |
@@ -35,7 +35,7 @@ Guide: [Job Search Overview v8 · tracking](../01%20-%20Job%20Search%20Overview%
 | Close reason | [ ] |
 | Interview notes (round, what went well, fix next) | [ ] |
 
-## 3) Smoke test — log one practice row
+## 3) Smoke test - log one practice row
 
 | Field | Value |
 |-------|-------|

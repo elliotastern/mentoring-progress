@@ -15,11 +15,13 @@ Guide: [Overview · This week](../01%20-%20Job%20Search%20Overview%20v8.md#this-
 | Activity | Goal | Actual |
 |----------|-----:|-------:|
 | Warm / referral (specific intros) | 3–5 | |
-| Targeted careers-page apps | 4–6 | |
+| Weekly applying target | 4–6 | |
 | Direct outreach (HM / named recruiter) | 3–5 | |
-| Proof + interview prep (hrs) | 1–2 | |
+| Weekly proof building (hrs) | 1–2 | |
 | Skill-gap block (hrs by Chart D) | 0–4 | |
 | Easy Apply hours | ~0 | |
+
+**Streak:** consecutive weeks that hit applying (≥4) + proof (≥1 hr) when you start a fresh week.  
 
 ## Channel checks
 

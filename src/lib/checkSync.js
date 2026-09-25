@@ -38,20 +38,10 @@ export const SYNC_MAP = {
     port_max: "m3_portfolio",
     resume_max: "m3_resume",
     cover_max: "m3_cover",
-    asked_feedback: "m3_slack",
     portfolio_habit: "m3_habit",
   },
-  "module-exit-5": {
-    prep_script: "prep_system",
-    prep_list: "prep_system",
-    habit: "m5_habit",
-    ready: "m5_exit",
-    pre: "m5_pre_post",
-    post: "m5_pre_post",
-  },
-  "module-exit-6": {
-    comp_ws: "comp",
-    daily_practice: "negotiate",
+  "community-later": {
+    asked_feedback: "m3_slack",
   },
   "tracker-setup": {
     done_columns: "tracker",
@@ -63,9 +53,13 @@ export const SYNC_MAP = {
     li_headline: "li_headline",
   },
   "package-match": {
+    projects_done: "projects",
+    artifact_done: "artifact",
     resume_skills: "resume",
+    resume_ats: "resume_ats",
     li_headline: "linkedin",
-    public_links: "github",
+    github_live: "github",
+    site_live: "personal_site",
   },
   "chart-e": {
     verified: "chart_e_score",
@@ -74,21 +68,42 @@ export const SYNC_MAP = {
     outreach: "outreach",
     logged: "tracker_fields",
   },
+  "networking-scripts": {
+    wellfound_done: "wellfound_msg",
+  },
   "skills-fork": {
     apply_parallel: "parallel",
     entry_readme: "e1",
     entry_certs: "e2",
+    entry_python: "e4",
     mid_assumed: "m1",
     senior_no_tutorials: "s1",
     senior_distribution: "s2",
   },
   "interview-drills": {
+    sql_done: "sql",
     case_aloud: "case",
-    prep_ready: "prep_system",
+    loop_named: "loop_named",
+    drills_habit: "drills_habit",
   },
   "loop-ready": {
     intro_aloud: "recruiter_story",
+    sql_set_done: "tech_ready",
+    case_story_done: "case_ready",
+    car_aloud: "behavioral_ready",
+    scripts_aloud: "scripts_ready",
+    dayof_done: "dayof_ready",
     notes_fields: "notes_fields",
+    note_same_day: "after_screen",
+    followup_habit: "after_screen",
+  },
+  "comp-planning": {
+    comp_done: "comp",
+    criteria_done: "criteria",
+    salary_ready: "salary_ready",
+    salary_practiced: "salary_practiced",
+    negotiate_done: "negotiate_ready",
+    levers_done: "levers_ready",
   },
   "weekly-loop": {
     c_warm: "warm",
@@ -99,12 +114,17 @@ export const SYNC_MAP = {
   },
 };
 
-/** Card-only foundation checks derived from exit worksheet fill-ins. */
+/** Checks derived from worksheet fill-ins (community-later is optional / ungated). */
 const FILLIN_CHECK_RULES = [
   {
-    sheet_id: "module-exit-0",
+    sheet_id: "community-later",
     check_id: "m0_slack_intro",
     require_all: ["slack_replies", "intro_draft"],
+  },
+  {
+    sheet_id: "community-later",
+    check_id: "m5_mock",
+    require_all: ["mock_peers"],
   },
   {
     sheet_id: "module-exit-0",
@@ -218,9 +238,52 @@ export function apply_fillin_derived(progress) {
     answers.title = title;
     changed = true;
   }
-  const title_checked = Boolean(title) || Boolean(String(answers.title || "").trim());
-  if (title_checked && !checks.primary_title) {
-    checks.primary_title = true;
+  // Do not auto-tick Aim "primary_title" from answers.title / brainstorm text.
+  // Mentee checks that box (or a future worksheet Done checkbox) on purpose.
+
+  // Package stage no longer re-gates Module 3 work: mirror M3 into package check ids
+  // so Progress report / worksheets stay consistent without a second checklist.
+  if (checks.m3_resume && !checks.resume) {
+    checks.resume = true;
+    changed = true;
+  }
+  if (checks.m3_linkedin && !checks.linkedin) {
+    checks.linkedin = true;
+    changed = true;
+  }
+  if (checks.m3_portfolio && !checks.github && !checks.personal_site) {
+    checks.github = true;
+    changed = true;
+  }
+
+  const package_match = worksheets["package-match"] || {};
+  const proof = String(package_match.best_artifact || "").trim();
+  if (proof && (answers.proof_link || "") !== proof) {
+    answers.proof_link = proof;
+    changed = true;
+  }
+
+  const drills = worksheets["interview-drills"] || {};
+  const sql_date = String(drills.sql_last_date || "").trim();
+  if (sql_date && (answers.sql_date || "") !== sql_date) {
+    answers.sql_date = sql_date;
+    changed = true;
+  }
+
+  const loop = worksheets["loop-ready"] || {};
+  const companies = [loop.company_1, loop.company_2, loop.company_3]
+    .map((v) => String(v || "").trim())
+    .filter(Boolean)
+    .join(", ");
+  if (companies && (answers.next_interview || "") !== companies) {
+    answers.next_interview = companies;
+    changed = true;
+  }
+
+  const comp = worksheets["comp-planning"] || {};
+  const walkaway = String(comp.walkaway || "").trim();
+  if (walkaway && (answers.walkaway || "") !== walkaway) {
+    answers.walkaway = walkaway;
     changed = true;
   }
 

@@ -1,136 +1,100 @@
-# Job Searching Planning - Worksheet
+# Job Searching Planning — Worksheet
 
-**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
+**Save a copy** (File → Make a copy) in your mentorship Drive folder.
 
-The goal of this worksheet is to take everything you learned from the Job searching module and plan how you will tackle it, we want to start as simple as possible to build momentum as we go more advanced
+Guide: [Job Search Overview v8](overview-v8.md) · Weekly numbers: [This week](overview-v8.md#this-week) · Live form: [Progress app](https://elliotastern.github.io/mentoring-progress/)
 
-## Reflect - What job search methods have you used to land a job successfully in Canada or the US? Write “None” if you haven't before
+**Purpose:** turn Overview v8 into *your* plan — same channel mix, not Easy Apply volume.
 
-## Check Off what you are **NOT **willing to do in a job search and add any thing else you are NOT willing to do.
+---
 
-- Create content
-- Ask people you know (referral, introduction, help, etc)
-- Ask people you don’t know (referrals, introductions, help, etc)
-- Build relationships
-- Meet in person (networking events, coffee chats, career fairs, etc)
-- Apply online
+## Reflect
 
-## Strengths - What are your strengths and weaknesses in your job search? The point of this question is to find out what skills you already have to start with those methods and to prepare yourself for the skills you will need to gain. Write down some ideas of strengths in other areas of life to use in your job search
+What job search methods have you used to land a job successfully in Canada or the US? Write “None” if you haven’t before.
 
-Examples:
-- Virtual Coffe chats - Skilled or enjoys video calls to build connections
-- Image Content - Skilled or enjoys taking photos, editing photos, etc
-- Video Content - Skilled or enjoys taking videos, editing videos, lighting, speaking on camera, etc
-- Written Content - Skilled or enjoys writing stories, ideas, sharing, teaching, etc
+__________
 
-## Data - Based on your job search data (if you don’t have any, use the expected value data for the inputs to get for the outputs
+## Boundaries
 
-## Learned - Reflect on the module and create a plan of your daily, weekly and monthly activities
+Check what you are **not** willing to do (and add anything else):
 
-- Daily
+- [ ] Create content as a primary channel
+- [ ] Ask people you know (referral / intro)
+- [ ] Ask people you don’t know
+- [ ] Meet in person (events, coffee, fairs)
+- [ ] Apply on employer **careers pages**
+- [ ] Other: __________
 
-- Weekly
+## Strengths
 
-- Monthly
+What are your strengths and weaknesses in a job search? Start with methods that fit your strengths.
 
-## Bumps Ahead - Similar to Module 1, let’s reflect on what bumps ahead will come in our journey then I want you to write what action I will take when it arises
+Examples: video calls, writing short notes, researching companies, SQL drills, case framing.
 
-- What problems will arise?
+__________
 
-- What emotions will you feel and have to overcome in this journey?
+## Scripts (align with Overview v8)
 
-## Sacrifice - What will you have to sacrifice in your job search? Daily, weekly, monthly?
+Use [Networking Scripts](ws-networking-scripts.md) and Overview **Templates**. Defaults:
 
-- Daily
+- LinkedIn: **connect without a note** → message after accept
+- Application follow-up: **once** at **7–10 business days**
+- Cold email: secondary only, **5–10/week** max
 
-- Weekly
+Draft:
 
-- Monthly
+### Warm / referral (specific intro ask)
 
-## Script - In the lesson [04 - Cold Messaging - Via LinkedIn](https://docs.google.com/document/d/1IgKwGVHwEn9g9NKwpGIfipPhgM3oc9Z-3sVvViC5b8Y/edit?usp=drive_link) you saw the format that has been used to get 400+ calls in 2.5 years with cold outreach. Review [03 - Networking Scripts](https://docs.google.com/document/d/1qEx15LwgTFn_ujFgrkUSpwa06-nBzM4-zkaDJfXQvM0/edit?usp=drive_link) Craft your first Script flow for each of the following (Feel free to copy the example or script and as time goes on you must learn to tweak based on the data):
+__________
 
-- Write Script For Warm Lead** - you feel comfortable asking for a referral or an introduction (Depending on how warm the lead is you might be able to get ask right away)
-- Intro (Anything that elevates their expertise):**
+### After-connect LinkedIn message (not on the request)
 
-- Pre-Question:**
+__________
 
-- First Question (address their answer):**
+### Hiring manager / named recruiter (after careers-page apply)
 
-- Second question (Continue the conversation)**
+__________
 
-- Goal Question **
+## Weekly plan (v8 mix — 5–10 hrs/wk band)
 
-- Priority question**
+Copy into [10 - Weekly Apply Loop](ws-weekly-loop.md) each week.
 
-- The Ask: Info interview, referral, etc**
+| Activity | Goal | Notes |
+|----------|-----:|-------|
+| Warm / referral | 3–5 | Specific intros only |
+| Careers-page apps | 4–6 | Chart E 6+; ≤48h when possible |
+| Direct outreach | 3–5 | HM / named posting recruiter |
+| Interview drills | ~2 hrs | Timed SQL + case |
+| Skill gap (Chart D) | 0–4 hrs | By level |
+| Easy Apply | ~0 | Volume trap |
 
-- Write Script for Practitioner (Cold) **
-- Intro (Anything that elevates their expertise):**
+**Do not** plan “Easy Apply 10/day” or “10–20 cold DMs/day” — that fights Overview v8.
 
-- Pre-Question:**
+### Weeks 1–2 (build the system)
 
-- First Question (address their answer):**
+- [ ] Primary title + constraints (Step 1 / brainstorm)
+- [ ] 10–15 company list (≈3 / 4–9 / ≈3)
+- [ ] Tracker columns live (Stage 0)
+- [ ] Recruiter-ready LinkedIn (~5 hrs once)
+- [ ] Warm list + ask for **specific** intros
+- [ ] First 4–6 careers-page apps with Chart E
+- [ ] Cap cold email ≤5–10/wk if you use it
 
-- Second question (Continue the conversation)**
+### Weeks 3–4 (analyze, don’t add noise)
 
-- Goal Question **
+- [ ] Review outcomes every 20–30 qualified apps ([13 - Outcomes](ws-outcomes-review.md))
+- [ ] Double down on sources with screens/interviews per hour
+- [ ] Keep Easy Apply near zero; content/commenting is optional bonus, not the plan
+- [ ] Start interview drills in parallel (Step 3c)
 
-- Priority question**
+## Bumps ahead
 
-- The Ask: Info interview, referral, etc**
+Problems that will show up + the action you’ll take:
 
-- Write Script for Hiring Manager**
-- Intro + Ask:**
+__________
 
-- Write Script for Recruiter **
-- Intro + Ask**
+## Sacrifice
 
-**P.S. Your mentor will review your scripts so we can start off on a good foot **
+What you will cut so the weekly mix actually happens (daily / weekly):
 
-## Plan - Create a plan (below is our suggestion based on the average mentee experience but we will tailor it for you and your situation in our call). **NOTE**: There will also be a Trello card called “SOP: Daily Job Searching Activities & Progression” that you will add to, this is just to brainstorm here first.
-
-- Week 1: Start easy and embrace sucking (we are just starting)**
-  - Easy Apply 10 / day - don’t expect results this is just to collect data
-  - Complete worksheets
-  - Next position Brainstorming - Define what you actually want
-  - Get a list of 10-15 target Companies
-  - Build warm list
-  - Ask everyone on your warm list for a referral
-  - Build the habit of tracking your data in your job tracker
-  - Market it on other job boards so more recruiters can reach out - [BONUS: Additional Tested Networking Methods](https://docs.google.com/document/d/1GnQuh0Duahed80NMJCMqvvQKQj9JoGKyAxCxD7RW7d4/edit#bookmark=id.kqrdu1rbo25a)
-
-- Week 2:  Cold and still sucking (it’s been only one week)**
-  - Easy Apply 10 / day - don’t expect results this is just  to collect data
-  - Look through warm list connection and create a list of people they can introduce you too
-  - Ask your warm list for introductions to others in their network
-  - Follow up with all warm list
-  - Choose 1 cold outreach method to start with (ie cold email, cold message, cold in-person networking, etc)**
-  - Do 10-20 /day networking (not recruiter or hiring managers) - these take longer to build a relationship
-  - Do 1 / day to a hiring manager
-  - Do 1 /day to a recruiter
-- End of Week 2: Analyze data - the fun part as data professionals**
-  - Pulse check
-  - If volume was too much => reduce daily input
-  - If volume was too little => increase daily input
-  - Analyze - if you don’t know how to do that, ask for help that is what I am here for 🙂
-  - Compare Conversions % to standards
-  - If lower => solve
-  - If higher => let’s dance and keep going
-  - Messages templates => improve or tweak it slightly
-  - Methods outperforming => double down on best performing one
-  - Make tweaks and make a new hypothesis
-- Week 3 or 4: Increase reach**
-  - Choose one method to increase reach (ie commenting, creating content, answering LinkedIn suggested questions, creating blogs, YouTube videos, etc) **
-  - Embrace sucking again (we are just starting)
-  - Aim for quantity and consistency before you expect quality
-  - Ask warm for introductions
-  - Continue 1 cold outreach method to start with (ie cold email, cold message, cold in-person networking, etc)**
-  - Do 10-20 /day networking (not recruiter or hiring managers) - these take longer to build a relationship
-  - Do 1 / day to a hiring manager
-  - Do 1 /day to a recruiter
-  - If cold and warm outreach habits are built => add additional methods
-- Repeat cycle: **
-  - Sucking
-  - Building a habit
-  - Analyzing data
-  - Tweak
+__________

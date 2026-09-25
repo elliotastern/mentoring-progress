@@ -258,7 +258,7 @@ Linkedin Feature Section:
 - Add to Resume
 - System Flow Diagram (ie data => cleaning => tools => output)
 - Content about the project (ie learning, sharing, skills, teaching)
-- Loom Video Overview (talking through an overview of your entire project)
+- Short README overview (talk through the whole project in writing)
 - Add the link to the project's GitHub or website
 - (Optional - recommended) Create a post about it, a great example is an **Example by **[Mireille Nehme](https://www.linkedin.com/in/mireille-nehme?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAtt7eIBAtbgajMhZBXw195zNPJBECaVRZU&lipi=urn%3Ali%3Apage%3Ad_flagship3_detail_base%3BaQFbOIRhQ6evEAY3oVebkQ%3D%3D) ([View Post Here](https://www.linkedin.com/posts/mireille-nehme_careerdevelopment-datascience-dataanalysis-activity-7090684832908804096-vegn?utm_source=share&utm_medium=member_desktop)) - You can learn more information about connect in [module 3 Content Creation doc](https://docs.google.com/document/d/1Ni3wlGlOfnjbH9es_mQ1uvRDMbulZdy96LPJto41YXw/edit?usp=sharing)
 —------------------------------------------------------------------------------------------------------------------
@@ -411,7 +411,7 @@ Back to Table
   - Add to Resume
   - System Flow Diagram (ie data => cleaning => tools => output) (View: : [BONUS: Creating a Compelling Business Report](https://docs.google.com/document/d/14AIKrhb7kVAzQePrRKOCcgm92hx4oiIUHwQOCY_vXcE/edit?usp=drive_link))
   - Content about the project (ie learning, sharing, skills, teaching)
-  - Loom Video overview (talking through an overview of your entire project)
+  - Short README overview (talk through the whole project in writing)
 - Presentation
   - Local UI (Live data & Interactive) - DE, DS, MLE
   - Local Dashboard (Live data & Interactive) - DA

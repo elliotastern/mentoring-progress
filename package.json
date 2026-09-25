@@ -10,7 +10,13 @@
     "preview": "vite preview",
     "test:guides": "playwright test tests/guides.spec.js",
     "test:ui": "playwright test tests/ui-density.spec.js",
-    "test:all": "playwright test tests/guides.spec.js tests/ui-density.spec.js"
+    "test:fold": "playwright test tests/progress-fold.spec.js",
+    "test:links": "playwright test tests/progress-links.spec.js",
+    "test:links-all": "playwright test tests/progress-links-all.spec.js --workers=1",
+    "test:plain": "playwright test tests/plain-language.spec.js",
+    "test:m4": "playwright test tests/m4-disclosure.spec.js tests/stage-5-7-sheets.spec.js",
+    "smoke:stage57": "node scripts/smoke-stage-5-7.mjs",
+    "test:all": "playwright test tests/guides.spec.js tests/ui-density.spec.js tests/plain-language.spec.js tests/progress-fold.spec.js tests/progress-links.spec.js tests/progress-links-all.spec.js tests/stage-5-7-sheets.spec.js tests/m4-disclosure.spec.js --workers=1"
   },
   "dependencies": {
     "firebase": "^12.19.0",

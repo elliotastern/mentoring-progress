@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { get_fold, set_fold } from "../lib/foldPrefs.js";
+import { TipText } from "./Tip.jsx";
 
 /**
  * Persistent <details> section with triangle summary.
@@ -9,6 +10,7 @@ export function FoldSection({
   id,
   title,
   badge = null,
+  meta = null,
   defaultOpen = true,
   className = "",
   testId,
@@ -31,9 +33,16 @@ export function FoldSection({
     >
       <summary className={summaryClassName}>
         <span className="fold-summary-main">
-          <span className="fold-title">{title}</span>
-          {badge}
+          <span className="fold-title">
+            {typeof title === "string" ? <TipText text={title} /> : title}
+          </span>
         </span>
+        {(badge || meta) ? (
+          <span className="fold-summary-end">
+            {meta}
+            {badge}
+          </span>
+        ) : null}
         <span className="fold-tri" aria-hidden="true" />
       </summary>
       <div className="fold-body">{children}</div>

@@ -10,23 +10,23 @@ export const ROLE_TRACKS = [
 
 /** Module 2 proof type by role track. */
 export const PROOF_BY_TRACK = {
-  da: "dashboard / BI proof",
-  ds: "analysis + modeling notebook",
-  mle: "served model / inference API",
-  de: "pipeline / warehouse job",
-  ai_research: "reproducible experiment",
+  da: "dashboard project",
+  ds: "analysis notebook",
+  mle: "working model demo",
+  de: "data pipeline project",
+  ai_research: "repeatable experiment",
 };
 
 export const SEARCH_PATHS = [
   {
     id: "search_ready",
     label: "Search-ready",
-    hint: "Skip heavy project build — Module 2 optional",
+    hint: "Apply for jobs now. Skip the big new project (optional).",
   },
   {
     id: "build_proof",
     label: "Build-proof",
-    hint: "Complete Module 2 with role-specific proof",
+    hint: "Make a project that shows your skills, then apply.",
   },
 ];
 
@@ -34,7 +34,7 @@ export const YEARS_OPTIONS = ["0–1", "1–3", "3–5", "5+"];
 export const SKILL_OPTIONS = ["None", "Basic", "Solid", "Strong"];
 
 export function proof_label_for_track(track_id) {
-  return PROOF_BY_TRACK[track_id] || "role-specific portfolio proof";
+  return PROOF_BY_TRACK[track_id] || "project that matches the job";
 }
 
 export function search_path_chosen(progress) {
@@ -162,6 +162,47 @@ export function suggest_role_track(inputs) {
   };
 }
 
+/** Selected track ids (multi). Falls back to legacy single `role_track`. */
+export function selected_role_tracks(answers_or_progress) {
+  const answers = answers_or_progress?.answers || answers_or_progress || {};
+  const multi = answers.role_tracks;
+  if (Array.isArray(multi) && multi.length) {
+    return ROLE_TRACKS.map((t) => t.id).filter((id) => multi.includes(id));
+  }
+  const one = String(answers.role_track || "").trim();
+  return one ? [one] : [];
+}
+
+export function role_track_labels(track_ids) {
+  return (track_ids || [])
+    .map((id) => ROLE_TRACKS.find((t) => t.id === id)?.label || "")
+    .filter(Boolean);
+}
+
+/** Fold header: "Job Target: ML Engineer" or multiple joined titles. */
+export function format_job_by_label(job_by) {
+  const value = String(job_by || "").trim();
+  if (!value) return "";
+  if (/^asap$/i.test(value)) return "ASAP";
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return value;
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function job_target_title(track_ids, job_by = "") {
+  const labels = role_track_labels(track_ids);
+  const when = format_job_by_label(job_by);
+  if (!labels.length) return when ? `Job Target ${when}` : "Job Target";
+  const roles = labels.join(", ");
+  return when ? `Job Target: ${roles} ${when}` : `Job Target: ${roles}`;
+}
+
 export function role_track_chosen(progress) {
-  return Boolean(String(progress?.answers?.role_track || "").trim());
+  return selected_role_tracks(progress).length > 0;
 }

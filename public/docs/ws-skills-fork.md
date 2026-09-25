@@ -4,7 +4,7 @@
 
 **Purpose:** pick your level row, cap skill hours, keep **applying in parallel**.
 
-Guide: [Overview · Chart D](../01%20-%20Job%20Search%20Overview%20v8.md#step-3b--skill-build-by-seniority-chart-d)
+Guide: [Overview · Chart D](../01%20-%20Job%20Search%20Overview%20v8.md#step-3b-skill-build-by-seniority-chart-d)
 
 ---
 

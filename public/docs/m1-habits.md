@@ -1,7 +1,5 @@
 # Habits
 
-## Video Version [Here](https://www.loom.com/share/20a61afe8d324a81b4482aa2428ae1c3?sid=3eae119c-ca3f-4b6b-b2dc-b3b6e4b0d90f)
-
 # Overview
 
 - Why Are Habits So Important?

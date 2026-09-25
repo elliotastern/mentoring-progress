@@ -1,6 +1,18 @@
+import {
+  progress_signal,
+  merge_progress_never_lose,
+  looks_like_wipe,
+} from "./progressMerge.js";
+
+export { progress_signal, merge_progress_never_lose, looks_like_wipe };
+
 const ACCOUNTS_KEY = "mentorship_accounts_v2";
 const SESSION_KEY = "mentorship_session_v2";
 const PROGRESS_PREFIX = "mentorship_progress_v2_";
+const PROGRESS_TEST_PREFIX = "mentorship_progress_test_v2_";
+const DAILY_BACKUP_PREFIX = "mentorship_daily_backup_v1_";
+const DAILY_TEST_BACKUP_PREFIX = "mentorship_daily_backup_test_v1_";
+const DAILY_KEEP_DAYS = 30;
 
 const mentor_username = (import.meta.env.VITE_MENTOR_USERNAME || "mentor").toLowerCase();
 const mentor_password = import.meta.env.VITE_MENTOR_PASSWORD || "MentorshipMentor2026";
@@ -173,37 +185,176 @@ export async function try_localhost_auto_sign_in() {
   return sign_in({ username: want.username, password: want.password });
 }
 
+function today_key() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/** Playwright / test tabs use an isolated progress key so real mentee data is never wiped. */
+export function test_storage_isolated() {
+  try {
+    if (typeof window === "undefined") return false;
+    if (window.__MENTORSHIP_TEST_ISOLATE__) return true;
+    if (navigator.webdriver) return true;
+  } catch {
+    /* ignore */
+  }
+  return false;
+}
+
+function progress_prefix() {
+  return test_storage_isolated() ? PROGRESS_TEST_PREFIX : PROGRESS_PREFIX;
+}
+
+function daily_prefix() {
+  return test_storage_isolated() ? DAILY_TEST_BACKUP_PREFIX : DAILY_BACKUP_PREFIX;
+}
+
 export function progress_storage_key(uid) {
-  return PROGRESS_PREFIX + uid;
+  return progress_prefix() + uid;
+}
+
+function is_thin_progress(progress) {
+  return progress_signal(progress) < 3;
+}
+
+/** Keep up to 30 daily local copies so a wiped main key can be restored. */
+export function save_daily_local_backup(uid, progress) {
+  if (!uid || !progress) return;
+  try {
+    const day = today_key();
+    const key = daily_backup_key(uid);
+    const map = JSON.parse(localStorage.getItem(key) || "{}") || {};
+    map[day] = {
+      ...progress,
+      backed_up_at: new Date().toISOString(),
+      backup_day: day,
+    };
+    const days = Object.keys(map).sort();
+    while (days.length > DAILY_KEEP_DAYS) {
+      delete map[days.shift()];
+    }
+    localStorage.setItem(key, JSON.stringify(map));
+  } catch {
+    /* ignore quota */
+  }
+}
+
+/** Newest daily snapshot with the most checklist signal. */
+export function load_best_daily_backup(uid) {
+  try {
+    const map = JSON.parse(localStorage.getItem(daily_backup_key(uid)) || "{}") || {};
+    let best = null;
+    let best_score = -1;
+    for (const day of Object.keys(map).sort().reverse()) {
+      const snap = map[day];
+      const score = progress_signal(snap);
+      if (score > best_score) {
+        best = snap;
+        best_score = score;
+      }
+    }
+    return best_score > 0 ? best : null;
+  } catch {
+    return null;
+  }
 }
 
 export function load_progress(uid) {
   try {
-    const raw = localStorage.getItem(PROGRESS_PREFIX + uid);
+    const raw = localStorage.getItem(progress_prefix() + uid);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
   }
 }
 
-export function save_progress(uid, progress, profile) {
+/** Drop main progress + daily backups for a uid (localhost seed reset). */
+export function clear_local_progress(uid) {
+  if (!uid) return;
+  try {
+    localStorage.removeItem(progress_prefix() + uid);
+    localStorage.removeItem(daily_backup_key(uid));
+  } catch {
+    /* ignore */
+  }
+}
+
+/**
+ * Load progress, falling back to the strongest local daily backup if the
+ * main key is missing or nearly empty (e.g. accidental clear / new profile).
+ * Always OR-merges richer daily snapshot checks into the result.
+ */
+export function load_progress_resilient(uid) {
+  const main = load_progress(uid);
+  const daily = load_best_daily_backup(uid);
+
+  // Main looks like a wipe vs daily → heal and write back.
+  if (main && daily && looks_like_wipe(daily, main)) {
+    const merged = merge_progress_never_lose(daily, main);
+    try {
+      localStorage.setItem(progress_prefix() + uid, JSON.stringify(merged));
+    } catch {
+      /* ignore */
+    }
+    return merged;
+  }
+
+  if (main && !is_thin_progress(main)) {
+    if (daily && progress_signal(daily) > progress_signal(main)) {
+      return merge_progress_never_lose(main, daily);
+    }
+    if (daily) return merge_progress_never_lose(daily, main);
+    return main;
+  }
+  if (daily && progress_signal(daily) > progress_signal(main)) {
+    const merged = merge_progress_never_lose(main, daily);
+    try {
+      localStorage.setItem(progress_prefix() + uid, JSON.stringify(merged));
+    } catch {
+      /* ignore */
+    }
+    return merged;
+  }
+  return main;
+}
+
+/**
+ * Save progress. Never lets a thinner wipe erase checked items.
+ * Pass `{ replace: true }` only for explicit reset_seed.
+ */
+export function save_progress(uid, progress, profile, opts = {}) {
+  const existing = load_progress(uid);
+  const merged =
+    opts.replace || test_storage_isolated()
+      ? progress
+      : merge_progress_never_lose(existing, progress);
+  const checks = { ...(merged.checks || {}) };
+  // Keep test anchors off the real mentee key (Playwright uses the isolated prefix).
+  if (!test_storage_isolated()) {
+    for (const id of Object.keys(checks)) {
+      if (id.startsWith("_test")) delete checks[id];
+    }
+  }
   const payload = {
-    ...progress,
+    ...merged,
+    checks,
     username: profile.username || profile.email || "",
     email: profile.username || profile.email || "",
     displayName: profile.displayName || "",
     updated_at: new Date().toISOString(),
   };
-  localStorage.setItem(PROGRESS_PREFIX + uid, JSON.stringify(payload));
+  localStorage.setItem(progress_prefix() + uid, JSON.stringify(payload));
+  save_daily_local_backup(uid, payload);
   return payload;
 }
 
 export function list_all_progress() {
   const rows = [];
+  const prefix = progress_prefix();
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (!key || !key.startsWith(PROGRESS_PREFIX)) continue;
-    const uid = key.slice(PROGRESS_PREFIX.length);
+    if (!key || !key.startsWith(prefix)) continue;
+    const uid = key.slice(prefix.length);
     try {
       const data = JSON.parse(localStorage.getItem(key));
       if (data && !is_mentor(data.username || data.email)) {

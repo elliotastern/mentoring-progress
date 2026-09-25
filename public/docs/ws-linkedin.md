@@ -4,7 +4,7 @@
 
 **Purpose:** one-time setup so recruiters can find you (Chart A rank 1). ~5 hours once; then maintenance.
 
-Guide: [Overview · This week hours](../01%20-%20Job%20Search%20Overview%20v8.md#the-numbers--hours-10wk)
+Guide: [Overview · This week hours](../01%20-%20Job%20Search%20Overview%20v8.md#the-numbers-hours-10wk)
 
 ---
 

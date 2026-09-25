@@ -1,17 +1,16 @@
-# Package Match — Worksheet
+# Package Match - Worksheet
 
-**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
+**Fill this in the [Progress app](https://elliotastern.github.io/mentoring-progress/)** (autosaves).
 
-**Purpose:** make resume + LinkedIn + projects match **one** target title — not “any data job.”
+**Purpose:** match **1-2 proof projects + a 6-second artifact** to one target title. Resume, LinkedIn, and public proof are from **Module 3** (already required before Job Search). Only re-touch them if Aim changed your title.
 
-Guide: [Overview · Step 2](../01%20-%20Job%20Search%20Overview%20v8.md#step-2--portfolio--resume-for-that-role)
+Guide: [Overview · Step 2](overview-v8.md#step-2-portfolio-resume-for-that-role)
 
 ---
 
 ## 1) Target
 
 - Primary title: __________
-- Adjacent stretch (optional): __________
 - Paste 1 real JD URL you are matching to: __________
 
 ## 2) Core duties (from that JD)
@@ -24,33 +23,27 @@ List 5 core duties (not nice-to-haves):
 4. __________  
 5. __________  
 
-## 3) Resume match
+## 3) Proof for this title (required)
 
-| Area | Current text (short) | Matched to title? |
-|------|----------------------|:-----------------:|
-| Summary | | [ ] |
-| Bullet 1 | | [ ] |
-| Bullet 2 | | [ ] |
-| Bullet 3 | | [ ] |
-| Skills line | | [ ] |
-
-## 4) LinkedIn match
-
-- About matches the same title: [ ]  
-- Top experience bullets match resume: [ ]  
-- Headline matches title keywords: [ ]  
-
-## 5) Proof projects (1–2)
-
-| Project | Looks like the job’s work? | README has problem + metric? | Public URL |
-|---------|:--------------------------:|:----------------------------:|------------|
-| 1 | [ ] | [ ] | |
-| 2 | [ ] | [ ] | |
+| Project | Looks like the job’s work? | Public URL |
+|---------|:--------------------------:|------------|
+| 1 | [ ] | |
+| 2 (optional) | [ ] | |
 
 **Best artifact a stranger can open in ~6 seconds:** __________
 
+- [ ] 1-2 proof projects look like that job’s day-to-day work  
+- [ ] 6-second artifact is ready to share  
+
+## 4) Optional - confirm Module 3 still matches this title
+
+Only if your Aim title changed:
+
+- [ ] Resume summary + top bullets still match  
+- [ ] LinkedIn About / headline still match  
+- [ ] GitHub or personal site still public  
+
 ## Done when
 
-- [ ] Resume + LinkedIn matched  
-- [ ] 1–2 proof projects public  
-- [ ] Progress Stage 2 answer = best artifact link  
+- [ ] 1-2 proof projects public  
+- [ ] Best artifact link filled (Progress Stage 1 Answer)  

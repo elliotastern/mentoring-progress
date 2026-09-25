@@ -31,7 +31,7 @@
 - Practice with [Google’s interview-warmup](https://grow.google/certificates/interview-warmup/)
 - Take Feedback and tweak the responses
 - Practice aloud once
-- Send Mentor 4 looms recording on interview common questions
+- Practice 4 common interview answers aloud; paste short scripts in Slack if you want feedback
   - Tell me about your
   - Tell me about a project
   - Why do you want to work here (Choose a company on your list, read the job description then do this question for real)
@@ -45,7 +45,7 @@
 - Practice with [Google’s interview-warmup](https://grow.google/certificates/interview-warmup/)
 - Take Feedback and tweak the responses
 - Practice aloud once
-- Send Mentor 4 looms recording on interview common questions
+- Practice 4 common interview answers aloud; paste short scripts in Slack if you want feedback
   - Tell me about your
   - Tell me about a project
   - Why do you want to work here (Choose a company on your list, read the job description then do this question for real)

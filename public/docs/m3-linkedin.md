@@ -2,8 +2,6 @@
 
 **Your mentor(s) will use it to review and save a copy of this in the shared Google Drive for the mentorship (your name). You can do this by file > Make a copy then choose where to save it.**
 
-# Video Version Here: [Lesson](https://www.loom.com/share/c23fbe0951e04181896024e84df47628?sid=f2d20b96-b171-4b91-b664-24d5487f6a73)
-
 # Outline:
 
 - Pre-work
@@ -17,7 +15,7 @@
 # Pre-Requisite
 
 - Before you start this, you should’ve completed [01 - Selling Yourself As A Product - Worksheet](https://docs.google.com/document/d/1qmNnXU_ZOM8CDOzziaGQGv9sWTmHwC3HWjd4VJsdA2w/edit?usp=sharing)
-- Watch this [LinkedIn Optimization Review Example](https://www.loom.com/share/9510bac8383e4797832e01b6bae30585)
+- Use the LinkedIn checklist below (headline, About, proof links, top bullets).
 
 # “But why would I maximize my LinkedIn?”
 

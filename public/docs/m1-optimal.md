@@ -165,7 +165,7 @@ With…
 
 ## From the [Time management](https://docs.google.com/document/u/0/d/1K73pgS7lLuVZ4rAZ3HyC155nXHgTrcb54dtr_gklIxA/edit) document, we saw the biggest time wasters, and how can we remove them, batch them, automate them or delegate them. Now you are going to write your biggest time wasters (think about these as anything YOU want to improve), then write how you can slowly get your time back. If you have no idea how to improve them just write down the time-wasters in your life.
 
-## From the [Time management](https://docs.google.com/document/u/0/d/1K73pgS7lLuVZ4rAZ3HyC155nXHgTrcb54dtr_gklIxA/edit) document, we learned the importance of daily planning, write down your please provide an example of your daily plan for tomorrow. Then please provide me with a brief summary of your history of planning your day (ie just started, never tried, tried before but didn’t work and why?). If you are just starting, we will make a reminder while we build the habit. Take a look at this [quick demo for more help planning your day](https://www.loom.com/share/c8b00f9cf04e46fbb188aba35f2977d7?sid=c7bf3de1-0882-4350-a516-d31f1990bb5a).
+## From the [Time management](https://docs.google.com/document/u/0/d/1K73pgS7lLuVZ4rAZ3HyC155nXHgTrcb54dtr_gklIxA/edit) document, we learned the importance of daily planning, write down your please provide an example of your daily plan for tomorrow. Then please provide me with a brief summary of your history of planning your day (ie just started, never tried, tried before but didn’t work and why?). If you are just starting, we will make a reminder while we build the habit. Use the daily planning steps in this guide.
 
 **Summary:**
 -

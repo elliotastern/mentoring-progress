@@ -29,7 +29,7 @@ After every interview, it is important to reflect. Take a few breaths, go for a 
 
 **NOTE**: This helps you remember what to improve for next time. My suggestion would be to keep a log of all your interview experience (E.g. [Job Tracker](https://docs.google.com/spreadsheets/u/0/d/1V0nwQSdzex4NIz1En9hU1UnXG2E_a7s2VRNmHKDgHDE/edit) in  Sheet 5 in the notes column, Google Docs, Google Sheets, in-person notebook, etc)
 
-**Recommend: **Send your mentor a Loom video of your reflection of the interview
+**Recommend: **Send your mentor a short Slack reflection on the interview
 
 ## Reflection on company/team/compensations
 
@@ -87,5 +87,5 @@ Thanks, Your Name
   - Do I like how the feedback system works?
   - Are they invested in my career growth or am I just a number to them?
 - Push Commit to interview reflection notebook
-- Send your mentor a Loom message of reflection and feedback on the interview
+- Send your mentor a short Slack reflection on the interview
 - Send a thank you message (~5-10 mins)

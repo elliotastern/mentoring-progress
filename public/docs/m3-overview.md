@@ -2,7 +2,7 @@
 
 ## Pre-Work:
 
-- Watch **[Portfolio Optimization Overview Video](https://www.loom.com/share/4d8ce9397df840d6aac37d7a0e6ea921)
+- Start with the written Module 3 overview and portfolio checklists below.
 
 - Install **[Grammar Checker and Writing App](https://chrome.google.com/webstore/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen)** Chrome extension. **
 

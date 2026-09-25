@@ -1,6 +1,5 @@
 # Sell Yourself As A Product
 
-Video Version [Here](https://www.loom.com/share/d904103f74444f71897ec3e1e3b0e4d3?sid=7eb74f09-d52b-4688-b1b9-07eb4efd9ff8)
 # Overview
 
 - What Is Selling Yourself As A Product

@@ -1,6 +1,5 @@
 # How To Measure Impact
 
-Video Version [Here](https://www.loom.com/share/e616f3c3831440f6b569af4f9afeed56?sid=2b90a591-3221-4692-85ef-ae9c86ea7f9d)
 # Overview
 
 - Why is it important to measure impact?

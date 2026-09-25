@@ -2,8 +2,6 @@
 
 **At the bottom of this document, there will be the next action steps for you to start right after you have read this.**
 
-## Video Version: [Here](https://www.loom.com/share/08a9029122e041868132f2cba2048a56)
-
 ## Outline
 
 - Coding Practice/Challenges
@@ -56,7 +54,7 @@ BONUS: Here is a great [article](https://medium.com/@aryannayakk/one-year-of-con
 
 **NOTE: **These coding assessments appear in the more coding-heavy positions, such as Machine Learning Engineer, Data Engineer, MLOps Engineer and the bigger companies for data scientist roles.
 
-**(IMPORTANT) NOTE: **I created a video on what to do after you solve the question - [watch it here](https://www.loom.com/share/0e8db6dbef8747f58a52f1471e4727e1)
+**(IMPORTANT) NOTE: **I created a video on what to do after you solve the question - see the written notes in this guide
 
 **GOAL:**  I highly suggest starting this on day one of the mentorship and continuing this every day.
 
@@ -264,7 +262,7 @@ This will help you:
 - Keep track of your challenges/struggles to remember, learn and recall
 - Do almost everything in this document
 
-- If you will be using Google Colab instead of IDE, set up your Google Drive with repo and how to set up success for Pull requests with notebooks - [Watch the Video tutorial](https://www.loom.com/share/276f892c6c8d4a2087efd5434488fe86)
+- If you will be using Google Colab instead of IDE, set up your Google Drive with repo and how to set up success for Pull requests with notebooks - follow the written setup steps in this guide
   - Connect Google Drive to your local file system
   - (Windows) [How to Add Google Drive to File Explorer](https://www.alphr.com/add-google-drive-file-explorer/)
   - (Mac) [How to Use Google Drive for Desktop on Your Mac](https://www.makeuseof.com/how-to-use-google-drive-for-desktop-mac/#:~:text=You%20can%20access%20these%20settings,and%20be%20available%20in%20Finder)

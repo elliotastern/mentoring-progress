@@ -1,23 +1,34 @@
 import { useEffect, useRef, useState } from "react";
-import { STAGES, WEEKLY, STAGE_ORDER } from "../data/stages.js";
-import { FOUNDATIONS } from "../data/foundations.js";
+import { STAGES, WEEKLY, STAGE_ORDER, STAGE_PATH, visible_stages, stage_is_locked } from "../data/stages.js";
+import { FOUNDATIONS, MODULES } from "../data/foundations.js";
 import {
   empty_progress,
   stage_pass_status,
   weekly_pass_status,
-  is_stage_open,
-  weekly_open,
   auto_unlock_progress,
   foundations_passed,
-  overall_progress,
+  weekly_open,
 } from "../lib/gates.js";
 import { toggle_main_check, sheet_module_stats } from "../lib/checkSync.js";
-import { WorksheetView } from "./WorksheetView.jsx";
+import { WorksheetView, WorksheetFields } from "./WorksheetView.jsx";
 import { ProgressPulse } from "./ProgressPulse.jsx";
+import { ProgressReport } from "./ProgressReport.jsx";
 import { RoleFitPanel } from "./RoleFitPanel.jsx";
 import { FoldSection } from "./FoldSection.jsx";
+import { TipText } from "./Tip.jsx";
 import { worksheet_by_id } from "../data/worksheets.js";
-import { role_track_chosen, is_search_ready, search_path_chosen, proof_label_for_track } from "../lib/roleFit.js";
+import { role_track_chosen, is_search_ready, search_path_chosen } from "../lib/roleFit.js";
+import {
+  apply_week_reset,
+  bump_tally,
+  format_tally_value,
+  streak_drivers_met,
+  tally_goal_met,
+  tally_number,
+} from "../lib/weeklyStreak.js";
+import { module_4_readiness, module_prior_req } from "../lib/moduleReqs.js";
+import { snapshot_progress_report, maybe_snapshot_progress } from "../lib/progressReport.js";
+import { MenteeOverviewButton, MenteeOverviewView } from "./MenteeOverview.jsx";
 
 function doc_url(href) {
   if (!href) return "";
@@ -63,7 +74,7 @@ function SheetButton({ sheet }) {
       rel="noreferrer"
       onClick={(e) => e.stopPropagation()}
     >
-      {sheet.label || "Worksheet"}
+      <TipText text={sheet.label || "Worksheet"} />
     </a>
   );
 }
@@ -72,7 +83,7 @@ function CheckList({ items, checks, disabled, on_toggle }) {
   return (
     <ul className="check-list">
       {items.map((item) => (
-        <li key={item.id}>
+        <li key={item.id} data-check-id={item.id}>
           <label>
             <input
               type="checkbox"
@@ -81,7 +92,9 @@ function CheckList({ items, checks, disabled, on_toggle }) {
               onChange={(e) => on_toggle(item.id, e.target.checked)}
             />
             <span className="check-copy">
-              <span>{item.label}</span>
+              <span>
+                <TipText text={item.label} />
+              </span>
               <SheetButton sheet={item.sheet} />
               {item.doc?.href ? (
                 <a
@@ -91,7 +104,7 @@ function CheckList({ items, checks, disabled, on_toggle }) {
                   rel="noreferrer"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {item.doc.label || "Guide"}
+                  <TipText text={item.doc.label || "Guide"} />
                 </a>
               ) : null}
             </span>
@@ -104,71 +117,293 @@ function CheckList({ items, checks, disabled, on_toggle }) {
 
 function next_foundation_label(progress) {
   if (!role_track_chosen(progress) || !search_path_chosen(progress)) {
-    return "pick a role track and path";
+    return "pick your job type and path";
   }
   const skip_m2 = is_search_ready(progress);
   for (const f of FOUNDATIONS) {
     if (skip_m2 && f.id === "m2") continue;
     if (!stage_pass_status(f, progress).passed) {
-      return `finish ${f.title} exit worksheet`;
+      return `finish ${f.title}`;
     }
   }
   return "Foundations complete";
 }
 
-function FoundationCard({ stage, progress, on_open }) {
+/** One clear action — used in Progress header + mode gate. */
+function recommended_next_text(progress) {
+  if (!foundations_passed(progress)) {
+    return `Foundations · Next: ${next_foundation_label(progress)}`;
+  }
+  const m4 = module_4_readiness(progress);
+  if (!m4.all_ok) {
+    return "Module 4 · Next: finish target job, resume, and portfolio";
+  }
+  return "Module 4 · Job Search ready";
+}
+
+/** Next module fold to open by default (M0–M3 incomplete, else Module 4). */
+function next_module_focus_id(progress) {
+  const skip_m2 = is_search_ready(progress);
+  for (const f of FOUNDATIONS) {
+    if (skip_m2 && f.id === "m2") continue;
+    if (!stage_pass_status(f, progress).passed) return f.id;
+  }
+  return "m4";
+}
+
+function ReqMark({ ok }) {
+  return (
+    <span className={`req-mark ${ok ? "ok" : "bad"}`} aria-hidden="true">
+      {ok ? "✓" : "✗"}
+    </span>
+  );
+}
+
+function ModuleReqList({ rows }) {
+  return (
+    <ul className="module-reqs" data-testid="module-reqs">
+      {rows.map((row) => (
+        <li key={row.id} className={row.ok ? "req-ok" : "req-bad"}>
+          <ReqMark ok={row.ok} />
+          <span>{row.label}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function m4_job_search_score(progress) {
+  const checks = progress.checks || {};
+  let done = 0;
+  let need = 0;
+
+  need += 1;
+  if (checks.m4_overview) done += 1;
+
+  for (const stage of STAGES) {
+    for (const item of stage.items || []) {
+      need += 1;
+      if (checks[item.id]) done += 1;
+    }
+    for (const item of stage.portfolio_items || []) {
+      need += 1;
+      if (checks[item.id]) done += 1;
+    }
+    for (const item of stage.channel_items || []) {
+      need += 1;
+      if (checks[item.id]) done += 1;
+    }
+    if (stage.level_items) {
+      const level = progress.skill_level;
+      const items = level ? stage.level_items[level] : null;
+      if (items?.length) {
+        for (const item of items) {
+          need += 1;
+          if (checks[item.id]) done += 1;
+        }
+      }
+    }
+  }
+
+  if (!need) return 0;
+  return Math.round((100 * done) / need);
+}
+
+function module_score_100(stage, status, m4_ready, _m2_optional, stats, progress) {
+  if (stage.id === "m4") return m4_job_search_score(progress || {});
+  if (status.passed) return 100;
+  if (stats?.total) return Math.round((100 * stats.done) / stats.total);
+  const need = Math.max(stage.items?.length || 0, status.core_need || 0, 1);
+  const done = Math.min(status.core_done || 0, need);
+  return Math.round((100 * done) / need);
+}
+
+function FoldScoreBar({ score, testId }) {
+  const pct = Math.max(0, Math.min(100, score || 0));
+  return (
+    <span
+      className={`fold-score ${pct >= 100 ? "fold-score-done" : ""}`.trim()}
+      data-testid={testId}
+      title={`${pct}% complete`}
+    >
+      <span className="fold-score-track" aria-hidden="true">
+        <span className="fold-score-fill" style={{ width: `${pct}%` }} />
+      </span>
+      <span className="fold-score-pct">{pct}%</span>
+    </span>
+  );
+}
+
+function FoundationCard({
+  stage,
+  progress,
+  on_open,
+  on_change,
+  defaultOpen,
+  on_reset_week,
+}) {
   const status = stage_pass_status(stage, progress);
   const sheet_id = stage.worksheet?.worksheet_id;
   const stats = sheet_id ? sheet_module_stats(progress, sheet_id) : null;
-  const pct = stats?.total ? Math.round((100 * stats.done) / stats.total) : 0;
   const search_ready = is_search_ready(progress);
   const m2_optional = stage.id === "m2" && search_ready;
-  const track_id = progress.answers?.role_track || "";
-  const title =
-    stage.id === "m2"
-      ? `Module 2 — ${proof_label_for_track(track_id)}`
-      : stage.title;
-  const passed = status.passed || m2_optional;
+  const is_m4 = stage.id === "m4";
+  const title = stage.title;
+  const m4_ready = is_m4 ? module_4_readiness(progress) : null;
+  const prior = !is_m4 ? module_prior_req(stage.id, progress) : null;
+  const passed = is_m4
+    ? Boolean(m4_ready?.all_ok)
+    : status.passed || m2_optional;
+  const checks = progress.checks || {};
+  const score = module_score_100(stage, status, m4_ready, m2_optional, stats, progress);
+  const pct = score;
+  const show_inline_sheet = Boolean(sheet_id) && !is_m4 && !m2_optional;
 
-  const badge = m2_optional ? (
-    <span className="badge ok">Optional</span>
-  ) : passed ? (
-    <span className="badge ok">Done</span>
-  ) : (
-    <span className="badge">Required</span>
-  );
+  function toggle_check(id, val) {
+    const synced = toggle_main_check(progress, id, val);
+    on_change({ checks: synced.checks, worksheets: synced.worksheets });
+  }
+
+  let badge = null;
+  if (is_m4) {
+    badge = m4_ready.all_ok ? (
+      <span className="badge ok">Ready</span>
+    ) : (
+      <span className="badge">Needs setup</span>
+    );
+  } else if (m2_optional) {
+    badge = <span className="badge ok">Optional</span>;
+  } else if (passed) {
+    badge = <span className="badge ok">Done</span>;
+  } else {
+    badge = <span className="badge">Required</span>;
+  }
 
   return (
     <FoldSection
       id={`mod_${stage.id}`}
       title={title}
       badge={badge}
-      defaultOpen={!passed}
-      className={`stage-card fold-card ${passed ? "ready" : ""}`}
-      testId={`mod-${stage.id}`}
+      meta={
+        <FoldScoreBar score={score} testId={`mod-score-${stage.id}`} />
+      }
+      defaultOpen={defaultOpen}
+      className={`stage-card fold-card ${passed ? "ready" : ""} ${is_m4 ? "job-search-fold" : ""}`.trim()}
+      testId={is_m4 ? "job-search-fold" : `mod-${stage.id}`}
     >
-      <div data-module={stage.id}>
-        {stats && !m2_optional ? (
-          <ProgressPulse compact percent={pct} label={`${stats.done}/${stats.total}`} />
+      <div data-module={stage.id} data-testid={is_m4 ? "mod-m4" : undefined}>
+        {stats ? (
+          <ProgressPulse
+            compact
+            percent={pct}
+            label={
+              m2_optional
+                ? `Optional · ${stats.done}/${stats.total} done`
+                : `${stats.done}/${stats.total} · checks ${stats.sync.done}/${stats.sync.total} · fill-ins ${stats.fill.done}/${stats.fill.total}`
+            }
+          />
         ) : null}
-        {!passed ? (
-          <p className="gate">
-            {m2_optional ? "Skipped on Search-ready" : "Open exit worksheet"}
+        {is_m4 ? (
+          <>
+            <ModuleReqList rows={m4_ready.rows} />
+            {!m4_ready.all_ok ? (
+              <p className="gate module-req-warn" data-testid="m4-req-warn">
+                <TipText text="Finish target job, resume, and portfolio before treating Job Search as ready" />
+              </p>
+            ) : null}
+          </>
+        ) : null}
+        {prior && !prior.ok ? (
+          <p className="gate module-req-warn" data-testid={`mod-req-warn-${stage.id}`}>
+            <ReqMark ok={false} /> <TipText text={prior.detail} />
           </p>
         ) : null}
-        {sheet_id ? (
+        {prior && prior.ok && stage.id !== "m2" ? (
+          <p className="hint module-req-met">
+            <ReqMark ok /> <TipText text={prior.detail} />
+          </p>
+        ) : null}
+        {m2_optional ? (
+          <p className="hint">
+            <TipText text="Skipped on Search-ready" />
+          </p>
+        ) : null}
+        {!is_m4 && stage.id !== "m0" && stage.id !== "m1" && !passed && !m2_optional ? (
+          <p className="gate">
+            <TipText text="Complete every guide and fill-in below to unlock the next module" />
+          </p>
+        ) : null}
+        {show_inline_sheet ? (
+          <WorksheetFields
+            worksheet_id={sheet_id}
+            progress={progress}
+            on_change={on_change}
+          />
+        ) : null}
+        {m2_optional && sheet_id ? (
           <button type="button" className="primary" onClick={() => on_open(sheet_id)}>
-            {m2_optional
-              ? "Open Module 2 (optional)"
-              : stage.worksheet.label || "Open module worksheet"}
+            <TipText text="Open Project (optional)" />
           </button>
+        ) : null}
+        {!show_inline_sheet && !m2_optional && stage.items?.length ? (
+          <CheckList
+            items={stage.items}
+            checks={checks}
+            disabled={false}
+            on_toggle={toggle_check}
+          />
+        ) : null}
+        {is_m4 ? (
+          <>
+            <JobSearchPath progress={progress} />
+            {visible_stages(progress).map((s) => {
+              const locked = stage_is_locked(s.id, progress);
+              const current = (progress.highest_unlocked || "0") === s.id;
+              return (
+                <StageCard
+                  key={s.id}
+                  stage={s}
+                  progress={progress}
+                  locked={locked}
+                  defaultOpen={current}
+                  on_change={on_change}
+                />
+              );
+            })}
+            <WeeklyCard
+              progress={progress}
+              locked={!weekly_open(progress)}
+              on_change={on_change}
+              on_reset_week={on_reset_week}
+            />
+          </>
         ) : null}
       </div>
     </FoldSection>
   );
 }
 
-function StageCard({ stage, progress, locked, on_change }) {
+function JobSearchPath({ progress }) {
+  const current = progress.highest_unlocked || "0";
+  return (
+    <p className="job-search-path" data-testid="job-search-path">
+      {STAGE_PATH.map((step, i) => (
+        <span key={step.id}>
+          {i > 0 ? <span className="job-search-path-sep"> → </span> : null}
+          <span
+            className={
+              step.id === current ? "job-search-path-current" : "job-search-path-step"
+            }
+          >
+            {step.short}
+          </span>
+        </span>
+      ))}
+    </p>
+  );
+}
+
+function StageCard({ stage, progress, locked, defaultOpen = false, on_change }) {
   const status = stage_pass_status(stage, progress);
   const checks = progress.checks || {};
   const past =
@@ -177,32 +412,45 @@ function StageCard({ stage, progress, locked, on_change }) {
     STAGE_ORDER.indexOf(progress.highest_unlocked || "0") > STAGE_ORDER.indexOf(stage.id);
   const done_final = !stage.unlocks && status.passed;
   const is_passed = Boolean(status.passed && !locked);
-  const is_current = !locked && !is_passed;
 
   function toggle_check(id, val) {
+    if (locked) return;
     const synced = toggle_main_check(progress, id, val);
     on_change({ checks: synced.checks, worksheets: synced.worksheets });
   }
 
   let badge = null;
-  if (locked) badge = <span className="badge">Locked</span>;
+  if (locked) badge = <span className="badge">Next</span>;
   else if (past || (status.passed && stage.unlocks) || done_final)
     badge = <span className="badge ok">Done</span>;
 
-  const body = locked ? (
-    <p className="hint">Finish previous stage to open.</p>
-  ) : (
+  const sheet_links = [
+    stage.worksheet,
+    ...(stage.extra_sheets || []),
+  ].filter((s) => s?.worksheet_id);
+
+  const body = (
     <>
-      {stage.worksheet?.worksheet_id ? (
+      {locked ? (
+        <p className="hint">
+          <TipText text="Peek ahead — finish the current stage to edit these checks." />
+        </p>
+      ) : null}
+      {sheet_links.length ? (
         <p className="worksheet-banner">
-          <a
-            className="linkish"
-            href={worksheet_url(stage.worksheet.worksheet_id)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {stage.worksheet.label || "Worksheet"}
-          </a>
+          {sheet_links.map((sheet, i) => (
+            <span key={sheet.worksheet_id}>
+              {i > 0 ? " · " : null}
+              <a
+                className="linkish"
+                href={worksheet_url(sheet.worksheet_id)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <TipText text={sheet.label || "Worksheet"} />
+              </a>
+            </span>
+          ))}
         </p>
       ) : null}
       <p className="gate">
@@ -215,6 +463,15 @@ function StageCard({ stage, progress, locked, on_change }) {
             · channels{" "}
             <strong>
               {status.channel_done}/{status.channel_need}
+            </strong>
+          </>
+        ) : null}
+        {stage.portfolio_items ? (
+          <>
+            {" "}
+            · portfolio{" "}
+            <strong>
+              {status.portfolio_done}/{status.portfolio_need}
             </strong>
           </>
         ) : null}
@@ -231,6 +488,20 @@ function StageCard({ stage, progress, locked, on_change }) {
       </p>
 
       <CheckList items={stage.items} checks={checks} disabled={locked} on_toggle={toggle_check} />
+
+      {stage.portfolio_items ? (
+        <>
+          <h3>
+            Portfolio ({status.portfolio_done}/{status.portfolio_need}) — GitHub or site
+          </h3>
+          <CheckList
+            items={stage.portfolio_items}
+            checks={checks}
+            disabled={locked}
+            on_toggle={toggle_check}
+          />
+        </>
+      ) : null}
 
       {stage.channel_items ? (
         <>
@@ -251,6 +522,7 @@ function StageCard({ stage, progress, locked, on_change }) {
           <h3>Level</h3>
           <select
             value={progress.skill_level || ""}
+            disabled={locked}
             onChange={(e) => on_change({ skill_level: e.target.value })}
           >
             <option value="">Entry / mid / senior</option>
@@ -271,9 +543,12 @@ function StageCard({ stage, progress, locked, on_change }) {
 
       {stage.answer_key ? (
         <label className="answer-field">
-          <span>{stage.answer_label}</span>
+          <span>
+            <TipText text={stage.answer_label} />
+          </span>
           <input
             type="text"
+            disabled={locked}
             value={progress.answers?.[stage.answer_key] || ""}
             onChange={(e) =>
               on_change({
@@ -292,11 +567,68 @@ function StageCard({ stage, progress, locked, on_change }) {
       id={`stage_${stage.id}`}
       title={stage.title}
       badge={badge}
-      defaultOpen={is_current || locked}
-      className={`stage-card fold-card ${locked ? "locked" : ""} ${status.passed ? "ready" : ""}`}
+      defaultOpen={defaultOpen}
+      className={`stage-card fold-card ${locked ? "locked" : ""} ${is_passed ? "ready" : ""}`}
     >
       {body}
     </FoldSection>
+  );
+}
+
+function TallyStepper({ tally, value, on_change }) {
+  const met = tally_goal_met({ [tally.id]: value }, tally);
+  const num = tally_number({ [tally.id]: value }, tally.id);
+  const goal = tally.goal_min || 1;
+  const pct = Math.min(100, Math.round((100 * num) / goal));
+
+  return (
+    <div className={`tally-stepper ${met ? "met" : ""} ${tally.streak_driver ? "streak-driver" : ""}`} data-tally-id={tally.id}>
+      <div className="tally-stepper-head">
+        <span className="tally-stepper-label">
+          <TipText text={tally.label} />
+          {tally.streak_driver ? <span className="tally-streak-tag">streak</span> : null}
+        </span>
+        <em>goal {tally.goal}</em>
+      </div>
+      <div className="tally-stepper-controls">
+        <button
+          type="button"
+          className="tally-btn"
+          aria-label={`Decrease ${tally.label}`}
+          onClick={() => on_change(bump_tally({ [tally.id]: value }, tally, -1)[tally.id])}
+        >
+          −
+        </button>
+        <input
+          className={`tally-value ${met ? "pop" : ""}`}
+          type="text"
+          inputMode="decimal"
+          value={value === "" || value == null ? "" : format_tally_value(value, tally.step)}
+          onChange={(e) => {
+            const raw = e.target.value.trim();
+            if (raw === "") {
+              on_change("");
+              return;
+            }
+            const n = Number(raw);
+            if (!Number.isFinite(n) || n < 0) return;
+            on_change(format_tally_value(n, tally.step ?? 1));
+          }}
+          aria-label={tally.label}
+        />
+        <button
+          type="button"
+          className="tally-btn"
+          aria-label={`Increase ${tally.label}`}
+          onClick={() => on_change(bump_tally({ [tally.id]: value }, tally, 1)[tally.id])}
+        >
+          +
+        </button>
+      </div>
+      <div className="tally-goal-track" aria-hidden="true">
+        <div className="tally-goal-fill" style={{ width: `${pct}%` }} />
+      </div>
+    </div>
   );
 }
 
@@ -304,29 +636,46 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
   const status = weekly_pass_status(progress);
   const checks = progress.checks || {};
   const tallies = progress.weekly_tallies || {};
+  const streak = Number(progress.weekly_streak) || 0;
+  const best = Number(progress.weekly_best_streak) || 0;
+  const drivers_ok = streak_drivers_met(tallies);
 
   function toggle_check(id, val) {
     const synced = toggle_main_check(progress, id, val);
     on_change({ checks: synced.checks, worksheets: synced.worksheets });
   }
 
-  const badge = locked ? <span className="badge">Opens after Stage 3</span> : null;
+  function set_tally(id, value) {
+    on_change({ weekly_tallies: { ...tallies, [id]: value } });
+  }
+
+  const badge = locked ? <span className="badge">Opens with Apply</span> : null;
+  const streak_badge =
+    !locked && (streak > 0 || best > 0) ? (
+      <span className={`badge streak ${drivers_ok ? "ok" : ""}`}>
+        Streak: {streak}
+        {best > streak ? ` · best ${best}` : ""}
+      </span>
+    ) : !locked ? (
+      <span className="badge">Streak: 0</span>
+    ) : null;
+
   const body = locked ? (
-    <p className="hint">Finish Stage 3 to open the weekly practice loop.</p>
+    <p className="hint" data-testid="weekly-locked-hint">
+      <TipText text="Weekly Loop unlocks when you reach Apply." />
+    </p>
   ) : (
     <>
-      {WEEKLY.worksheet?.worksheet_id ? (
-        <p className="worksheet-banner">
-          <a
-            className="linkish"
-            href={worksheet_url(WEEKLY.worksheet.worksheet_id)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {WEEKLY.worksheet.label || "Open worksheet"}
-          </a>
-        </p>
-      ) : null}
+      {stage_worksheet_banner()}
+      <p className={`streak-banner ${drivers_ok ? "celebrate" : ""}`}>
+        <strong>{streak}</strong> week streak
+        {best > 0 ? <span className="muted"> · best {best}</span> : null}
+        {drivers_ok ? (
+          <span className="streak-hit"> · proof + apply goals hit</span>
+        ) : (
+          <span className="muted"> · hit proof (≥1hr) + apps (≥4) to grow streak</span>
+        )}
+      </p>
       <p className="gate">
         Pass when: <strong>
           {status.core_done}/{status.core_need}
@@ -343,22 +692,15 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
         />
       </label>
       <CheckList items={WEEKLY.items} checks={checks} disabled={false} on_toggle={toggle_check} />
-      <h3>Volume tallies (required)</h3>
+      <h3>Volume counters (required)</h3>
       <div className="tallies">
         {WEEKLY.tallies.map((t) => (
-          <label key={t.id}>
-            <span>
-              {t.label} <em>goal {t.goal}</em>
-            </span>
-            <input
-              type="text"
-              value={tallies[t.id] || ""}
-              onChange={(e) =>
-                on_change({ weekly_tallies: { ...tallies, [t.id]: e.target.value } })
-              }
-              placeholder="Actual"
-            />
-          </label>
+          <TallyStepper
+            key={t.id}
+            tally={t}
+            value={tallies[t.id] ?? ""}
+            on_change={(v) => set_tally(t.id, v)}
+          />
         ))}
       </div>
       <button type="button" className="primary" disabled={!status.passed} onClick={on_reset_week}>
@@ -367,13 +709,35 @@ function WeeklyCard({ progress, locked, on_change, on_reset_week }) {
     </>
   );
 
+  function stage_worksheet_banner() {
+    if (!WEEKLY.worksheet?.worksheet_id) return null;
+    return (
+      <p className="worksheet-banner">
+        <a
+          className="linkish"
+          href={worksheet_url(WEEKLY.worksheet.worksheet_id)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <TipText text={WEEKLY.worksheet.label || "Open worksheet"} />
+        </a>
+      </p>
+    );
+  }
+
   return (
     <FoldSection
       id="weekly"
       title={WEEKLY.title}
-      badge={badge}
-      defaultOpen={!locked && !status.passed}
-      className={`stage-card fold-card weekly ${locked ? "locked" : ""}`}
+      badge={
+        <>
+          {streak_badge}
+          {badge}
+        </>
+      }
+      defaultOpen={false}
+      className={`stage-card fold-card weekly ${locked ? "locked" : ""} ${drivers_ok ? "streak-ready" : ""}`}
+      testId="weekly-fold"
     >
       {body}
     </FoldSection>
@@ -385,14 +749,13 @@ export function ChecklistApp({
   set_progress,
   on_save,
   message,
-  save_status = "saved",
   github_backup_ok = false,
 }) {
   const p = progress || empty_progress();
-  const foundations_ok = foundations_passed(p);
   const latest_ref = useRef(p);
   const flush_timer = useRef(null);
   const [open_sheet, set_open_sheet] = useState(() => read_ws_param());
+  const [open_overview, set_open_overview] = useState(false);
 
   latest_ref.current = p;
 
@@ -414,10 +777,102 @@ export function ChecklistApp({
     }
   }
 
+  function open_ancestor_folds(el) {
+    let node = el;
+    while (node && node !== document.body) {
+      if (node.matches?.("details.fold-section") && !node.open) {
+        const summary = node.querySelector(":scope > summary");
+        if (summary) summary.click();
+      }
+      node = node.parentElement;
+    }
+  }
+
+  function open_fold_by_id(fold_id) {
+    if (!fold_id) return null;
+    const fold = document.querySelector(`details.fold-section[data-fold-id="${CSS.escape(fold_id)}"]`);
+    if (!fold) return null;
+    open_ancestor_folds(fold);
+    if (!fold.open) {
+      const summary = fold.querySelector(":scope > summary");
+      summary?.click();
+    }
+    return fold;
+  }
+
+  function flash_and_scroll(el) {
+    if (!el) return false;
+    open_ancestor_folds(el);
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("work-target-flash");
+      window.setTimeout(() => el.classList.remove("work-target-flash"), 1400);
+    });
+    return true;
+  }
+
+  function work_on(target) {
+    if (!target?.kind) return;
+
+    if (target.kind === "worksheet") {
+      open_sheet_id(target.id);
+      return;
+    }
+
+    if (target.kind === "doc") {
+      if (!target.href) {
+        // No article URL — fall back to worksheet / fold so the click still does something.
+        if (target.sheet_id && worksheet_by_id(target.sheet_id)) {
+          open_sheet_id(target.sheet_id);
+          return;
+        }
+        const fold = open_fold_by_id(target.fold_id);
+        if (fold) flash_and_scroll(fold);
+        return;
+      }
+      const url = doc_url(target.href);
+      if (url) window.open(url, "_blank", "noopener,noreferrer");
+      // Also jump to the related checklist row when it exists (same click, secondary).
+      if (target.check_id) {
+        const el = document.querySelector(
+          `[data-check-id="${CSS.escape(target.check_id)}"]`,
+        );
+        flash_and_scroll(el);
+      }
+      return;
+    }
+
+    if (target.kind === "check") {
+      const el = document.querySelector(`[data-check-id="${CSS.escape(target.id)}"]`);
+      if (flash_and_scroll(el)) return;
+      if (target.fold_id) {
+        const fold = open_fold_by_id(target.fold_id);
+        if (fold) {
+          const again = document.querySelector(`[data-check-id="${CSS.escape(target.id)}"]`);
+          if (flash_and_scroll(again || fold)) return;
+        }
+      }
+      const job = document.querySelector("[data-testid=job-search-fold]");
+      flash_and_scroll(job);
+      return;
+    }
+
+    if (target.kind === "weekly") {
+      open_fold_by_id("weekly");
+      const tally = document.querySelector(`[data-tally-id="${CSS.escape(target.id)}"]`);
+      const weekly = document.querySelector("[data-testid=weekly-fold]");
+      flash_and_scroll(tally || weekly);
+    }
+  }
+
   function persist(next, opts = {}) {
-    latest_ref.current = next;
-    set_progress(next);
-    on_save(next, opts);
+    const with_snap = {
+      ...next,
+      progress_snapshots: maybe_snapshot_progress(next),
+    };
+    latest_ref.current = with_snap;
+    set_progress(with_snap);
+    on_save(with_snap, opts);
   }
 
   function patch(partial) {
@@ -453,23 +908,16 @@ export function ChecklistApp({
   }, []);
 
   function reset_week() {
-    const next_checks = { ...latest_ref.current.checks };
-    WEEKLY.items.forEach((item) => {
-      delete next_checks[item.id];
-    });
+    const current = latest_ref.current;
+    const progress_snapshots = snapshot_progress_report(current);
+    const patched = apply_week_reset(current);
     const next = {
-      ...latest_ref.current,
-      checks: next_checks,
-      weekly_tallies: {},
-      weekly_of: "",
+      ...current,
+      ...patched,
+      progress_snapshots,
     };
     persist(next, { silent: false, force_github: true });
   }
-
-  const status_label =
-    save_status === "saving" ? "Saving…" : save_status === "error" ? "Save failed" : "Saved";
-
-  const journey = overall_progress(p);
 
   if (open_sheet) {
     return (
@@ -482,28 +930,36 @@ export function ChecklistApp({
     );
   }
 
+  if (open_overview) {
+    return (
+      <div className="checklist-app">
+        <header className="app-header app-header-report">
+          <ProgressReport
+            progress={p}
+            on_work_on={(target) => {
+              set_open_overview(false);
+              work_on(target);
+            }}
+            next_hint={recommended_next_text(p)}
+          />
+        </header>
+        <MenteeOverviewView progress={p} on_close={() => set_open_overview(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="checklist-app">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Mentorship · Module 4</p>
-          <h1>Job Search Progress</h1>
-          <p className="sub">
-            Highest open stage: <strong>{p.highest_unlocked}</strong>
-            <span className={`autosave-note status-${save_status}`}> · {status_label}</span>
-            {github_backup_ok ? (
-              <span className="autosave-note"> · GitHub backup once/day</span>
-            ) : null}
-          </p>
-          <ProgressPulse
-            percent={journey.percent}
-            label={`${journey.done} / ${journey.total}`}
-          />
-        </div>
+      <header className="app-header app-header-report">
+        <ProgressReport
+          progress={p}
+          on_work_on={work_on}
+          next_hint={recommended_next_text(p)}
+        />
         {github_backup_ok ? (
           <button
             type="button"
-            className="ghost"
+            className="ghost backup-btn"
             onClick={() => on_save(latest_ref.current, { silent: false, force_github: true })}
           >
             Backup to GitHub
@@ -511,87 +967,26 @@ export function ChecklistApp({
         ) : null}
       </header>
       {message ? <p className="toast">{message}</p> : null}
-      {!foundations_ok ? (
-        <p className="gate" data-testid="mode-gate">
-          Foundations · Next: {next_foundation_label(p)}
-        </p>
-      ) : (
-        <p className="hint" data-testid="mode-gate">
-          Job Search · Stages open
-        </p>
-      )}
-      <ol className="map">
-        {FOUNDATIONS.map((f) => {
-          const skip_m2 = is_search_ready(p) && f.id === "m2";
-          const passed =
-            skip_m2 || stage_pass_status(f, p).passed || foundations_ok;
-          return (
-            <li key={f.id} className={`${passed ? "open passed" : ""}`}>
-              <span className="map-fill" />
-              <span className="map-label">{f.id}</span>
-            </li>
-          );
-        })}
-        {foundations_ok
-          ? STAGES.map((s) => {
-              const open = is_stage_open(s.id, p);
-              const passed = stage_pass_status(s, p).passed;
-              return (
-                <li key={s.id} className={`${open ? "open" : ""} ${passed ? "passed" : ""}`}>
-                  <span className="map-fill" />
-                  <span className="map-label">{s.id}</span>
-                </li>
-              );
-            })
-          : null}
-        {foundations_ok ? (
-          <li
-            className={`${weekly_open(p) ? "open" : ""} ${weekly_pass_status(p).passed ? "passed" : ""}`}
-          >
-            <span className="map-fill" />
-            <span className="map-label">W</span>
-          </li>
-        ) : null}
-      </ol>
       <RoleFitPanel progress={p} on_change={patch} />
-      <FoldSection
-        id="foundations"
-        title={foundations_ok ? "Foundations · done" : "Foundations"}
-        defaultOpen={!foundations_ok}
-        className="foundations-fold"
-        testId="foundations-fold"
-        summaryClassName="fold-summary fold-summary-section"
-      >
-        {FOUNDATIONS.map((stage) => (
-          <FoundationCard key={stage.id} stage={stage} progress={p} on_open={open_sheet_id} />
-        ))}
-      </FoldSection>
-      {foundations_ok ? (
-        <FoldSection
-          id="job_search"
-          title="Job Search"
-          defaultOpen
-          className="job-search-fold"
-          testId="job-search-fold"
-          summaryClassName="fold-summary fold-summary-section"
-        >
-          {STAGES.map((stage) => (
-            <StageCard
-              key={stage.id}
-              stage={stage}
-              progress={p}
-              locked={!is_stage_open(stage.id, p)}
-              on_change={patch}
-            />
-          ))}
-          <WeeklyCard
+      <section className="modules-list" data-testid="modules-list">
+        <div className="modules-list-head">
+          <h2 className="modules-list-title">
+            <TipText text="Modules" />
+          </h2>
+          <MenteeOverviewButton open={false} on_toggle={() => set_open_overview(true)} />
+        </div>
+        {MODULES.map((stage) => (
+          <FoundationCard
+            key={stage.id}
+            stage={stage}
             progress={p}
-            locked={!weekly_open(p)}
+            on_open={open_sheet_id}
             on_change={patch}
+            defaultOpen={false}
             on_reset_week={reset_week}
           />
-        </FoldSection>
-      ) : null}
+        ))}
+      </section>
     </div>
   );
 }

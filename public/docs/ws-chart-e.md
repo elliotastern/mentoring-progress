@@ -1,10 +1,10 @@
-# Chart E Role Scorecard — Worksheet
+# Chart E Role Scorecard - Worksheet
 
-**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.** Duplicate the score table for each role you consider.
+**Fill this in the [Progress app](https://elliotastern.github.io/mentoring-progress/)** (autosaves). Duplicate the score table for each role you consider.
 
-**Purpose:** decide effort before you apply. Score 0 / 1 / 2 on five factors; total 0–10.
+**Purpose:** decide effort before you apply. Score 0 / 1 / 2 on five factors; total 0-10.
 
-Guide: [Overview · Chart E](../01%20-%20Job%20Search%20Overview%20v8.md#before-you-apply--chart-e-effort-score-010)
+Guide: [Overview · Chart E](overview-v8.md#before-you-apply-chart-e-effort-score-0-10)
 
 ---
 
@@ -31,11 +31,26 @@ Guide: [Overview · Chart E](../01%20-%20Job%20Search%20Overview%20v8.md#before-
 
 | Total | Action |
 |------:|--------|
-| 8–10 | Full effort: tailor, referral, HM/recruiter note, attach proof |
-| 6–7 | Targeted apply + one concise outreach |
-| 0–5 | Usually skip (unless intentional practice) |
+| 8-10 | Full effort: tailor, referral, HM/recruiter note, attach proof |
+| 6-7 | Targeted apply + one concise outreach |
+| 0-5 | Usually skip (unless intentional practice) |
 
 My action for this role: __________
+
+## Worked example (practice)
+
+**Acme · Data Analyst** (careers page, posted yesterday, alumni at company)
+
+| Factor | Score | Why |
+|--------|------:|-----|
+| Interest | 2 | Would take this role |
+| Core fit | 2 | SQL + dashboards match day-to-day |
+| Proof | 1 | Related project; not the same industry |
+| Human access | 2 | Warm alumni intro possible |
+| Logistics | 1 | Hybrid OK; pay near floor |
+| **Total** | **8** | Full effort |
+
+Contrast: same title at a company with no contact, weak proof, and a hard onsite requirement might score **4** → usually skip.
 
 ## Apply checklist (if continuing)
 
@@ -56,4 +71,4 @@ My action for this role: __________
 ## Done when
 
 - [ ] I can score a new role in under 5 minutes  
-- [ ] Progress Stage 3 answer = last Chart E total  
+- [ ] Progress Apply-stage Answer = last Chart E total  

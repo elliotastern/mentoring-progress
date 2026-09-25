@@ -1,0 +1,76 @@
+{
+  "highest_unlocked": "0",
+  "stage_schema": 2,
+  "foundations_complete": false,
+  "checks": {
+    "m0_overview": true,
+    "m0_provided": true,
+    "m0_communicate": true,
+    "m0_expectations": true,
+    "m1_overview": true,
+    "m1_principles": true,
+    "m1_bumps": true,
+    "m1_goals": true,
+    "m1_roadmap": true,
+    "m1_next": true,
+    "m1_time": true,
+    "m1_habits": true,
+    "m1_optimal": true
+  },
+  "answers": {
+    "search_path": "build_proof",
+    "role_suggested": "",
+    "role_track": "ds",
+    "role_tracks": ["ds"]
+  },
+  "worksheets": {
+    "module-exit-0": {
+      "overview": true,
+      "provided": true,
+      "communicate": true,
+      "hours_week": "10",
+      "expectations_ws": true,
+      "success_outcome": "DA/DS in 12 weeks in USA",
+      "ready": true
+    },
+    "module-exit-1": {
+      "overview": true,
+      "principles": true,
+      "bumps": true,
+      "goals": true,
+      "roadmap_assess": true,
+      "next_steps": true,
+      "time_energy": true,
+      "habits": true,
+      "optimal": true,
+      "ready": true,
+      "coding_habit": "Python 30m daily"
+    },
+    "module-exit-2": {
+      "ready": true
+    }
+  },
+  "skill_level": "",
+  "weekly_tallies": {},
+  "weekly_of": "",
+  "weekly_streak": 0,
+  "weekly_best_streak": 0,
+  "weekly_history": [],
+  "updated_at": "2026-09-24T17:35:00.000Z",
+  "username": "melissaR",
+  "email": "melissaR",
+  "displayName": "Melissa R",
+  "progress_snapshots": [
+    {
+      "at": "2026-09-24T07:07:00.000Z",
+      "overall": 23,
+      "pillars": {
+        "proof": 0,
+        "skills": 0,
+        "application": 0,
+        "weekly": 0,
+        "docs": 17
+      }
+    }
+  ]
+}

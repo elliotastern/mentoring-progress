@@ -1,77 +1,87 @@
-**The Complete Compensation Planning - Worksheet**
+# Compensation Planning - Worksheet
 
-**Fill this in the progress site worksheet (autosaves to your login). If you use an external Doc, paste the link in the matching field or Slack your mentor.**
+**Fill this in the [Progress app](https://elliotastern.github.io/mentoring-progress/)** (autosaves).
 
-This worksheet is meant to be done interactively as you complete the Contract Negotiation
+**Purpose:** decide floor before money comes up; close an offer without panic. From [Overview · Step 3d Offer](overview-v8.md#step-3d-offer).
 
-- Before researching contract negotiations what is/was your base annual salary value? Include the city, this estimation was for.
+Also: [Search Outcomes Review](ws-outcomes-review.md) every 20-30 qualified apps.
 
-**City:**
-**Salary: $**
+---
 
-- Have you negotiated compensation packages before? If yes, can you explain how it went? If yes, what do you think you did wrong or what would you change?
+## Floor
 
-- What is the minimum annual salary you would take right now if someone offered you the job you are looking for?
+- City / market: __________  
+- Target title: __________  
+- Market range researched: __________  
+- Minimum annual base I would take now: $__________  
+- Walk-away / must-have offer line: __________  
 
-**$**
+- [ ] Comp range researched for my title + market
 
-- Make a list of **all **the types of compensation (both with and without value) that interest you
+## Must vs nice
 
-- Now separate your list into “must-have” and “nice-to-haves”
+Must-haves (ranked):
 
-Must-haves
+__________
 
-Nice-to-have
+Nice-to-haves (ranked):
 
-- Now for each of your lists rank them where 1 is the most important in your life currently. This will of course change as you change.
+__________
 
-Must-haves:
+- [ ] Must-have vs nice-to-have criteria written
 
-Nice-to-have
+## Expected-salary defence ladder
 
-- What is your market value? Write it out for the main cities you are looking for positions.
+Practice this order. Fill your words; keep them short.
 
-**City:**
-**Years of relative experience:**
-**Level of relative education:**
-**Average Salary + 5-20%:**
+**1) Deflect early** (if still learning the role):
 
-.
-.
-.
+> That's a fair question. Could you share the range for this level? I'd like to understand the role and total package before locking a number.
 
-- What is the value of your current complete compensation package? (Optional if you transitioning or breaking into the data science industry)
+**My version:** __________
 
-**Example**
-Salary => $78000
-50% on phone plan => ~$600 /year
-Sick days => 2-5 days worth of pay => ~$1500
-Vacation Pay => 2 weeks of pay (not included in salary) => ~ $4500
-Health & dental plan => Save ~$150 a month =>$1800
-Stock option => ~$3k /year
-Remote => Save ~$5k /year for transportation and such
-Total Compensation Package => ~$94,400
+**2) Market range** (if they push):
 
-- What leverages could you use? Or what leverages do you plan to use?
+> For [title] in [city], I'm seeing about [low]-[high]. I'm targeting that band if the fit is strong.
 
-**Preparing for the ask - Activity **
+**My version:** __________
 
-- We gathered our needs, wants, and nice-to-haves from earlier.
-- We did our market research.
-- Now Get your proof
-  - “Why do I deserve this much”
-  - “What are you my skills and experience for that value”
-  - “What objections could I get?”
-  - etc
-- Write out your ask  (View the [BONUS](https://drive.google.com/file/d/16oAgtOsgU01taxvLU2aw2RBhfB2IYtoq/view?usp=sharing) email script for additional help)
-- Think of all the questions they will ask you, then prepare the answers
-- Think of all the questions you will ask
-- Plan the process/frame
-- Then branch off a path for the most common answers. Then continue the branch on how you would handle that and bring the negotiation to where you want to go next. NOTE: I like to use [MindMup 2](https://drive.mindmup.com/), you use what you like.
-  - Example
-  - You say your ask
-  - “Yes - that sounds great, I actually want to give you more”
-  - “Yes - that sounds reasonable”
-  - “No - I was thinking ___ (lower)”
-  - “No - ARE YOU SERIOUS!? YOU ARE NOT WORTH THAT MUCH”
-  - Then you branch off each of those answers and keep repeating this process
+**3) Floor-anchored ask** (if they need a number):
+
+> My floor is about $[minimum]. Happy to talk total package once we've confirmed fit.
+
+**My version:** __________
+
+**4) If the form requires a number:** put a market-mid or range you can live with, then say you'll revisit total package later. Do not invent a lowball.
+
+- [ ] Defence ladder written from my floor  
+- [ ] Practiced out loud  
+
+## When you have an offer
+
+**Total-comp levers** (check what you will discuss):
+
+- [ ] Base  
+- [ ] Bonus / variable  
+- [ ] Equity / RSUs  
+- [ ] PTO / flexibility  
+- [ ] Start date  
+- [ ] Remote / hybrid  
+
+**Ask once** (thank → interest → research ask → listen):
+
+> Thank you. I'm excited about [specific reason]. Based on [market / other signal], I'm most comfortable around $[ask] base (or [total-comp ask]). Can we get there?
+
+**My ask script:** __________
+
+**If yes:** __________ (accept path / written offer check)
+
+**If no / below floor after one ask:** __________ (walk-away line; politely decline)
+
+- [ ] Negotiate script written  
+- [ ] Levers listed  
+
+## Done when
+
+- [ ] Progress Offer Answer = walk-away / must-have line  
+- [ ] I will not invent a salary number on a cold call  

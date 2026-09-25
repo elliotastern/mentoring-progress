@@ -20,12 +20,6 @@ function collect_guide_hrefs() {
   for (const m of src.matchAll(/overview\("([^"]+)"/g)) {
     hrefs.add(`docs/view.html?doc=overview-v8.md#${m[1]}`);
   }
-  for (const m of src.matchAll(/module5\("([^"]+)"/g)) {
-    hrefs.add(`docs/view.html?doc=${m[1]}`);
-  }
-  for (const m of src.matchAll(/module6\("([^"]+)"/g)) {
-    hrefs.add(`docs/view.html?doc=${m[1]}`);
-  }
   for (const m of src.matchAll(/href:\s*"([^"]+)"/g)) {
     if (m[1].includes("view.html")) hrefs.add(m[1].replace(/^\//, ""));
   }

@@ -1,7 +1,5 @@
 # Expectations
 
-Video Version Here
-
 “You” - As in the mentee
 “Me” - As in the mentor
 

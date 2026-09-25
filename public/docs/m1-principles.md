@@ -1,7 +1,5 @@
 # Principles And Values
 
-## Video Version [Here](https://www.loom.com/share/4a0ea9a6c63745f5abe1d83fbf000f44?sid=920e7df1-dfb5-47e9-ba91-0c14f4719205)
-
 # Overview
 
 - Why are Principles and Values important?

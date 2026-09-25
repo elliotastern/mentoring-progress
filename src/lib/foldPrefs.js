@@ -1,4 +1,4 @@
-const STORAGE_KEY = "mentorship_fold_v1";
+const STORAGE_KEY = "mentorship_fold_v2";
 const LEGACY_MAP = {
   fold_rolefit: "rolefit",
   fold_foundations: "foundations",

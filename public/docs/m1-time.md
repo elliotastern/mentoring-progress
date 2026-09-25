@@ -1,7 +1,5 @@
 **Time Management To Productivity**
 
-## Video Version [Here](https://www.loom.com/share/5b0186c45baa488c9dd013baa96ef514?sid=e29e51c5-d49a-418a-8bf3-190869d42d5b)
-
 # Overview
 
 - Time Management
@@ -308,7 +306,7 @@ If you feel like a to-do list is not working for you, it is often easier to writ
 
 These are both just examples, either or works, but the “by time” example will make you feel like you are behind if you take longer on a task, so I highly suggest by task (right side example).
 
-Take a look at this [quick demo for more help planning your day](https://www.loom.com/share/c8b00f9cf04e46fbb188aba35f2977d7?sid=b282a4c7-2a6e-47d0-814d-e241ce7355c6).
+Use the daily planning steps in this guide.
 
 ## The Domino Effect (Leverage Priorities)
 
