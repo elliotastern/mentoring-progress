@@ -6,12 +6,12 @@ export const GLOSSARY = {
   Modules:
     "The chapters of the program (0-4). Module 4 is Job Search.",
   "Job Search":
-    "Module 4 - looking for jobs, sending applications, and practicing interviews.",
+    "Module 4: pick targets, then apply the smart way (Setup → Apply on the site today).",
   "Module 4":
-    "Job Search: Aim → Package → Apply → Interview → Offer, plus Weekly once Modules 0-3 are done.",
-  "Chart A":
-    "A ranked list of ways to apply. Warm intros and company careers pages beat Easy Apply.",
-  "Chart B":
+    "Job Search on the site today: Setup → Apply. Interview, Offer, and Weekly come later.",
+  "Channel payoff ranks":
+    "Ranked job-search channels by practical payoff (return on the time you spend). Warm intros, Wellfound, and portfolio refresh beat mass Easy Apply.",
+  "Hire sources":
     "Where hires actually come from by source (boards make volume; warm/recruiter are efficient).",
   "Role + path":
     "Pick the job type you want and how you’ll get ready (apply now, or build a project first).",
@@ -19,12 +19,22 @@ export const GLOSSARY = {
     "The job title(s) you’re aiming for. You can pick more than one.",
   "Search-ready":
     "You’re ready to apply for jobs now. You can skip building a big new project.",
+  "Portfolio final submitted (LinkedIn, resume, GitHub, personal site)":
+    "Submit each link in the app. The date is saved to your login. Awesome Screenshot helps capture pages into a Doc link.",
   "Build-proof":
     "You’ll make a project that shows what you can do, then apply.",
   Track:
     "The kind of data job you want (like Analyst or Engineer). Pick one or more.",
   Path:
     "Your plan: apply soon, or build a project first.",
+  Level:
+    "How senior the job is: entry, mid, or senior. Match this to your experience.",
+  "Remote / hybrid":
+    "Where you’ll work: remote, hybrid, or in person. Rank the ones you’ll accept.",
+  Industry:
+    "The field you want to work in (health, fintech, climate, and so on).",
+  "Compensation floor":
+    "The lowest total pay you would say yes to. Do not go below this on purpose.",
   "Hours/week":
     "How many hours each week you’ll spend applying and building skills.",
   "Want a job by":
@@ -40,9 +50,11 @@ export const GLOSSARY = {
   Guide:
     "A reading page that explains how to do the step.",
   Stage:
-    "A step in the job hunt (setup → target role → package → apply…).",
+    "A step in the job hunt. Live path: Setup → Apply.",
   Tracker:
     "A simple table (like a spreadsheet) where you list every job you apply to.",
+  "Company list":
+    "Your 10-15 target companies, sorted into stretch, stepping stone, and sandbox.",
   "primary title":
     "The exact job name you want people to see (example: Data Analyst).",
   "public proof":
@@ -51,8 +63,6 @@ export const GLOSSARY = {
     "A free website where people store and share code projects.",
   LinkedIn:
     "A website for work profiles. Recruiters look for people there.",
-  "comp floor":
-    "The lowest pay you’d say yes to. Don’t go below this on purpose.",
   remote:
     "Work from home (not in an office every day).",
   hybrid:
@@ -64,12 +74,28 @@ export const GLOSSARY = {
   sandbox:
     "A safer practice company - easier to get, good for learning.",
   Package:
-    "Your resume, LinkedIn, and project links all matching the same job title.",
+    "Your resume, LinkedIn, and project links all matching the same job title (built in Module 3).",
   artifact:
     "One clear thing someone can open fast (a chart, README, or demo) to see your work.",
-  "Chart E":
-    "A score from 0 to 10 that says if a job is worth your time before you apply.",
-  "Chart D":
+  "Company Fit":
+    "One sheet for Aim and Apply. Aim: score companies on traits → Stretch / Stepping / Sandbox. Apply: add Core fit, Proof, and Human access on a row for a Job effort score (0-10).",
+  "Job effort score":
+    "A score from 0 to 10 on a Company Fit row that says if a job posting is worth your time before you apply.",
+  Interest:
+    "Would you accept this job if offered tomorrow? Score low (0) if you would turn it down, medium (1) if it is acceptable, high (2) if you strongly want it. Interest is part of the Job effort score (0-10) and keeps you from pouring time into roles you would not take.",
+  "Core fit":
+    "How well you match the real day-to-day work in the posting, not every nice-to-have skill. Score 0 if there are major gaps, 1 if you are mostly qualified, 2 if it is a direct match. This is about can you do the job, not how much you like the brand.",
+  Proof:
+    "Evidence a hiring manager can see that you already do this kind of work: projects, metrics, shipped results, or portfolio pieces. Score 0 if examples are weak or missing, 1 if related, 2 if strong and quantified. Weak proof means more time writing or building before a strong apply.",
+  "Human access":
+    "Can you reach a real person about this role (employee, recruiter, or referral), or is it cold online only? Score 0 if you have no contact, 1 if a contact is possible, 2 if you have a warm intro or referral. Access raises the chance your application gets seen.",
+  Logistics:
+    "Does remote or location, compensation floor, and schedule fit your walk-away line for this posting? Score 0 if there is a major conflict, 1 if workable, 2 if it fits. Leave blank to auto-fill from your Compensation / Remote trait scores on the company row.",
+  "Green flag":
+    "One concrete reason this company looks good for you, from Glassdoor, the careers page, or people you trust. Write a specific signal (team growth, clear leveling, strong reviews on your must-haves), not a vague vibe.",
+  "Red flag":
+    "One concrete concern from research that you will not ignore when deciding how hard to apply. Examples: toxic review patterns, bait pay, unclear role, or a hard no on remote. One honest red flag is enough.",
+  "Skill hours by level":
     "A guide for how many hours to spend learning skills vs applying, based on your level.",
   CAR:
     "A short story shape for interviews: Context (what was going on), Action (what you did), Result (what changed).",
@@ -133,8 +159,8 @@ export const GLOSSARY = {
     "A short note at the top of a project that explains what it is and how to run it.",
   recruiter:
     "The person who finds candidates and sets up interviews for a company.",
-  Comp:
-    "Pay - salary, bonus, and other money parts of a job offer.",
+  Compensation:
+    "Salary, bonus, and other money parts of a job offer.",
   negotiation:
     "Talking with the company about pay and other offer details after they say yes.",
   Funnel:
@@ -156,12 +182,12 @@ export const GLOSSARY = {
   "Loop-ready":
     "Ready for a full set of interview rounds without scrambling.",
   Offer:
-    "When a company says they want to hire you and shares pay details.",
+    "Close the search: know your floor, salary reply, and one negotiate-once script.",
   equity:
     "Company stock or options - a piece of ownership, not cash salary.",
 };
 
-/** Longer phrases first so we match “Chart E” before “Chart”. */
+/** Longer phrases first so we match “Job effort score” before shorter tips. */
 const TERMS = Object.keys(GLOSSARY).sort((a, b) => b.length - a.length);
 
 export function glossary_def(term) {

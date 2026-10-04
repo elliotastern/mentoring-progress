@@ -8,6 +8,8 @@ export { progress_signal, merge_progress_never_lose, looks_like_wipe };
 
 const ACCOUNTS_KEY = "mentorship_accounts_v2";
 const SESSION_KEY = "mentorship_session_v2";
+/** Localhost only: set on Sign out so reload does not auto-sign in again. Cleared on manual sign-in. */
+const LOCALHOST_SIGNED_OUT_KEY = "mentorship_localhost_signed_out_v1";
 const PROGRESS_PREFIX = "mentorship_progress_v2_";
 const PROGRESS_TEST_PREFIX = "mentorship_progress_test_v2_";
 const DAILY_BACKUP_PREFIX = "mentorship_daily_backup_v1_";
@@ -18,7 +20,9 @@ const mentor_username = (import.meta.env.VITE_MENTOR_USERNAME || "mentor").toLow
 const mentor_password = import.meta.env.VITE_MENTOR_PASSWORD || "MentorshipMentor2026";
 const mentor_name = import.meta.env.VITE_MENTOR_NAME || "Mentor";
 
-/** Seeded accounts for local auth. Passwords are for localhost testing only. */
+/** Seeded accounts for local auth. Passwords are for localhost testing only.
+ *  Default localhost / Playwright mentee is Elliot (`LOCALHOST_TEST_USER`).
+ *  Do not change that default to Melissa unless the user explicitly asks. */
 export const SEEDED_USERS = [
   {
     username: "mentor",
@@ -26,6 +30,13 @@ export const SEEDED_USERS = [
     password: mentor_password,
     salt: "seed_salt_mentor_v1",
     role: "mentor",
+  },
+  {
+    username: "Elliot",
+    displayName: "Elliot",
+    password: "tvdnsrui8",
+    salt: "seed_salt_Elliot_v1",
+    role: "mentee",
   },
   {
     username: "melissaR",
@@ -36,8 +47,8 @@ export const SEEDED_USERS = [
   },
 ];
 
-/** Default mentee used for localhost auto sign-in / Playwright. */
-export const LOCALHOST_TEST_USER = SEEDED_USERS.find((u) => u.username === "melissaR");
+/** Default mentee for localhost auto sign-in and Playwright. Always Elliot unless user says otherwise. */
+export const LOCALHOST_TEST_USER = SEEDED_USERS.find((u) => u.username === "Elliot");
 
 function normalize_username(value) {
   return String(value || "").trim();
@@ -53,8 +64,18 @@ function uid_from_username(username) {
 
 async function sha256_hex(text) {
   const data = new TextEncoder().encode(text);
-  const buf = await crypto.subtle.digest("SHA-256", data);
-  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  if (globalThis.crypto?.subtle?.digest) {
+    const buf = await crypto.subtle.digest("SHA-256", data);
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  // Fallback when SubtleCrypto is unavailable (some embedded / restricted browsers).
+  // Not for production security; localhost seed accounts only.
+  let h = 2166136261;
+  for (let i = 0; i < data.length; i++) {
+    h ^= data[i];
+    h = Math.imul(h, 16777619);
+  }
+  return `fallback_${(h >>> 0).toString(16).padStart(8, "0")}`;
 }
 
 async function hash_password(password, salt) {
@@ -140,12 +161,24 @@ export async function sign_in({ username, password }) {
   // localStorage so worksheet/guide tabs opened with target=_blank stay signed in
   localStorage.setItem(SESSION_KEY, JSON.stringify(user));
   sessionStorage.removeItem(SESSION_KEY);
+  try {
+    localStorage.removeItem(LOCALHOST_SIGNED_OUT_KEY);
+  } catch {
+    /* ignore */
+  }
   return user;
 }
 
 export function sign_out() {
   localStorage.removeItem(SESSION_KEY);
   sessionStorage.removeItem(SESSION_KEY);
+  if (is_localhost_host()) {
+    try {
+      localStorage.setItem(LOCALHOST_SIGNED_OUT_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+  }
 }
 
 export function current_user() {
@@ -164,12 +197,19 @@ export function is_localhost_host() {
 }
 
 /**
- * On localhost only: if no session, sign in as the test mentee (or ?as=mentor).
+ * On localhost only: if no session, sign in as Elliot (`LOCALHOST_TEST_USER`), or mentor when `?as=mentor`.
+ * Skips auto sign-in after an explicit Sign out (stays signed out until you sign in).
  * Never runs on GitHub Pages / production hosts.
+ * Never auto-signs as Melissa; only Elliot (or mentor via query).
  */
 export async function try_localhost_auto_sign_in() {
   if (!is_localhost_host()) return current_user();
   if (current_user()) return current_user();
+  try {
+    if (localStorage.getItem(LOCALHOST_SIGNED_OUT_KEY) === "1") return null;
+  } catch {
+    /* ignore */
+  }
 
   await ensure_seeded_accounts();
   let want = LOCALHOST_TEST_USER;
@@ -207,6 +247,10 @@ function progress_prefix() {
 
 function daily_prefix() {
   return test_storage_isolated() ? DAILY_TEST_BACKUP_PREFIX : DAILY_BACKUP_PREFIX;
+}
+
+function daily_backup_key(uid) {
+  return daily_prefix() + uid;
 }
 
 export function progress_storage_key(uid) {
@@ -268,12 +312,14 @@ export function load_progress(uid) {
   }
 }
 
-/** Drop main progress + daily backups for a uid (localhost seed reset). */
+/**
+ * Drop main progress for a uid (localhost ?reset_seed=1 only).
+ * Keeps daily backups so a bad reset can still be healed by load_progress_resilient.
+ */
 export function clear_local_progress(uid) {
   if (!uid) return;
   try {
     localStorage.removeItem(progress_prefix() + uid);
-    localStorage.removeItem(daily_backup_key(uid));
   } catch {
     /* ignore */
   }
@@ -324,10 +370,17 @@ export function load_progress_resilient(uid) {
  */
 export function save_progress(uid, progress, profile, opts = {}) {
   const existing = load_progress(uid);
-  const merged =
-    opts.replace || test_storage_isolated()
-      ? progress
-      : merge_progress_never_lose(existing, progress);
+  // Snapshot whatever is on disk before we write, so a bad payload can be healed.
+  if (existing) {
+    save_daily_local_backup(uid, existing);
+  }
+  let merged = opts.replace
+    ? progress
+    : merge_progress_never_lose(existing, progress);
+  const daily = load_best_daily_backup(uid);
+  if (daily && looks_like_wipe(daily, merged)) {
+    merged = merge_progress_never_lose(daily, merged);
+  }
   const checks = { ...(merged.checks || {}) };
   // Keep test anchors off the real mentee key (Playwright uses the isolated prefix).
   if (!test_storage_isolated()) {

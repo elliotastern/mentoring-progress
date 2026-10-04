@@ -19,6 +19,39 @@ function check(id, label, opts = {}) {
 
 export const WORKSHEETS = [
   {
+    id: "search-ready",
+    title: "Job Search Ready (moved)",
+    stage: "m4",
+    blurb:
+      "This sheet retired. Use Module 4 Setup 1: Pre Requirements on Progress for role, companies, and portfolio.",
+    /** Kept for sync of old progress; UI redirects in WorksheetView. */
+    sections: [
+      {
+        title: "Use Module 4 instead",
+        note: "Open Progress → Module 4 → Setup 1: Pre Requirements. Company list writes live in Company Fit. Portfolio final is Module 3 Exit.",
+        fields: [
+          check("know_role", "I know my job target (primary title + level)"),
+          check("know_companies", "I know my target companies (10-15 with tiers)", {
+            href: "?ws=company-fit",
+          }),
+          check("portfolio_optimized", "Portfolio final submitted (LinkedIn, resume, GitHub, personal site)", {
+            href: "?ws=module-exit-3",
+          }),
+          check("m3_linkedin_done", "LinkedIn: submitted with date", {
+            href: "?ws=module-exit-3",
+          }),
+          check("m3_resume_done", "Resume: submitted with date", {
+            href: "?ws=module-exit-3",
+          }),
+          check("m3_portfolio_done", "GitHub + personal site: submitted with dates", {
+            href: "?ws=module-exit-3",
+          }),
+          check("ready_to_search", "Ready to start Setup → Apply"),
+        ],
+      },
+    ],
+  },
+  {
     id: "tracker-setup",
     title: "Tracker Setup",
     stage: "0",
@@ -37,14 +70,14 @@ export const WORKSHEETS = [
         fields: [
           check("col_employer", "Employer"),
           check("col_role", "Role / title"),
-          check("col_subtype", "DS or DA subtype"),
+          check("col_subtype", "Data Scientist or Data Analyst subtype"),
           check("col_url", "URL (careers page preferred)"),
           check("col_posted", "Date posted"),
           check("col_applied", "Date applied"),
           check("col_source", "Source (warm / careers / LinkedIn / recruiter / other)"),
           check(
             "col_chart_e",
-            "Chart E score (0-10) - leave blank until Apply; then 0-10 before heavy effort",
+            "Job effort score (0-10) - leave blank until Apply; then 0-10 before heavy effort",
           ),
           check("col_resume", "Résumé version"),
           check("col_contact", "Contact / referrer"),
@@ -62,7 +95,7 @@ export const WORKSHEETS = [
           text("practice_employer", "Employer"),
           text("practice_role", "Role"),
           text("practice_source", "Source"),
-          text("practice_chart_e", "Chart E", "0-10"),
+          text("practice_chart_e", "Job effort score", "0-10"),
           text("practice_stage", "Stage"),
           text("practice_followup", "Follow-up date"),
         ],
@@ -80,7 +113,7 @@ export const WORKSHEETS = [
   {
     id: "linkedin",
     title: "LinkedIn Recruiter-Ready",
-    stage: "0",
+    stage: "m3",
     blurb: "One-time setup so recruiters can find you.",
     sections: [
       {
@@ -136,13 +169,10 @@ export const WORKSHEETS = [
     sections: [
       {
         title: "Target role",
+        note: "Level, remote/hybrid, industry, and pay floor live in Job Target (top of Progress).",
         fields: [
           text("primary_title", "Primary title"),
           text("stretch_title", "Optional adjacent stretch title"),
-          text("level", "Level (entry / mid / senior)"),
-          text("location", "Remote / hybrid / onsite + cities"),
-          text("industry", "Industry / domain focus"),
-          text("comp_floor", "Comp floor", "$"),
         ],
       },
       {
@@ -154,10 +184,11 @@ export const WORKSHEETS = [
       },
       {
         title: "Company list (10-15)",
+        note: "Write company names in Company Fit. This sheet no longer edits the list.",
         fields: [
-          area("stretch", "Stretch (~3)", "Company 1\nCompany 2\n…"),
-          area("stepping", "Stepping stone (~4-9)"),
-          area("sandbox", "Sandbox (~3)"),
+          check("companies_in_fit", "Company list is in Company Fit (Stretch / Stepping / Sandbox)", {
+            href: "?ws=company-fit",
+          }),
         ],
       },
     ],
@@ -165,16 +196,16 @@ export const WORKSHEETS = [
   {
     id: "package-match",
     title: "Package Match",
-    stage: "1",
+    stage: "m3",
     blurb:
-      "Match 1–2 proof projects + a 6-second artifact to your target title. Resume / LinkedIn / public home are from Module 3 (confirm they still match this title in the optional fields below).",
+      "Match 1-2 proof projects + a 6-second artifact to your target title. Confirm resume / LinkedIn / public home still match this title in the optional fields below.",
     sections: [
       {
         title: "Target",
         fields: [
           text("primary_title", "Primary title"),
-          text("jd_url", "One real JD URL I’m matching to"),
-          area("core_duties", "5 core duties from that JD (not nice-to-haves)"),
+          text("jd_url", "One real job description URL I’m matching to"),
+          area("core_duties", "5 core duties from that job description (not nice-to-haves)"),
         ],
       },
       {
@@ -183,18 +214,18 @@ export const WORKSHEETS = [
           text("project_1", "Proof project 1 + URL"),
           text("project_2", "Proof project 2 + URL (optional)"),
           text("best_artifact", "Best artifact a stranger can open in ~6 seconds"),
-          check("projects_done", "1–2 proof projects look like that job’s day-to-day work"),
+          check("projects_done", "1-2 proof projects look like that job's day-to-day work"),
           check("artifact_done", "6-second artifact is ready to share"),
         ],
       },
       {
-        title: "Optional — confirm Module 3 still matches this title",
+        title: "Optional: confirm Module 3 still matches this title",
         note: "Already done in Module 3. Only tweak if Aim changed your title.",
         fields: [
-          area("resume_summary", "Summary (matched) — optional"),
-          area("resume_bullets", "Top 3 bullets (matched) — optional"),
+          area("resume_summary", "Summary (matched), optional"),
+          area("resume_bullets", "Top 3 bullets (matched), optional"),
           check("resume_skills", "Skills line still matches the title"),
-          check("resume_ats", "ATS keywords still match (optional re-check)"),
+          check("resume_ats", "Applicant tracking system keywords still match (optional re-check)"),
           check("li_about", "About still matches the same title"),
           check("li_headline", "Headline still matches title keywords"),
           check("github_live", "GitHub still public and linked"),
@@ -204,53 +235,35 @@ export const WORKSHEETS = [
     ],
   },
   {
-    id: "chart-e",
-    title: "Chart E Role Scorecard",
+    id: "company-fit",
+    title: "Company Fit",
+    stage: "0",
+    blurb:
+      "Aim: score companies on traits (Fit → Stretch / Stepping / Sandbox). Apply: on a row with a posting, fill Core fit, Proof, and Human access for a Job effort score (0-10).",
+    sections: [],
+  },
+  {
+    id: "job-optimizer",
+    title: "Weekly Application Dashboard",
     stage: "2",
     blurb:
-      "Score a role 0-10 before you invest time. Duplicate by editing for each new role. Example: strong interest + fit + warm contact often lands 8 (full effort); no contact + weak proof often lands under 6 (skip).",
-    sections: [
-      {
-        title: "Role card",
-        fields: [
-          text("employer", "Employer"),
-          text("role", "Role"),
-          text("careers_url", "Careers-page URL (verified)"),
-          text("date_posted", "Date posted"),
-          text("source", "Source found"),
-        ],
-      },
-      {
-        title: "Score (0 / 1 / 2 each)",
-        note: "Interest: 0 would not accept · 1 acceptable · 2 strongly want. Core fit: 0 major gaps · 1 mostly qualified · 2 direct match. Proof: 0 weak · 1 related · 2 strong quantified. Human access: 0 none · 1 possible · 2 warm/referral. Logistics: 0 major conflict · 1 workable · 2 remote/part-time/pay fit. Totals: 8-10 full effort · 6-7 apply + one note · 0-5 usually skip.",
-        fields: [
-          text("s_interest", "Interest (0-2)", "0 / 1 / 2"),
-          text("s_fit", "Core fit (0-2)", "0 / 1 / 2"),
-          text("s_proof", "Proof (0-2)", "0 / 1 / 2"),
-          text("s_access", "Human access (0-2)", "0 / 1 / 2"),
-          text("s_logistics", "Logistics (0-2)", "0 / 1 / 2"),
-          text("total", "Total / 10"),
-          text("action", "My action (skip / apply+note / full effort)"),
-        ],
-      },
-      {
-        title: "If continuing",
-        fields: [
-          check("verified", "Careers page verified"),
-          check("tailored", "Résumé top tailored to core duties"),
-          check("applied", "Applied on employer site when practical"),
-          check("outreach", "One short outreach sent (if 6+)"),
-          check("logged", "Logged in tracker with Chart E + follow-up"),
-        ],
-      },
-    ],
+      "Weekly apply plan from Channel payoff ranks: enter hours, check off finished channels, log attempts, get remaining ranked strategies. Expand a row for directions.",
+    sections: [],
+  },
+  {
+    id: "chart-e",
+    title: "Job effort scorecard",
+    stage: "2",
+    blurb:
+      "Opens Company Fit. Score Job effort (0-10) on a company row when you have a posting.",
+    sections: [],
   },
   {
     id: "networking-scripts",
     title: "Networking Scripts",
     stage: "2",
     blurb:
-      "Paste Overview Templates, then tweak. LinkedIn: connect with no note → message after accept. No long pitches on the invite.",
+      "Paste Overview Templates, then tweak. LinkedIn: connect with no note, then message after they accept.",
     sections: [
       {
         title: "Warm / referral",
@@ -297,7 +310,7 @@ export const WORKSHEETS = [
             "Wellfound-style message (saved)",
             "Hi [Name] - interested in [role] because [company reason]. I’ve built [related work] and achieved [result]. Portfolio: [link].",
           ),
-          check("wellfound_done", "Wellfound-style message drafted and saved"),
+          check("wellfound_done", "Startup / Wellfound note drafted (optional)"),
         ],
       },
       {
@@ -315,25 +328,23 @@ export const WORKSHEETS = [
   },
   {
     id: "skills-fork",
-    title: "Skills Fork (Chart D)",
+    title: "Skills Fork (skill hours by level)",
     stage: "2",
-    blurb: "Pick your level row, cap skill hours, keep applying.",
+    blurb: "Cap skill hours for your Job Target level. Keep applying as the main work.",
     sections: [
       {
-        title: "My level",
+        title: "Skill hours",
+        note: "Level is set on Job Target.",
         fields: [
-          text("level", "Level (entry / mid / senior)"),
-          text("years", "Years of relevant experience"),
           text("cap_hours", "Skill hours / week cap"),
-          text("focus", "This month’s one skill focus"),
-          check("apply_parallel", "Apply / outreach stays primary"),
+          text("focus", "This month's one skill focus"),
         ],
       },
       {
         title: "Entry row (if entry)",
         fields: [
           area("entry_projects", "3-4 end-to-end projects (list)"),
-          check("entry_readme", "Each: messy data → ship → README with problem + metric"),
+          check("entry_readme", "Each: messy data, then ship, then README with problem and metric"),
           check("entry_certs", "Certificates are not substituting for proof"),
           check("entry_python", "Python skill shown in a public project / notebook"),
         ],
@@ -342,7 +353,7 @@ export const WORKSHEETS = [
         title: "Mid / senior row",
         fields: [
           check("mid_assumed", "SQL/Python treated as assumed (mid)"),
-          text("mid_diff", "One differentiator (mid)"),
+          text("mid_diff", "One extra skill (mid)"),
           check("senior_no_tutorials", "Near-zero tutorial loops (senior)"),
           check("senior_distribution", "Hours go to distribution + drills (senior)"),
         ],
@@ -352,9 +363,9 @@ export const WORKSHEETS = [
   {
     id: "interview-drills",
     title: "Interview Drills",
-    stage: "3",
+    stage: "W",
     blurb:
-      "Weekly practice in parallel with applying. Starter SQL: (1) Employee Salaries 15m (2) Average Population of Each Continent 20m (3) African Cities 25m on HackerRank. Case example: retention drop after pricing - decide keep/rollback with a metric.",
+      "Weekly practice from the Weekly Loop: timed SQL + one case as a business decision. Starter SQL: (1) Employee Salaries 15m (2) Average Population of Each Continent 20m (3) African Cities 25m on HackerRank. Case example: retention drop after pricing, decide keep/rollback with a metric.",
     sections: [
       {
         title: "This week",
@@ -395,18 +406,6 @@ export const WORKSHEETS = [
           check("case_aloud", "Told out loud as a business decision (not a tech dump)"),
         ],
       },
-      {
-        title: "Loop map",
-        fields: [
-          text(
-            "loop_list",
-            "Usual 4-6 rounds (name them)",
-            "recruiter → timed SQL → stats/ML → case → behavioral",
-          ),
-          check("loop_named", "I can name the usual loop without looking it up"),
-          check("drills_habit", "Drills habit on (~2 hrs/wk SQL + case while applying)"),
-        ],
-      },
     ],
   },
   {
@@ -414,8 +413,20 @@ export const WORKSHEETS = [
     title: "Loop-Ready Pack",
     stage: "3",
     blurb:
-      "Be ready when Chart A produces a screen - intro, SQL/case kit, CAR stories, day-of.",
+      "One-time pack so a Channel payoff ranks screen does not catch you cold: loop map, intro, SQL/case kit, CAR stories, scripts.",
     sections: [
+      {
+        title: "Loop map",
+        note: "Usual path: recruiter → timed SQL → stats/ML judgment → business case → behavioral (± take-home).",
+        fields: [
+          text(
+            "loop_list",
+            "Usual 4-6 rounds (name them)",
+            "recruiter → timed SQL → stats/ML → case → behavioral",
+          ),
+          check("loop_named", "I can name the usual loop without looking it up"),
+        ],
+      },
       {
         title: "60-second recruiter intro",
         note: "Shape: role → one proof metric → why this company type → clear ask.",
@@ -430,7 +441,7 @@ export const WORKSHEETS = [
       },
       {
         title: "Knock-out kit",
-        note: "SQL warm-up once: Employee Salaries 15m · Average Population of Each Continent 20m · African Cities 25m (HackerRank).",
+        note: "SQL warm-up once: Employee Salaries 15m · Average Population of Each Continent 20m · African Cities 25m (HackerRank). Weekly timed practice lives on Interview Drills.",
         fields: [
           area(
             "sql_set",
@@ -472,35 +483,20 @@ export const WORKSHEETS = [
         ],
       },
       {
-        title: "Day-of (once per real screen)",
+        title: "Day-of (optional, when a real screen lands)",
+        note: "Not required to unlock Offer. Pre: job description terms + 3 questions. Post (same day): one win + one fix. Follow-ups live in Weekly.",
         fields: [
-          area("day_jd", "Pre: JD core terms (title, level, tools, must-haves)"),
+          area("day_jd", "Pre: job description core terms (title, level, tools, must-haves)"),
           area("day_qs", "Pre: 3 questions I will ask"),
-          check("day_setup", "Mic / camera / quiet space checked"),
           text("day_win", "Post: one win"),
           text("day_fix", "Post: one fix next time"),
           text("day_surprise", "Post: surprising question they asked"),
-          check("dayof_done", "Day-of pre/post done once"),
         ],
       },
       {
-        title: "Tracker interview log",
+        title: "Companies I'm ready to interview with",
         fields: [
-          check(
-            "notes_fields",
-            "Tracker columns ready: round, date, what went well, fix next",
-          ),
-        ],
-      },
-      {
-        title: "After a screen + companies",
-        fields: [
-          check("note_same_day", "Same-day note habit: one win + one fix"),
-          check(
-            "followup_habit",
-            "Follow-up once at 7-10 business days (Overview This week)",
-          ),
-          text("company_1", "Company 1 I'm ready to interview with"),
+          text("company_1", "Company 1"),
           text("company_2", "Company 2"),
           text("company_3", "Company 3"),
         ],
@@ -510,67 +506,43 @@ export const WORKSHEETS = [
   {
     id: "comp-planning",
     title: "Compensation Planning",
-    stage: "4",
+    stage: "3",
     blurb:
-      "Floor before money comes up; expected-salary defence; negotiate once on total package.",
+      "Floor before money comes up; one salary reply; negotiate once on total package.",
     sections: [
       {
         title: "Floor",
+        note: "Title, city, and level live in Job Target / Aim. Write the money line here.",
         fields: [
-          text("city", "City / market"),
-          text("title", "Target title"),
           text("market_range", "Market range researched"),
           text("minimum", "Minimum annual base I would take now", "$"),
           text("walkaway", "Walk-away / must-have offer line"),
-          check("comp_done", "Comp range researched for my title + market"),
+          check("comp_done", "Compensation floor researched; walk-away line written"),
         ],
       },
       {
-        title: "Must vs nice",
+        title: "Expected-salary reply",
+        note: "Order if they push: deflect early → market range → floor-anchored ask. Do not invent a lowball. Practice once out loud.",
         fields: [
-          area("must_have", "Must-haves (ranked)"),
-          area("nice_have", "Nice-to-haves (ranked)"),
-          check("criteria_done", "Must-have vs nice-to-have criteria written"),
-        ],
-      },
-      {
-        title: "Expected-salary defence ladder",
-        note: "Order: deflect early → market range → floor-anchored ask → total package. Do not invent a lowball.",
-        fields: [
-          area(
-            "deflect",
-            "1) Deflect early",
-            "Could you share the range for this level? I'd like to understand the role and total package first.",
-          ),
-          area(
-            "market_reply",
-            "2) Market range reply",
-            "For [title] in [city], I'm seeing about [low]-[high].",
-          ),
-          area(
-            "floor_ask",
-            "3) Floor-anchored ask",
-            "My floor is about $[minimum]. Happy to talk total package once we've confirmed fit.",
-          ),
           area(
             "salary_script",
-            "Full reply I'll use (anchored to my floor)",
+            "Reply I'll use (anchored to my floor)",
+            "For [title] in [city], I'm seeing about [low]-[high]. My floor is about $[minimum]. Happy to talk total package once we've confirmed fit.",
           ),
-          check("salary_ready", "Defence ladder written from my floor"),
-          check("salary_practiced", "Practiced out loud"),
+          check(
+            "salary_ready",
+            "Expected-salary reply written and practiced aloud",
+          ),
         ],
       },
       {
-        title: "When you have an offer",
-        note: "Negotiate once. Thank → interest → research ask → listen. Walk away if still below floor.",
+        title: "Negotiate once",
+        note: "Thank → interest → research ask → listen. Walk away if still below floor.",
         fields: [
-          check("lever_base", "Lever: base"),
-          check("lever_bonus", "Lever: bonus / variable"),
-          check("lever_equity", "Lever: equity / RSUs"),
-          check("lever_pto", "Lever: PTO / flexibility"),
-          check("lever_start", "Lever: start date"),
-          check("lever_remote", "Lever: remote / hybrid"),
-          check("levers_done", "Total-comp levers listed"),
+          area(
+            "levers",
+            "Levers I'll pull (base, bonus, equity, PTO, start, remote)",
+          ),
           area(
             "negotiate_script",
             "Ask-once script",
@@ -578,7 +550,7 @@ export const WORKSHEETS = [
           ),
           text("if_yes", "If yes (accept path)"),
           text("if_no", "If no / below floor (walk-away line)"),
-          check("negotiate_done", "Negotiate script written"),
+          check("negotiate_done", "Negotiate-once script ready"),
         ],
       },
     ],
@@ -586,7 +558,7 @@ export const WORKSHEETS = [
   {
     id: "outcomes-review",
     title: "Search Outcomes Review",
-    stage: "4",
+    stage: "W",
     blurb:
       "Every 20-30 qualified apps (or monthly). Double down only where your data shows traction (screens / interviews / offers per hour by source).",
     sections: [
@@ -679,14 +651,9 @@ export const WORKSHEETS = [
       {
         title: "Channel checks",
         fields: [
-          check("c_warm", "Warm asked for a specific intro"),
-          check("c_li", "LinkedIn: connect without note → message after"),
-          check("c_careers", "Apps on careers page when practical"),
           check("c_follow", "Follow-up once at 7-10 business days"),
-          check("c_easy", "Easy Apply near zero"),
           check("c_drills", "~2 hrs interview drills"),
-          check("c_skill", "Skill hours capped to Chart D row"),
-          check("c_skip", "Skipped mass Easy Apply / course binge"),
+          check("c_skill", "Skill hours capped to Skill hours by level row"),
         ],
       },
       {
@@ -695,6 +662,51 @@ export const WORKSHEETS = [
           area("worked", "What worked this week"),
           text("next_double", "Double down next week"),
           text("next_cut", "Cut or cap next week"),
+        ],
+      },
+      {
+        title: "Fuel",
+        note: "Fill when volume is on track. If apps or proof are under goal, complete the balance lines too.",
+        fields: [
+          area(
+            "fuel_reason",
+            "One reason applying still serves my goal",
+            "Reuse your Module 0/1 why if it still fits"
+          ),
+          text(
+            "fuel_next_30m",
+            "Smallest next action under 30 minutes",
+            "e.g. send 1 warm intro ask"
+          ),
+          text(
+            "fuel_value",
+            "This week's search work protects which value? (optional)",
+            "From Path principles"
+          ),
+          area(
+            "balance_status_pros",
+            "If under goal: pros of staying in learning / Easy Apply mode"
+          ),
+          area(
+            "balance_status_cons",
+            "If under goal: cons of staying there"
+          ),
+          area(
+            "balance_apply_pros",
+            "If under goal: pros of 4-6 tailored applies this week"
+          ),
+          area(
+            "balance_apply_cons",
+            "If under goal: cons of that push"
+          ),
+          text(
+            "fuel_willing",
+            "Given that, what am I willing to do this week?",
+            "One concrete commitment"
+          ),
+          check("fuel_stuck_reviewed", "Optional: reviewed stuck-state balance guide", {
+            href: "docs/view.html?doc=ws-want-to-change.md",
+          }),
         ],
       },
     ],
@@ -730,6 +742,36 @@ export const WORKSHEETS = [
             "success_outcome",
             "Success looks like (one line)",
             "e.g. DA offer in 12 weeks"
+          ),
+        ],
+      },
+      {
+        title: "Why this matters (motivation)",
+        note: "Short readiness check. Your numbers, not the mentor's.",
+        fields: [
+          text(
+            "importance",
+            "Importance 0-10: landing this outcome on my timeline",
+            "0-10"
+          ),
+          text(
+            "confidence",
+            "Confidence 0-10: I can run the process this week",
+            "0-10"
+          ),
+          area(
+            "importance_why",
+            "Why that importance number, not a lower one?"
+          ),
+          text(
+            "confidence_bump",
+            "What would bump confidence by +1 this week?",
+            "One small change"
+          ),
+          text(
+            "commitment_7d",
+            "For the next 7 days, I will…",
+            "One concrete action"
           ),
         ],
       },
@@ -804,6 +846,43 @@ export const WORKSHEETS = [
           check("ready", "Ready for Project (or portfolio track)"),
         ],
       },
+      {
+        title: "Why move (change talk)",
+        note: "Write your own reasons. Reuse Module 0 rulers if still true, or refresh confidence.",
+        fields: [
+          area(
+            "desire",
+            "Desire: what do I want this next role to change in my life?"
+          ),
+          area(
+            "ability",
+            "Ability: what makes me capable of getting there (even if imperfect)?"
+          ),
+          area(
+            "reasons",
+            "Reasons: top 2 reasons this matters now"
+          ),
+          area(
+            "need",
+            "Need: what gets worse if I wait 6-12 months?"
+          ),
+          text(
+            "path_value",
+            "Which Path value does this goal protect? (optional)",
+            "From Principles & Values"
+          ),
+          text(
+            "confidence",
+            "Confidence 0-10 for this Path plan (refresh if needed)",
+            "0-10"
+          ),
+          text(
+            "commitment_7d",
+            "For the next 7 days, I will…",
+            "One concrete action"
+          ),
+        ],
+      },
     ],
   },
   {
@@ -846,7 +925,7 @@ export const WORKSHEETS = [
     id: "module-exit-3",
     title: "Module 3 Exit",
     stage: "m3",
-    blurb: "End-of-module checklist - portfolio package ready for search.",
+    blurb: "End-of-module checklist. Finish Portfolio final (LinkedIn, resume, GitHub, personal site) before Job Search.",
     sections: [
       {
         title: "Lessons + worksheets",
@@ -863,10 +942,10 @@ export const WORKSHEETS = [
           check("impact", "How To Measure Impact", {
             href: "docs/view.html?doc=m3-impact.md",
           }),
-          check("li_max", "Maximize LinkedIn", {
+          check("li_max", "Maximize LinkedIn (headline matches Job Target title)", {
             href: "docs/view.html?doc=m3-linkedin.md",
           }),
-          check("port_max", "Maximize Portfolio", {
+          check("port_max", "Maximize Portfolio (public proof home noted)", {
             href: "docs/view.html?doc=m3-portfolio.md",
           }),
           check("resume_max", "Maximize Resume", {
@@ -875,15 +954,21 @@ export const WORKSHEETS = [
           check("cover_max", "Maximize Cover Letter", {
             href: "docs/view.html?doc=m3-cover.md",
           }),
+          check("projects_done", "1-2 proof projects that look like that job's day-to-day work", {
+            href: "?ws=package-match",
+          }),
+          check("artifact_done", "One artifact a stranger can open and understand in about 6 seconds", {
+            href: "?ws=package-match",
+          }),
         ],
       },
       {
-        title: "Product summary",
+        title: "Portfolio final",
+        note: "Submit LinkedIn, resume, GitHub, and personal site below. Each Submit saves the link (and optional note) with today’s date. Awesome Screenshot helps capture pages into a Doc you can paste as the URL or note. Job Search Ready uses the same package.",
         fields: [
           area("product_summary", "Product summary"),
           text("one_liner", "One-liner"),
-          check("portfolio_habit", "Portfolio Touch-Up habit started (30m daily)"),
-          check("ready", "Ready for Module 4 - Job Search"),
+          check("ready", "Ready for Module 4: Job Search"),
         ],
       },
     ],
@@ -902,17 +987,40 @@ export function empty_worksheet_answers() {
 /** Required text/area fields for Module 0-3 exit worksheets (gates + progress). */
 export const EXIT_REQUIRED = {
   "module-exit-0": {
-    all: ["hours_week", "success_outcome", "resume_link", "cover_link"],
+    all: [
+      "hours_week",
+      "success_outcome",
+      "importance",
+      "confidence",
+      "commitment_7d",
+      "resume_link",
+      "cover_link",
+    ],
   },
   "module-exit-1": {
-    all: ["primary_goal", "next_actions", "coding_habit"],
+    all: [
+      "primary_goal",
+      "next_actions",
+      "coding_habit",
+      "desire",
+      "ability",
+      "reasons",
+      "need",
+    ],
   },
   "module-exit-2": {
     all: [],
     any_groups: [["project_name", "skip_reason"]],
   },
   "module-exit-3": {
-    all: ["product_summary", "one_liner"],
+    all: [
+      "linkedin_url",
+      "resume_link",
+      "github_url",
+      "site_url",
+      "product_summary",
+      "one_liner",
+    ],
   },
 };
 
@@ -930,7 +1038,19 @@ export function sheet_fillin_stats(progress, sheet_id) {
   let total = 0;
   for (const id of req.all || []) {
     total += 1;
-    if (field_filled(sheet, id)) done += 1;
+    const from_flat = field_filled(sheet, id);
+    const pf = sheet.portfolio_final;
+    let from_pf = false;
+    if (pf && typeof pf === "object") {
+      const map = {
+        linkedin_url: pf.linkedin?.url,
+        resume_link: pf.resume?.url,
+        github_url: pf.github?.url,
+        site_url: pf.site?.url,
+      };
+      if (map[id] != null) from_pf = Boolean(String(map[id] || "").trim());
+    }
+    if (from_flat || from_pf) done += 1;
   }
   for (const group of req.any_groups || []) {
     total += 1;

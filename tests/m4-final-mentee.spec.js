@@ -9,11 +9,13 @@ const BASE =
   process.env.PROGRESS_BASE_URL || "http://127.0.0.1:4173/mentoring-progress";
 
 const SHEETS = [
+  "search-ready",
   "brainstorm",
   "tracker-setup",
   "linkedin",
   "package-match",
-  "chart-e",
+  "company-fit",
+  "job-optimizer",
   "skills-fork",
   "networking-scripts",
   "weekly-loop",
@@ -85,9 +87,10 @@ function mentorship_ready_progress(overrides = {}) {
       m3_portfolio: true,
       m3_linkedin: true,
       m4_overview: true,
+      m4_tracker: true,
     },
     highest_unlocked: "0",
-    stage_schema: 2,
+    stage_schema: 4,
     foundations_complete: true,
     skill_level: "",
     answers: {
@@ -104,32 +107,29 @@ function mentorship_ready_progress(overrides = {}) {
 test.describe("Module 4 final mentee check", () => {
   test.use({ viewport: { width: 1280, height: 900 } });
 
-  test("all stages visible; Weekly locked until Apply", async ({ page }) => {
+  test("Setup + Apply flat under Module 4; Later fold and Weekly Loop in later/ only", async ({ page }) => {
     await sign_in(page);
     await set_progress(page, mentorship_ready_progress({ highest_unlocked: "0" }));
     await open_job_search(page);
 
-    await expect(page.getByTestId("job-search-path")).toContainText(
-      /Aim.*Package.*Apply.*Interview.*Offer/,
-    );
-    for (const id of ["0", "1", "2", "3", "4"]) {
-      await expect(page.locator(`[data-fold-id="stage_${id}"]`)).toHaveCount(1);
+    await expect(page.getByTestId("job-search-path")).toContainText(/Setup.*Apply/);
+    await expect(page.getByTestId("job-search-path")).not.toContainText(/Interview|Offer|Package|Aim/);
+    const applying = page.getByTestId("m4-step-applying");
+    if (!(await applying.evaluate((el) => el.open))) {
+      await applying.locator("summary").first().click({ force: true });
     }
-    const weekly = page.getByTestId("weekly-fold");
-    await expect(weekly).toHaveCount(1);
-    if (!(await weekly.evaluate((el) => el.open))) {
-      await weekly.locator("summary").first().click({ force: true });
-    }
-    await expect(page.getByTestId("weekly-locked-hint")).toBeVisible();
+    await expect(page.getByTestId("m4-applying-flat")).toBeVisible();
+    await expect(page.locator('[data-fold-id="stage_0"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_1"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_2"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_3"]')).toHaveCount(0);
+    await expect(page.getByTestId("later-fold")).toHaveCount(0);
+    await expect(page.getByTestId("weekly-fold")).toHaveCount(0);
 
-    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "2" }));
+    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "1" }));
     await open_job_search(page);
-    const weekly2 = page.getByTestId("weekly-fold");
-    if (!(await weekly2.evaluate((el) => el.open))) {
-      await weekly2.locator("summary").first().click({ force: true });
-    }
-    await expect(page.getByTestId("weekly-locked-hint")).toHaveCount(0);
-    await expect(weekly2.getByRole("link", { name: /Weekly apply loop/i })).toBeVisible();
+    await expect(page.getByTestId("later-fold")).toHaveCount(0);
+    await expect(page.getByTestId("weekly-fold")).toHaveCount(0);
   });
 
   test("title answer does not auto-tick Aim primary_title", async ({ page }) => {
@@ -151,16 +151,13 @@ test.describe("Module 4 final mentee check", () => {
       const p = JSON.parse(
         localStorage.getItem("mentorship_progress_test_v2_" + session.uid) || "{}",
       );
-      return Boolean(p.checks?.primary_title);
+      return {
+        primary_title: Boolean(p.checks?.primary_title),
+        tracker: Boolean(p.checks?.tracker),
+      };
     });
-    expect(stored).toBe(false);
-
-    await open_job_search(page);
-    const aim = page.locator('[data-fold-id="stage_0"]');
-    if (!(await aim.evaluate((el) => el.open))) {
-      await aim.locator("summary").first().click({ force: true });
-    }
-    await expect(aim.locator('input[type=checkbox]:checked')).toHaveCount(0);
+    expect(stored.primary_title).toBe(false);
+    expect(stored.tracker).toBe(false);
   });
 
   test("every Module 4 worksheet opens and has fields", async ({ page }) => {
@@ -169,7 +166,15 @@ test.describe("Module 4 final mentee check", () => {
       await page.goto(`${BASE}/?ws=${encodeURIComponent(id)}`, {
         waitUntil: "networkidle",
       });
-      const panel = page.getByTestId(`ws-inline-${id}`);
+      if (id === "search-ready") {
+        const redirect = page.getByTestId("ws-search-ready-redirect");
+        await expect(redirect, "search-ready redirects").toBeVisible({ timeout: 15000 });
+        await expect(redirect.getByRole("button", { name: /Back to Module 4/i })).toBeVisible();
+        continue;
+      }
+      const panel_id =
+        id === "company-fit" || id === "job-optimizer" ? id : `ws-inline-${id}`;
+      const panel = page.getByTestId(panel_id);
       await expect(panel, `sheet ${id}`).toBeVisible({ timeout: 15000 });
       const fields = panel.locator(".ws-field, .ws-check, input, textarea");
       await expect(fields.first(), `sheet ${id} has fields`).toBeVisible();
@@ -179,82 +184,79 @@ test.describe("Module 4 final mentee check", () => {
     }
   });
 
-  test("Aim mentee can check items, fill answer, open brainstorm", async ({ page }) => {
+  test("Mentee can check Tracker ready and open brainstorm under Setup 1", async ({
+    page,
+  }) => {
     await sign_in(page);
     await set_progress(page, mentorship_ready_progress({ highest_unlocked: "0" }));
     await open_job_search(page);
-    const aim = page.locator('[data-fold-id="stage_0"]');
-    if (!(await aim.evaluate((el) => el.open))) {
-      await aim.locator("summary").first().click({ force: true });
+    const step1 = page.getByTestId("m4-step-prereq");
+    const step3 = page.getByTestId("m4-step-tracker");
+    const applying = page.getByTestId("m4-step-applying");
+    if (!(await step1.evaluate((el) => el.open))) {
+      await step1.locator("summary").first().click({ force: true });
+    }
+    if (!(await step3.evaluate((el) => el.open))) {
+      await step3.locator("summary").first().click({ force: true });
+    }
+    if (!(await applying.evaluate((el) => el.open))) {
+      await applying.locator("summary").first().click({ force: true });
     }
 
-    // Stage worksheet banner links
-    await expect(aim.getByRole("link", { name: /Next position brainstorm/i })).toBeVisible();
-    await expect(aim.getByRole("link", { name: /Tracker setup/i })).toBeVisible();
-    await expect(aim.getByRole("link", { name: /LinkedIn/i })).toBeVisible();
+    await expect(step1.getByRole("link", { name: /Next position brainstorm/i })).toBeVisible();
+    await expect(applying.getByRole("link", { name: /Next position brainstorm/i })).toHaveCount(0);
+    await expect(step3.getByRole("link", { name: /Tracker setup/i }).first()).toBeVisible();
+    await expect(applying.getByRole("link", { name: /LinkedIn/i })).toHaveCount(0);
+    await expect(applying.getByText(/One primary title chosen/i)).toHaveCount(0);
+    await expect(applying.getByText(/Answer: my primary title/i)).toHaveCount(0);
+    await expect(applying.locator(".answer-field")).toHaveCount(0);
 
-    const boxes = aim.locator('input[type=checkbox]');
-    const n = await boxes.count();
-    expect(n).toBeGreaterThanOrEqual(6);
-    await boxes.nth(0).check();
-    await boxes.nth(1).check();
+    const tracker_box = step3.locator('[data-check-id="m4_tracker"] input[type=checkbox]');
+    await expect(tracker_box).toHaveCount(1);
+    await tracker_box.check();
+    await expect(tracker_box).toBeChecked();
 
-    const answer = aim.locator(".answer-field input");
-    await answer.fill("Data Scientist");
-    await expect(answer).toHaveValue("Data Scientist");
-
-    // Still only the two we checked (title text must not auto-add a third)
-    await expect(aim.locator('input[type=checkbox]:checked')).toHaveCount(2);
-
-    // Open brainstorm worksheet from banner
-    const [popup] = await Promise.all([
-      page.context().waitForEvent("page"),
-      aim.getByRole("link", { name: /Next position brainstorm/i }).click(),
-    ]);
-    await popup.waitForLoadState("domcontentloaded");
-    await expect(popup.getByTestId("ws-inline-brainstorm")).toBeVisible({ timeout: 15000 });
-    await popup.getByLabel(/Primary title/i).fill("Data Scientist");
-    await popup.close();
+    await step1.getByRole("link", { name: /Next position brainstorm/i }).click();
+    const panel = page.getByTestId("ws-inline-brainstorm");
+    await expect(panel).toBeVisible({ timeout: 15000 });
+    await panel.getByLabel(/Primary title/i).fill("Data Scientist");
+    const done = page.getByRole("button", { name: /Done/i });
+    if (await done.count()) await done.click();
   });
 
-  test("Apply tools exist: Chart E, Skills fork, level picker, channels", async ({ page }) => {
+  test("Apply tools exist: dashboard + Company Fit (level + answer gate hidden for later)", async ({
+    page,
+  }) => {
     await sign_in(page);
-    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "2" }));
+    await set_progress(
+      page,
+      mentorship_ready_progress({ highest_unlocked: "1", skill_level: "mid" }),
+    );
     await open_job_search(page);
-    const apply = page.locator('[data-fold-id="stage_2"]');
-    if (!(await apply.evaluate((el) => el.open))) {
-      await apply.locator("summary").first().click({ force: true });
+    const applying = page.getByTestId("m4-step-applying");
+    if (!(await applying.evaluate((el) => el.open))) {
+      await applying.locator("summary").first().click({ force: true });
     }
-    await expect(apply.getByRole("link", { name: /Chart E/i })).toBeVisible();
-    await expect(apply.getByRole("link", { name: /Skills fork/i })).toBeVisible();
-    const level = apply.locator("select");
-    await expect(level).toBeVisible();
-    await level.selectOption("mid");
-    await expect(level).toHaveValue("mid");
-    // Mid row checklist appears after level is chosen
-    await expect(apply.getByText(/assumed/i).first()).toBeVisible({ timeout: 10000 });
-    await expect(apply.getByText(/differentiator/i).first()).toBeVisible();
-    await expect(apply.getByText(/referral/i).first()).toBeVisible();
-    await expect(apply.getByText(/Easy Apply/i).first()).toBeVisible();
+    await expect(
+      applying.getByRole("link", { name: /Weekly Application Dashboard/i }),
+    ).toBeVisible();
+    await expect(applying.getByRole("link", { name: /Company Fit/i }).first()).toBeVisible();
+    await expect(applying.getByText(/Give this job a Job effort score/i)).toHaveCount(0);
+    await expect(applying.getByText(/level row/i)).toHaveCount(0);
+    await expect(applying.getByText(/Channels \(/i)).toHaveCount(0);
+    await expect(applying.getByTestId("stage-level-select")).toHaveCount(0);
+    await expect(applying.getByText(/Job effort score on the last job/i)).toHaveCount(0);
+    await expect(applying.getByText(/assumed/i)).toHaveCount(0);
+    await expect(applying.getByText(/extra skill/i)).toHaveCount(0);
   });
 
-  test("Interview + Offer worksheets linked", async ({ page }) => {
+  test("Interview + Offer stay in later/ (not on site)", async ({ page }) => {
     await sign_in(page);
-    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "4" }));
+    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "3" }));
     await open_job_search(page);
-
-    const interview = page.locator('[data-fold-id="stage_3"]');
-    if (!(await interview.evaluate((el) => el.open))) {
-      await interview.locator("summary").first().click({ force: true });
-    }
-    await expect(interview.getByRole("link", { name: /Interview drills/i })).toBeVisible();
-    await expect(interview.getByRole("link", { name: /Loop-ready/i })).toBeVisible();
-
-    const offer = page.locator('[data-fold-id="stage_4"]');
-    if (!(await offer.evaluate((el) => el.open))) {
-      await offer.locator("summary").first().click({ force: true });
-    }
-    await expect(offer.getByRole("link", { name: /Comp planning/i })).toBeVisible();
+    await expect(page.getByTestId("later-fold")).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_2"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_3"]')).toHaveCount(0);
   });
 
   test("every stage Guide hash resolves in Overview v8", async ({ page }) => {
@@ -271,7 +273,7 @@ test.describe("Module 4 final mentee check", () => {
     expect(missing, `broken guide hashes: ${missing.join(", ")}`).toEqual([]);
   });
 
-  test("Overview This week + Chart E sections are mentee-readable", async ({ page }) => {
+  test("Overview This week + Job effort score sections are mentee-readable", async ({ page }) => {
     await page.goto(`${BASE}/docs/view.html?doc=overview-v8.md#this-week`, {
       waitUntil: "networkidle",
     });
@@ -295,21 +297,19 @@ test.describe("Module 4 final mentee check", () => {
     await page.waitForTimeout(600);
     await expect(page.locator("#before-you-apply-chart-e-effort-score-0-10")).toBeVisible();
     const body = await page.locator("article").innerText();
-    expect(body.toLowerCase()).toMatch(/0 to 10|chart e|interest|core fit/);
+    expect(body.toLowerCase()).toMatch(/0 to 10|job effort score|interest|core fit/);
   });
 
-  test("Package stage is thin and focused (2 checks)", async ({ page }) => {
+  test("Module 3 Portfolio includes role-matched proof checks", async ({ page }) => {
     await sign_in(page);
-    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "1" }));
-    await open_job_search(page);
-    const pkg = page.locator('[data-fold-id="stage_1"]');
-    if (!(await pkg.evaluate((el) => el.open))) {
-      await pkg.locator("summary").first().click({ force: true });
+    await set_progress(page, mentorship_ready_progress({ highest_unlocked: "0" }));
+    const m3 = page.locator('[data-fold-id="mod_m3"]');
+    await expect(m3).toHaveCount(1);
+    if (!(await m3.evaluate((el) => el.open))) {
+      await m3.locator("summary").first().click({ force: true });
     }
-    await expect(pkg.getByText(/0\/2|2\/2/)).toBeVisible();
-    await expect(pkg.getByRole("link", { name: /Package match/i })).toBeVisible();
-    const boxes = pkg.locator('input[type=checkbox]');
-    // unlocked package: 2 core checks (not locked peek)
-    expect(await boxes.count()).toBeGreaterThanOrEqual(2);
+    await expect(m3.locator('[data-check-id="projects"]')).toBeVisible();
+    await expect(m3.locator('[data-check-id="artifact"]')).toBeVisible();
+    await expect(m3.locator('a[href*="package-match"]').first()).toBeVisible();
   });
 });

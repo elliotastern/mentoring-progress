@@ -29,7 +29,7 @@ async function set_unlock(page, highest) {
       const p = {
         checks: { _test_anchor: true },
         highest_unlocked: h,
-        stage_schema: 2,
+        stage_schema: 4,
         foundations_complete: true,
         answers: {
           role_track: "ds",
@@ -50,35 +50,46 @@ async function set_unlock(page, highest) {
 test.describe("Module 4 stage visibility", () => {
   test.use({ viewport: { width: 1280, height: 900 } });
 
-  test("Aim shows all five stages + locked Weekly", async ({ page }) => {
+  test("Setup unlock shows path only; flat Apply loop; Later and Weekly off site", async ({ page }) => {
     await sign_in(page);
     await set_unlock(page, "0");
     await open_job_search(page);
-    await expect(page.getByTestId("job-search-path")).toContainText(/Aim/);
-    await expect(page.locator('[data-fold-id="stage_0"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_1"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_2"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_3"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_4"]')).toHaveCount(1);
-    const weekly = page.getByTestId("weekly-fold");
-    await expect(weekly).toHaveCount(1);
-    if (!(await weekly.evaluate((el) => el.open))) {
-      await weekly.locator("summary").first().click({ force: true });
+    await expect(page.getByTestId("job-search-path")).toContainText(/Setup/);
+    await expect(page.getByTestId("job-search-path")).toContainText(/Apply/);
+    await expect(page.getByTestId("job-search-path")).not.toContainText(/Interview|Offer|Package|Aim/);
+    const applying = page.getByTestId("m4-step-applying");
+    if (!(await applying.evaluate((el) => el.open))) {
+      await applying.locator("summary").first().click({ force: true });
     }
-    await expect(page.getByTestId("weekly-locked-hint")).toBeVisible();
+    await expect(page.getByTestId("m4-applying-flat")).toBeVisible();
+    await expect(page.locator('[data-fold-id="m4_step_prereq"]')).toHaveCount(1);
+    await expect(page.locator('[data-fold-id="m4_step_overview"]')).toHaveCount(1);
+    await expect(page.locator('[data-fold-id="m4_step_tracker"]')).toHaveCount(1);
+    await expect(page.locator('[data-fold-id="m4_step_applying"]')).toHaveCount(1);
+    await expect(page.locator('[data-fold-id="stage_0"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_1"]')).toHaveCount(0);
+    await expect(page.getByTestId("later-fold")).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_2"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_3"]')).toHaveCount(0);
+    await expect(page.getByTestId("weekly-fold")).toHaveCount(0);
   });
 
-  test("Apply unlock enables Weekly; all stages still visible", async ({ page }) => {
+  test("Apply unlock keeps flat Apply loop; Later and Weekly still off site", async ({ page }) => {
     await sign_in(page);
-    await set_unlock(page, "2");
+    await set_unlock(page, "1");
     await open_job_search(page);
     await expect(page.getByTestId("job-search-path")).toContainText(/Apply/);
-    await expect(page.locator('[data-fold-id="stage_0"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_1"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_2"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_3"]')).toHaveCount(1);
-    await expect(page.locator('[data-fold-id="stage_4"]')).toHaveCount(1);
-    await expect(page.getByTestId("weekly-fold")).toHaveCount(1);
-    await expect(page.getByTestId("weekly-locked-hint")).toHaveCount(0);
+    const applying = page.getByTestId("m4-step-applying");
+    if (!(await applying.evaluate((el) => el.open))) {
+      await applying.locator("summary").first().click({ force: true });
+    }
+    await expect(page.getByTestId("m4-applying-flat")).toBeVisible();
+    await expect(page.locator('[data-fold-id="m4_step_applying"]')).toHaveCount(1);
+    await expect(page.locator('[data-fold-id="stage_0"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_1"]')).toHaveCount(0);
+    await expect(page.getByTestId("later-fold")).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_2"]')).toHaveCount(0);
+    await expect(page.locator('[data-fold-id="stage_3"]')).toHaveCount(0);
+    await expect(page.getByTestId("weekly-fold")).toHaveCount(0);
   });
 });

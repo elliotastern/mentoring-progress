@@ -4,22 +4,29 @@
 import { FOUNDATIONS } from "../data/foundations.js";
 import { stage_pass_status } from "./gates.js";
 import { role_track_chosen, search_path_chosen, is_search_ready } from "./roleFit.js";
+import { portfolio_package_complete } from "./portfolioFinal.js";
 
-/** Module 4 Job Search readiness — resume/portfolio from Module 3 guides. */
+/** Module 4 Job Search readiness (synced m4 checks). */
 export function module_4_readiness(progress) {
   const checks = progress.checks || {};
-  const job = role_track_chosen(progress);
-  const resume = Boolean(checks.m3_resume);
-  const portfolio = Boolean(checks.m3_portfolio);
+  const role = Boolean(checks.m4_know_role);
+  const companies = Boolean(checks.m4_know_companies);
+  const portfolio = portfolio_package_complete(progress);
+  const overview = Boolean(checks.m4_overview);
+  const tracker = Boolean(checks.tracker || checks.m4_tracker);
+  const prereqs_ok = role && companies && portfolio;
   return {
-    job,
-    resume,
+    role,
+    companies,
     portfolio,
-    all_ok: job && resume && portfolio,
+    overview,
+    tracker,
+    prereqs_ok,
+    all_ok: prereqs_ok && overview && tracker,
     rows: [
-      { id: "job", label: "Target job picked", ok: job },
-      { id: "resume", label: "Targeted Resume", ok: resume },
-      { id: "portfolio", label: "Targeted Portfolio", ok: portfolio },
+      { id: "role", label: "Know your job target", ok: role },
+      { id: "companies", label: "Know what companies are your target", ok: companies },
+      { id: "portfolio", label: "Portfolio final submitted", ok: portfolio },
     ],
   };
 }

@@ -68,6 +68,10 @@ export function MenteeOverviewView({ progress, on_close }) {
           <Row label="Role" value={ov.job_target.tracks || "—"} />
           <Row label="Primary title" value={ov.job_target.title} />
           <Row label="Path" value={ov.job_target.path} />
+          <Row label="Level" value={ov.job_target.level} />
+          <Row label="Remote / hybrid" value={ov.job_target.location} />
+          <Row label="Industry" value={ov.job_target.industry} />
+          <Row label="Compensation floor" value={ov.job_target.comp_floor} />
           <Row label="Years" value={ov.job_target.years} />
           <Row label="Hours/week" value={ov.job_target.hours_week} />
           <Row label="Want a job by" value={ov.job_target.job_by} />

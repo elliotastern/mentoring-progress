@@ -3,11 +3,11 @@ import { FOUNDATIONS } from "../data/foundations.js";
 import { sheet_fillin_stats, sheet_fillins_complete } from "../data/worksheets.js";
 import { role_track_chosen, search_path_chosen, is_search_ready } from "./roleFit.js";
 
-/** Map pre–schema-2 highest_unlocked (old Stages 0–7) → Aim/Package/Apply/Interview/Offer. */
-const OLD_UNLOCK_TO_NEW = {
+/** Map pre–schema-2 highest_unlocked (old Stages 0–7) → schema-3 Aim/Apply/Interview/Offer ids. */
+const OLD_UNLOCK_TO_SCHEMA3 = {
   "0": "0",
   "1": "0",
-  "2": "1",
+  "2": "2",
   "3": "2",
   "4": "2",
   "5": "3",
@@ -15,16 +15,53 @@ const OLD_UNLOCK_TO_NEW = {
   "7": "4",
 };
 
+/** Schema 3 (0/2/3/4) → schema 4 in-order ids (0/1/2/3). */
+const SCHEMA3_TO_SCHEMA4 = {
+  "0": "0",
+  "1": "1",
+  "2": "1",
+  "3": "2",
+  "4": "3",
+};
+
+/** Normalize any stored unlock id up to the current STAGE_SCHEMA. */
+export function canonical_stage_id(unlocked, from_schema = 0) {
+  let u = String(unlocked ?? "0");
+  let schema = Number(from_schema) || 0;
+
+  if (schema < 2) {
+    let mapped = OLD_UNLOCK_TO_SCHEMA3[u];
+    if (mapped === undefined) {
+      mapped = ["0", "2", "3", "4"].includes(u) ? u : "0";
+    }
+    u = mapped;
+    schema = 2;
+  }
+
+  // Schema 3: Package stage (id "1") removed; land on Apply.
+  if (schema < 3) {
+    if (u === "1") u = "2";
+    schema = 3;
+  }
+
+  if (schema < 4) {
+    u = SCHEMA3_TO_SCHEMA4[u] ?? (STAGE_ORDER.includes(u) ? u : "0");
+  }
+
+  if (!STAGE_ORDER.includes(u)) u = "0";
+  return u;
+}
+
 export function migrate_progress_stages(progress) {
   if (!progress || (progress.stage_schema || 0) >= STAGE_SCHEMA) return progress;
-  const old = String(progress.highest_unlocked ?? "0");
-  let mapped = OLD_UNLOCK_TO_NEW[old];
-  if (mapped === undefined) {
-    mapped = STAGE_ORDER.includes(old) ? old : "0";
-  }
+  const unlocked = canonical_stage_id(
+    progress.highest_unlocked ?? "0",
+    progress.stage_schema || 0,
+  );
+
   return {
     ...progress,
-    highest_unlocked: mapped,
+    highest_unlocked: unlocked,
     stage_schema: STAGE_SCHEMA,
   };
 }
@@ -179,7 +216,8 @@ export function is_stage_open(stage_id, progress) {
 }
 
 export function weekly_open(progress) {
-  const after = WEEKLY.unlock_after_stage || "2";
+  const after = WEEKLY.unlock_after_stage;
+  if (!after) return false;
   const cur = STAGE_ORDER.indexOf(progress.highest_unlocked || "0");
   const need = STAGE_ORDER.indexOf(after);
   return cur >= 0 && need >= 0 && cur >= need;
@@ -192,7 +230,7 @@ export function unlock_next(stage, progress) {
     return {
       ok: true,
       next: progress.highest_unlocked,
-      message: "Offer stage complete.",
+      message: "Stage complete.",
     };
   }
   const current_idx = STAGE_ORDER.indexOf(progress.highest_unlocked || "0");

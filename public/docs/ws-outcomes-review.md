@@ -6,7 +6,7 @@
 
 **Purpose:** double down only where *your* data shows traction (screens / interviews / offers per hour by source).
 
-Guide: [Overview · Step 3a](overview-v8.md#step-3a-applying)
+Lives with apply practice (not Offer). Guide: [Overview · Apply loop](overview-v8.md#apply-loop) · Tracker: [Tracker setup](https://elliotastern.github.io/mentoring-progress/?ws=tracker-setup)
 
 ---
 
@@ -42,7 +42,7 @@ Guide: [Overview · Step 3a](overview-v8.md#step-3a-applying)
 - Double down: __________  
 - Cap or stop: __________  
 - Package fix needed? (resume / proof / title): __________  
-- Skill fix needed? (Chart D focus): __________  
+- Skill fix needed? (Skill hours by level focus): __________  
 
 ## Done when
 

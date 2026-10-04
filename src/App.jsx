@@ -12,6 +12,8 @@ import {
   try_localhost_auto_sign_in,
   merge_progress_never_lose,
   progress_signal,
+  load_best_daily_backup,
+  looks_like_wipe,
 } from "./lib/localAuth.js";
 import {
   backup_progress_to_github,
@@ -33,11 +35,27 @@ function localhost_reset_seed_requested() {
   return new URLSearchParams(window.location.search).has("reset_seed");
 }
 
-async function fetch_localhost_seed(uid) {
-  const url = `${import.meta.env.BASE_URL}seed-progress/${uid}.json`;
+async function fetch_json_progress(url) {
   const res = await fetch(url);
   if (!res.ok) return null;
-  return res.json();
+  // Vite SPA fallback can return index.html with 200 for missing files.
+  const ct = res.headers.get("content-type") || "";
+  const text = await res.text();
+  if (ct.includes("text/html") || text.trimStart().startsWith("<")) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
+/** Durable raw/ snapshot first, then seed-progress (raw wins on conflict via merge). */
+async function fetch_localhost_seed(uid) {
+  const base = import.meta.env.BASE_URL;
+  const raw = await fetch_json_progress(`${base}raw/progress/${uid}.json`);
+  const seed = await fetch_json_progress(`${base}seed-progress/${uid}.json`);
+  if (raw && seed) return merge_progress_never_lose(seed, raw);
+  return raw || seed;
 }
 
 async function resolve_mentee_progress(u) {
@@ -65,13 +83,15 @@ async function resolve_mentee_progress(u) {
       try {
         const seed = await fetch_localhost_seed(u.uid);
         if (seed) {
-          if (force_seed || progress_signal(loaded) < 3) {
-            loaded = force_seed ? seed : merge_progress_never_lose(loaded, seed);
-          } else if (progress_signal(seed) > progress_signal(loaded)) {
-            loaded = merge_progress_never_lose(loaded, seed);
-          } else {
-            // Still OR-merge any seed checks that are true (never lose restored ticks).
-            loaded = merge_progress_never_lose(seed, loaded);
+          // Local (loaded) is always `next` so mentee edits win; seed only fills gaps.
+          // force_seed replaces from the committed snapshot on purpose.
+          loaded = force_seed ? seed : merge_progress_never_lose(seed, loaded);
+        }
+        // If seed/boot still looks thinner than today's local daily backup, heal.
+        if (!force_seed) {
+          const daily = load_best_daily_backup(u.uid);
+          if (daily && looks_like_wipe(daily, loaded)) {
+            loaded = merge_progress_never_lose(daily, loaded);
           }
         }
       } catch {
@@ -125,9 +145,19 @@ export default function App() {
   const [error, set_error] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
     ensure_mentor_account()
       .then(() => try_localhost_auto_sign_in())
-      .then((u) => boot_user(u || current_user(), set_user, set_progress, set_rows));
+      .then((u) => boot_user(u || current_user(), set_user, set_progress, set_rows))
+      .catch((err) => {
+        if (cancelled) return;
+        console.error("Boot failed", err);
+        set_error(err?.message || "Could not start Progress. Try a hard refresh.");
+        set_user(null);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -175,18 +205,24 @@ export default function App() {
   if (user === undefined) {
     return (
       <div className="shell">
-        <p>Loading…</p>
+        <p className="boot-loading" data-testid="boot-loading">
+          Loading Progress…
+        </p>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <LoginForm
-        on_authed={async (u) => {
-          await boot_user(u, set_user, set_progress, set_rows);
-        }}
-      />
+      <>
+        {error ? <p className="error shell">{error}</p> : null}
+        <LoginForm
+          on_authed={async (u) => {
+            set_error("");
+            await boot_user(u, set_user, set_progress, set_rows);
+          }}
+        />
+      </>
     );
   }
 

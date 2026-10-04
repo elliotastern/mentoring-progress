@@ -30,6 +30,19 @@
         text-decoration: none;
       }
       .back:hover { text-decoration: underline; }
+      .doc-home-footer {
+        margin: 2.5rem 0 0;
+        padding-top: 1.25rem;
+        border-top: 1px solid #e7e5e4;
+        font-family: system-ui, sans-serif;
+      }
+      .doc-home-footer a {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #0f766e;
+        text-decoration: none;
+      }
+      .doc-home-footer a:hover { text-decoration: underline; }
       article { line-height: 1.55; }
       article h1 { font-size: 1.85rem; line-height: 1.2; }
       article h2 {
@@ -40,8 +53,11 @@
       }
       article h3 { scroll-margin-top: 1rem; }
       article img {
+        display: block;
+        width: 100%;
         max-width: 100%;
         height: auto;
+        margin: 0.85rem 0 1.1rem;
         border: 1px solid #e7e5e4;
         border-radius: 8px;
         background: #fff;
@@ -152,18 +168,457 @@
         from { background-position: 0% 0; }
         to { background-position: 200% 0; }
       }
+      .guide-company-fit {
+        display: grid;
+        gap: 0.75rem;
+        /* Full-bleed card; guide prose stays at .wrap width. */
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0.85rem 0 1.1rem;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding: 0.85rem 1.25rem 1rem;
+        box-sizing: border-box;
+        border: 1px solid #e7e5e4;
+        border-radius: 12px;
+        background: #fff;
+        font-family: system-ui, sans-serif;
+      }
+      .guide-company-fit .hint {
+        margin: 0;
+        font-size: 0.88rem;
+        color: #57534e;
+        line-height: 1.4;
+      }
+      .guide-company-fit .hint.warn { color: #9a3412; }
+      .guide-company-fit .hint a { color: #0f766e; }
+      .guide-company-fit-traits {
+        display: grid;
+        gap: 0.45rem;
+      }
+      .guide-company-fit-trait {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 0.6rem;
+        align-items: center;
+      }
+      .guide-company-fit-trait input[type="text"] {
+        flex: 1 1 9rem;
+        min-width: 7rem;
+        max-width: 22rem;
+        border: 1px solid #d6d3d1;
+        border-radius: 8px;
+        padding: 0.4rem 0.55rem;
+        font: inherit;
+        font-size: 0.92rem;
+        background: #fafaf9;
+      }
+      .guide-company-fit-trait input[type="number"] {
+        width: 3.25rem;
+        border: 1px solid #d6d3d1;
+        border-radius: 8px;
+        padding: 0.35rem 0.4rem;
+        font: inherit;
+        font-size: 0.92rem;
+        background: #fafaf9;
+      }
+      .guide-company-fit-trait button,
+      .guide-company-fit-actions button {
+        font: inherit;
+        font-size: 0.85rem;
+        padding: 0.3rem 0.55rem;
+        border-radius: 8px;
+        border: 1px solid #d6d3d1;
+        background: #fff;
+        color: #1c1917;
+        cursor: pointer;
+      }
+      .guide-company-fit-trait button:hover,
+      .guide-company-fit-actions button:hover {
+        border-color: #0f766e;
+      }
+      .guide-company-fit-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+      .guide-company-fit-table-wrap {
+        overflow-x: hidden;
+        border: 1px solid #a8a29e;
+        border-radius: 0;
+        background: #fff;
+      }
+      .guide-company-fit-table {
+        width: 100%;
+        min-width: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.78rem;
+      }
+      .guide-company-fit-table th,
+      .guide-company-fit-table td {
+        border: 1px solid #d6d3d1;
+        padding: 0;
+        text-align: left;
+        vertical-align: top;
+        overflow: hidden;
+        max-width: 0;
+      }
+      .guide-company-fit-table th {
+        background: #f5f5f4;
+        font-weight: 600;
+        white-space: normal;
+        overflow: hidden;
+        line-height: 1.15;
+        padding: 0.3rem 0.25rem;
+        position: sticky;
+        top: 0;
+        vertical-align: bottom;
+      }
+      .guide-company-fit-table tbody tr:hover td { background: #fafaf9; }
+      .guide-company-fit-table tbody tr:focus-within td { background: #f0fdfa; }
+      .guide-company-fit-table input,
+      .guide-company-fit-table select,
+      .guide-company-fit-table textarea {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        padding: 0.28rem 0.28rem;
+        font: inherit;
+        font-size: inherit;
+        color: inherit;
+        background: transparent;
+        outline: none;
+      }
+      .guide-company-fit-table input,
+      .guide-company-fit-table select {
+        min-height: 2.55rem;
+      }
+      .guide-company-fit-table textarea {
+        min-height: 2.55rem;
+        resize: none;
+        line-height: 1.25;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .guide-company-fit-table input[type="number"] {
+        text-align: center;
+        -moz-appearance: textfield;
+        padding: 0.28rem 0.1rem;
+      }
+      .guide-company-fit-table input[type="number"]::-webkit-outer-spin-button,
+      .guide-company-fit-table input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .guide-company-fit-table input:focus,
+      .guide-company-fit-table select:focus,
+      .guide-company-fit-table textarea:focus {
+        background: #fff;
+        box-shadow: inset 0 0 0 2px #0f766e;
+      }
+      .guide-company-fit-table th:nth-child(1),
+      .guide-company-fit-table td:nth-child(1),
+      .guide-company-fit-table .cf-col-company { width: 12%; }
+      .guide-company-fit-table th:nth-child(2),
+      .guide-company-fit-table td:nth-child(2),
+      .guide-company-fit-table .cf-col-role { width: 8%; }
+      .guide-company-fit-table th.cf-score,
+      .guide-company-fit-table td.cf-score { width: 3.9%; text-align: center; }
+      .guide-company-fit-table .cf-col-fit { width: 4.5%; }
+      .guide-company-fit-table .cf-col-tier { width: 10%; }
+      .guide-company-fit-table .cf-col-interest { width: 8%; }
+      .guide-company-fit-table .cf-col-flag { width: 8.5%; }
+      .guide-company-fit-table .cf-col-url { width: 5.5%; }
+      .guide-company-fit-table .cf-col-notes { width: 10%; }
+      .guide-company-fit-table .cf-col-url textarea {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        resize: none;
+        line-height: 2;
+      }
+      .guide-company-fit-table .cf-remove-cell {
+        width: 1.6rem;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.1rem 0.05rem;
+      }
+      .guide-company-fit-table .cf-remove-cell button {
+        color: #b91c1c;
+        border: 0;
+        background: transparent;
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1;
+        padding: 0.15rem 0.2rem;
+        border-radius: 3px;
+        min-width: 0;
+        width: 1.3rem;
+        height: 1.3rem;
+        cursor: pointer;
+      }
+      .guide-company-fit-table .cf-remove-cell button:hover {
+        color: #991b1b;
+        background: #fef2f2;
+      }
+      .guide-company-fit-table select {
+        min-width: 0;
+        white-space: normal;
+        line-height: 1.2;
+      }
+      .guide-company-fit-total input {
+        font-weight: 700;
+        text-align: center;
+      }
+      .guide-company-fit-status {
+        margin: 0;
+        font-size: 0.82rem;
+        color: #0f766e;
+      }
+      .guide-company-fit-status.warn { color: #9a3412; }
+      .guide-company-fit-summary {
+        margin: 0.7rem 0 0.45rem;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid #e7e5e4;
+        border-radius: 8px;
+        background: #fafaf9;
+        font-family: system-ui, sans-serif;
+        font-size: 0.88rem;
+        line-height: 1.4;
+      }
+      .guide-company-fit-summary h4 {
+        margin: 0 0 0.35rem;
+        font-size: 0.92rem;
+      }
+      .guide-company-fit-summary dl {
+        margin: 0;
+        display: grid;
+        gap: 0.2rem;
+      }
+      .guide-company-fit-summary div {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr;
+        gap: 0.4rem;
+      }
+      .guide-company-fit-summary dt {
+        font-weight: 650;
+        color: #57534e;
+      }
+      .guide-company-fit-summary dd {
+        margin: 0;
+      }
+      .guide-company-fit-save {
+        margin: 0.35rem 0 0.45rem;
+      }
+      .guide-job-target {
+        margin: 0.85rem 0 1.1rem;
+        padding: 0.85rem 0.95rem 1rem;
+        border: 1px solid #e7e5e4;
+        border-radius: 12px;
+        background: #fffef8;
+        font-family: system-ui, sans-serif;
+      }
+      .guide-job-target .hint {
+        margin: 0.25rem 0 0.45rem;
+        font-size: 0.88rem;
+        color: #57534e;
+        line-height: 1.4;
+      }
+      .guide-job-target .hint.warn { color: #9a3412; }
+      .guide-job-target .hint a { color: #0f766e; }
+      .guide-job-target .role-fit-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.65rem;
+        align-items: center;
+        margin: 0.3rem 0;
+      }
+      .guide-job-target .role-fit-label {
+        font-size: 0.85rem;
+        color: #57534e;
+        min-width: 4.5rem;
+      }
+      .guide-job-target .role-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+      .guide-job-target .role-pill {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 8px;
+        border: 1px solid #e7e5e4;
+        background: #fff;
+        color: #1c1917;
+        cursor: pointer;
+      }
+      .guide-job-target .role-pill:hover { border-color: #0f766e; }
+      .guide-job-target .role-pill.selected {
+        background: #0f766e;
+        border-color: #0f766e;
+        color: #fff;
+      }
+      .guide-job-target .role-pill.suggested:not(.selected) {
+        border-color: #0f766e;
+        box-shadow: inset 0 0 0 1px #0f766e;
+      }
+      .guide-job-target .role-pill.track { font-weight: 600; }
+      .guide-job-target .role-pill-rank {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.1rem;
+        height: 1.1rem;
+        margin-right: 0.3rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.28);
+        font-size: 0.7rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .guide-job-target .role-fit-location {
+        margin: 0.65rem 0 0.25rem;
+        display: grid;
+        gap: 0.35rem;
+      }
+      .guide-job-target .role-fit-location-label {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #57534e;
+        font-weight: 600;
+      }
+      .guide-job-target .role-fit-plan {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.55rem 0.85rem;
+        margin: 0.45rem 0 0.25rem;
+      }
+      .guide-job-target .role-fit-past {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        margin: 0.45rem 0 0.25rem;
+        font-size: 0.85rem;
+        color: #57534e;
+      }
+      .guide-job-target .role-fit-plan .role-fit-past { margin: 0; }
+      .guide-job-target .role-fit-past input,
+      .guide-job-target .role-fit-past textarea {
+        border: 1px solid #d6d3d1;
+        border-radius: 8px;
+        padding: 0.5rem 0.65rem;
+        font-size: 0.95rem;
+        color: #1c1917;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: system-ui, sans-serif;
+      }
+      .guide-job-target .role-fit-past textarea {
+        resize: vertical;
+        min-height: 3.2rem;
+      }
+      .guide-job-target .role-fit-job-by-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        align-items: center;
+      }
+      .guide-job-target .role-fit-job-by-controls input[type="date"] {
+        flex: 1 1 10rem;
+        min-width: 10rem;
+        max-width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #d6d3d1;
+        border-radius: 8px;
+        padding: 0.45rem 0.55rem;
+        font-size: 0.95rem;
+      }
+      .guide-job-target .role-fit-gap {
+        margin: 0.25rem 0 0.15rem;
+        font-size: 0.88rem;
+      }
+      .guide-job-target .role-gap-link {
+        color: #0f766e;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .guide-job-target .role-fit-suggest {
+        font-size: 0.9rem;
+        margin: 0.35rem 0 0.45rem;
+        color: #1c1917;
+      }
+      .guide-job-target .role-fit-suggest-fold {
+        margin: 0.45rem 0;
+        border: 1px solid #e7e5e4;
+        border-radius: 8px;
+        padding: 0.35rem 0.65rem 0.55rem;
+        background: #fff;
+      }
+      .guide-job-target .role-fit-suggest-fold > summary {
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #1c1917;
+        list-style: none;
+      }
+      .guide-job-target .role-fit-suggest-fold > summary::-webkit-details-marker { display: none; }
+      .guide-job-target .linkish {
+        background: none;
+        border: none;
+        color: #0f766e;
+        text-decoration: underline;
+        cursor: pointer;
+        font: inherit;
+        padding: 0;
+      }
+      .guide-job-target .primary {
+        margin-top: 0.85rem;
+        width: 100%;
+        max-width: 12rem;
+        padding: 0.55rem 1rem;
+        border-radius: 10px;
+        border: 1px solid #0f766e;
+        background: #0f766e;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .guide-job-target .primary:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .guide-job-target .guide-job-target-status {
+        margin: 0.65rem 0 0;
+        font-size: 0.82rem;
+        color: #0f766e;
+      }
+      .guide-job-target .guide-job-target-status.warn { color: #9a3412; }
     </style>
   </head>
   <body>
     <div class="wrap">
       <p><a class="back" id="back" href="../">← Progress checklist</a></p>
       <article id="content"><p class="err">Loading…</p></article>
+      <p class="doc-home-footer">
+        <a id="home-footer" data-testid="doc-return-home" href="../">Return to Home Page</a>
+      </p>
     </div>
     <script>
       const params = new URLSearchParams(location.search);
       const doc = params.get("doc") || "overview-v8.md";
       const base = location.pathname.replace(/view\.html$/, "");
-      document.getElementById("back").href = base.replace(/\/docs\/?$/, "/") || "../";
+      const home_href = base.replace(/\/docs\/?$/, "/") || "../";
+      document.getElementById("back").href = home_href;
+      document.getElementById("home-footer").href = home_href;
 
       function slugify(text) {
         return String(text || "")
@@ -197,7 +652,1326 @@
         return heading_html(arg1, arg2);
       };
 
-      marked.setOptions({ renderer, gfm: true });
+      marked.setOptions({ renderer, gfm: true, breaks: false });
+
+      /** Keep explicit <hN id="..."> from source after marked.parse. */
+      function extract_html_heading_ids(md) {
+        const found = [];
+        const re = /<h([1-6])\s+([^>]*?)>([\s\S]*?)<\/h\1>/gi;
+        let match;
+        while ((match = re.exec(md))) {
+          const attrs = match[2] || "";
+          const id_m = attrs.match(/\bid\s*=\s*["']([^"']+)["']/i);
+          if (!id_m) continue;
+          const plain = String(match[3] || "")
+            .replace(/<[^>]+>/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toLowerCase();
+          found.push({ id: id_m[1], plain, depth: Number(match[1]) });
+        }
+        return found;
+      }
+
+      function apply_html_heading_ids(root, heading_ids) {
+        if (!heading_ids.length) return;
+        const headings = Array.from(root.querySelectorAll("h1,h2,h3,h4,h5,h6"));
+        for (const spec of heading_ids) {
+          if (document.getElementById(spec.id)) continue;
+          const hit = headings.find((el) => {
+            if (el.id === spec.id) return true;
+            const plain = (el.textContent || "")
+              .replace(/\s+/g, " ")
+              .trim()
+              .toLowerCase();
+            return plain === spec.plain;
+          });
+          if (hit) hit.id = spec.id;
+        }
+      }
+
+      function scroll_to_hash() {
+        const hash = decodeURIComponent(location.hash.slice(1) || "");
+        if (!hash) return;
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      /** Same tiers as Progress Module 4 / Brainstorm / Job Optimizer. */
+      const COMPANY_LIST_TIERS = [
+        { id: "stretch", label: "Stretch (~3)", rows: 3, placeholder: "Company 1\nCompany 2\n…" },
+        { id: "stepping", label: "Stepping stone (~4-9)", rows: 5, placeholder: "Company 1\nCompany 2\n…" },
+        { id: "sandbox", label: "Sandbox (~3)", rows: 3, placeholder: "Company 1\nCompany 2\n…" },
+      ];
+
+      function guide_test_isolated() {
+        try {
+          if (window.__MENTORSHIP_TEST_ISOLATE__) return true;
+          if (navigator.webdriver) return true;
+        } catch {
+          /* ignore */
+        }
+        return false;
+      }
+
+      function guide_progress_prefix() {
+        return guide_test_isolated()
+          ? "mentorship_progress_test_v2_"
+          : "mentorship_progress_v2_";
+      }
+
+      function guide_session() {
+        try {
+          const raw =
+            localStorage.getItem("mentorship_session_v2") ||
+            sessionStorage.getItem("mentorship_session_v2");
+          return raw ? JSON.parse(raw) : null;
+        } catch {
+          return null;
+        }
+      }
+
+      function guide_load_progress(uid) {
+        try {
+          const raw = localStorage.getItem(guide_progress_prefix() + uid);
+          return raw ? JSON.parse(raw) : { checks: {}, worksheets: {}, answers: {} };
+        } catch {
+          return { checks: {}, worksheets: {}, answers: {} };
+        }
+      }
+
+      function guide_tier_ready(sheet) {
+        return COMPANY_LIST_TIERS.every((t) =>
+          String(sheet[t.id] || "")
+            .split(/\r?\n/)
+            .some((line) => line.trim().length > 0),
+        );
+      }
+
+      function guide_save_progress(uid, progress) {
+        localStorage.setItem(guide_progress_prefix() + uid, JSON.stringify(progress));
+        return progress;
+      }
+
+      const COMPANY_FIT_SHEET_ID = "company-fit";
+      const COMPANY_FIT_DEFAULT_TRAITS = [
+        { id: "wlb", label: "Work/life balance", weight: 5 },
+        { id: "culture", label: "Culture", weight: 4 },
+        { id: "growth", label: "Career growth", weight: 3 },
+        { id: "comp", label: "Compensation", weight: 3 },
+        { id: "remote", label: "Remote", weight: 2 },
+      ];
+
+      function guide_fit_new_id(prefix) {
+        return (
+          prefix +
+          "_" +
+          Date.now().toString(36) +
+          "_" +
+          Math.random().toString(36).slice(2, 6)
+        );
+      }
+
+      function guide_fit_clamp(value, min, max, fallback) {
+        const n = Number(value);
+        if (!Number.isFinite(n)) return fallback;
+        return Math.min(max, Math.max(min, Math.round(n)));
+      }
+
+      function guide_fit_normalize(raw) {
+        const traits =
+          Array.isArray(raw?.traits) && raw.traits.length
+            ? raw.traits.map((t, i) => {
+                const fallback = COMPANY_FIT_DEFAULT_TRAITS[i] || COMPANY_FIT_DEFAULT_TRAITS[0];
+                return {
+                  id: String(t?.id || fallback.id || guide_fit_new_id("t")),
+                  label: String(t?.label ?? fallback.label ?? "Trait").trim() || "Trait",
+                  weight: guide_fit_clamp(t?.weight, 1, 5, fallback.weight ?? 3),
+                };
+              })
+            : COMPANY_FIT_DEFAULT_TRAITS.map((t) => ({ ...t }));
+        const rows = Array.isArray(raw?.rows)
+          ? raw.rows.map((r) => {
+              const scores = {};
+              const incoming = r?.scores && typeof r.scores === "object" ? r.scores : {};
+              for (const [key, value] of Object.entries(incoming)) {
+                if (value === undefined || value === null || value === "") continue;
+                const n = Number(value);
+                if (!Number.isFinite(n)) continue;
+                scores[key] = guide_fit_clamp(n, 1, 5, 1);
+              }
+              let tier_mode = String(r?.tier_mode || "auto").trim().toLowerCase();
+              if (!["auto", "stretch", "stepping", "sandbox"].includes(tier_mode)) {
+                tier_mode = "auto";
+              }
+              return {
+                id: String(r?.id || guide_fit_new_id("r")),
+                company: String(r?.company || ""),
+                role: String(r?.role || ""),
+                scores,
+                interest: String(r?.interest || ""),
+                green_flag: String(r?.green_flag || ""),
+                red_flag: String(r?.red_flag || ""),
+                url: String(r?.url || ""),
+                notes: String(r?.notes || ""),
+                tier_mode,
+                fit_override: (() => {
+                  if (r?.fit_override === undefined || r?.fit_override === null || r?.fit_override === "") {
+                    return null;
+                  }
+                  const n = Number(r.fit_override);
+                  return Number.isFinite(n) ? Math.round(n * 10) / 10 : null;
+                })(),
+              };
+            })
+          : [];
+        return { traits, rows };
+      }
+
+      function guide_fit_score(row, traits) {
+        let weighted = 0;
+        let weight_sum = 0;
+        for (const trait of traits || []) {
+          const raw = row?.scores?.[trait.id];
+          if (raw === undefined || raw === null || raw === "") continue;
+          const score = Number(raw);
+          if (!Number.isFinite(score)) continue;
+          const weight = Number(trait.weight);
+          if (!Number.isFinite(weight) || weight <= 0) continue;
+          weighted += score * weight;
+          weight_sum += weight;
+        }
+        if (weight_sum <= 0) return null;
+        return Math.round((weighted / weight_sum) * 10) / 10;
+      }
+
+      function guide_row_fit_score(row, traits) {
+        if (row?.fit_override !== undefined && row?.fit_override !== null && row?.fit_override !== "") {
+          const n = Number(row.fit_override);
+          if (Number.isFinite(n)) return Math.round(n * 10) / 10;
+        }
+        return guide_fit_score(row, traits);
+      }
+
+      function guide_fit_format(score) {
+        if (score === null || score === undefined) return "";
+        return Number.isInteger(score) ? String(score) : score.toFixed(1);
+      }
+
+      function guide_fit_sorted(rows, traits) {
+        return (rows || [])
+          .map((row, index) => ({ row, index, score: guide_row_fit_score(row, traits) }))
+          .sort((a, b) => {
+            const a_null = a.score === null;
+            const b_null = b.score === null;
+            if (a_null && b_null) return a.index - b.index;
+            if (a_null) return 1;
+            if (b_null) return -1;
+            if (b.score !== a.score) return b.score - a.score;
+            return a.index - b.index;
+          })
+          .map((entry) => entry.row);
+      }
+
+      function guide_fit_names_from_brainstorm(brainstorm) {
+        const names = [];
+        const seen = new Set();
+        for (const tier of COMPANY_LIST_TIERS) {
+          for (const line of String(brainstorm?.[tier.id] || "").split(/\r?\n/)) {
+            const name = line.trim();
+            if (!name) continue;
+            const key = name.toLowerCase();
+            if (seen.has(key)) continue;
+            seen.add(key);
+            names.push(name);
+          }
+        }
+        return names;
+      }
+
+      function guide_fit_assign_auto(rows, traits) {
+        const map = new Map();
+        const named = (rows || []).filter((r) => String(r.company || "").trim());
+        const scored = guide_fit_sorted(named, traits).filter(
+          (r) => guide_row_fit_score(r, traits) !== null,
+        );
+        const unscored = named.filter((r) => guide_row_fit_score(r, traits) === null);
+        const n = scored.length;
+        if (n) {
+          let stretch_count = Math.min(3, n);
+          let sandbox_count = n <= stretch_count ? 0 : Math.min(3, n - stretch_count);
+          if (n <= 3) {
+            stretch_count = n;
+            sandbox_count = 0;
+          } else if (n <= 6) {
+            stretch_count = Math.min(2, n);
+            sandbox_count = Math.min(2, n - stretch_count);
+          }
+          scored.forEach((row, index) => {
+            if (index < stretch_count) map.set(row.id, "stretch");
+            else if (index >= n - sandbox_count) map.set(row.id, "sandbox");
+            else map.set(row.id, "stepping");
+          });
+        }
+        for (const row of unscored) map.set(row.id, "stepping");
+        return map;
+      }
+
+      function guide_fit_effective_tier(row, auto_map) {
+        const mode = row?.tier_mode || "auto";
+        if (mode !== "auto") return mode;
+        return auto_map.get(row.id) || "";
+      }
+
+      function guide_fit_rank_summary(rows, traits) {
+        const auto_map = guide_fit_assign_auto(rows, traits);
+        const buckets = { stretch: [], stepping: [], sandbox: [] };
+        for (const row of guide_fit_sorted(rows, traits)) {
+          const name = String(row.company || "").trim();
+          if (!name) continue;
+          const tier = guide_fit_effective_tier(row, auto_map);
+          if (!tier || !buckets[tier]) continue;
+          buckets[tier].push(name);
+        }
+        return buckets;
+      }
+
+      function guide_fit_sync_brainstorm(progress, rows, traits) {
+        const named = (rows || []).some((r) => String(r.company || "").trim());
+        if (!named) return progress;
+        const auto_map = guide_fit_assign_auto(rows, traits);
+        const buckets = { stretch: [], stepping: [], sandbox: [] };
+        for (const row of guide_fit_sorted(rows, traits)) {
+          const name = String(row.company || "").trim();
+          if (!name) continue;
+          const tier = guide_fit_effective_tier(row, auto_map);
+          if (!tier || !buckets[tier]) continue;
+          buckets[tier].push(name);
+        }
+        const brainstorm = {
+          ...(progress.worksheets?.brainstorm || {}),
+          stretch: buckets.stretch.join("\n"),
+          stepping: buckets.stepping.join("\n"),
+          sandbox: buckets.sandbox.join("\n"),
+        };
+        const worksheets = { ...(progress.worksheets || {}), brainstorm };
+        const checks = { ...(progress.checks || {}) };
+        if (guide_tier_ready(brainstorm)) {
+          worksheets["search-ready"] = {
+            ...(worksheets["search-ready"] || {}),
+            know_companies: true,
+          };
+          checks.m4_know_companies = true;
+        }
+        return { ...progress, worksheets, checks };
+      }
+
+      function guide_load_company_fit(uid) {
+        const progress = guide_load_progress(uid);
+        return guide_fit_normalize(progress.worksheets?.[COMPANY_FIT_SHEET_ID]);
+      }
+
+      function guide_save_company_fit(uid, sheet, resort) {
+        const progress = guide_load_progress(uid);
+        const normalized = guide_fit_normalize(sheet);
+        const rows = resort
+          ? guide_fit_sorted(normalized.rows, normalized.traits)
+          : normalized.rows;
+        let next = {
+          ...progress,
+          worksheets: {
+            ...(progress.worksheets || {}),
+            [COMPANY_FIT_SHEET_ID]: { traits: normalized.traits, rows },
+          },
+        };
+        next = guide_fit_sync_brainstorm(next, rows, normalized.traits);
+        guide_save_progress(uid, next);
+        return next;
+      }
+
+      function guide_empty_fit_row(company) {
+        return {
+          id: guide_fit_new_id("r"),
+          company: company || "",
+          role: "",
+          scores: {},
+          interest: "",
+          green_flag: "",
+          red_flag: "",
+          url: "",
+          notes: "",
+          tier_mode: "auto",
+          fit_override: null,
+        };
+      }
+
+      const GUIDE_TIER_LABELS = {
+        stretch: "Stretch",
+        stepping: "Stepping",
+        sandbox: "Sandbox",
+      };
+
+      const ROLE_TRACKS = [
+        { id: "da", label: "Data Analyst" },
+        { id: "ds", label: "Data Scientist" },
+        { id: "mle", label: "ML Engineer" },
+        { id: "de", label: "Data Engineer" },
+        { id: "ai_research", label: "AI Researcher" },
+      ];
+      const SEARCH_PATHS = [
+        { id: "search_ready", label: "Search-ready" },
+        { id: "build_proof", label: "Build-proof" },
+      ];
+      const YEARS_OPTIONS = ["0–1", "1–3", "3–5", "5+"];
+      const SKILL_OPTIONS = ["None", "Basic", "Solid", "Strong"];
+      const LEVEL_OPTIONS = [
+        { id: "entry", label: "Entry" },
+        { id: "mid", label: "Mid" },
+        { id: "senior", label: "Senior" },
+      ];
+      const LOCATION_MODES = [
+        { id: "remote", label: "Remote" },
+        { id: "hybrid", label: "Hybrid" },
+        { id: "onsite", label: "In person" },
+      ];
+      const TIE_ORDER = ["da", "ds", "de", "mle", "ai_research"];
+      const KEYWORD_BOOSTS = [
+        { re: /\banalyst\b|tableau|power\s*bi|looker|metrics?\b/i, add: { da: 3 } },
+        { re: /\bpipeline\b|\betl\b|spark|airflow|dbt|warehouse/i, add: { de: 4 } },
+        { re: /\bmlops\b|deploy|serving|inference|kubernetes/i, add: { mle: 4 } },
+        { re: /\bresearch\b|\bphd\b|\bpaper\b|arxiv/i, add: { ai_research: 4 } },
+        { re: /\bmodel\b|xgboost|pytorch|tensorflow|sklearn/i, add: { ds: 2, mle: 2 } },
+      ];
+
+      function skill_level_score(value) {
+        const i = SKILL_OPTIONS.indexOf(value);
+        return i < 0 ? 0 : i;
+      }
+
+      function suggest_role_track(inputs) {
+        const years = inputs.role_years || "";
+        const python = inputs.role_python || "";
+        const sql = inputs.role_sql || "";
+        const r = inputs.role_r || "";
+        const ready = Boolean(years && python && sql && r);
+        if (!ready) {
+          return {
+            id: null,
+            reason: "Add years + Python / SQL / R to see a suggestion.",
+            ready: false,
+          };
+        }
+        const scores = { da: 0, ds: 0, mle: 0, de: 0, ai_research: 0 };
+        const py = skill_level_score(python);
+        const sq = skill_level_score(sql);
+        const rr = skill_level_score(r);
+        if (sq >= 2) {
+          scores.da += sq;
+          scores.de += sq;
+        }
+        if (py >= 2) {
+          scores.ds += py;
+          scores.mle += py;
+          scores.de += py - 1;
+        }
+        if (rr >= 2) {
+          scores.da += rr;
+          scores.ds += rr;
+        }
+        if (years === "3–5") {
+          scores.de += 1;
+          scores.mle += 1;
+          scores.ai_research += 1;
+        }
+        if (years === "5+") {
+          scores.de += 2;
+          scores.mle += 2;
+          scores.ai_research += 2;
+          scores.ds += 1;
+        }
+        if (years === "0–1" || years === "1–3") scores.da += 1;
+        const past = String(inputs.role_past_jobs || "");
+        for (const row of KEYWORD_BOOSTS) {
+          if (!row.re.test(past)) continue;
+          for (const [id, n] of Object.entries(row.add)) scores[id] += n;
+        }
+        let best = TIE_ORDER[0];
+        let best_score = -1;
+        for (const id of TIE_ORDER) {
+          if (scores[id] > best_score) {
+            best_score = scores[id];
+            best = id;
+          }
+        }
+        const label = ROLE_TRACKS.find((t) => t.id === best)?.label || best;
+        return {
+          id: best,
+          reason: `Suggested: ${label}`,
+          ready: true,
+        };
+      }
+
+      function selected_role_tracks(answers) {
+        const multi = answers?.role_tracks;
+        if (Array.isArray(multi) && multi.length) {
+          return ROLE_TRACKS.map((t) => t.id).filter((id) => multi.includes(id));
+        }
+        const one = String(answers?.role_track || "").trim();
+        return one ? [one] : [];
+      }
+
+      function location_modes_from(answers) {
+        const raw = answers?.job_location_modes;
+        if (!Array.isArray(raw)) return [];
+        return raw.filter((id) => LOCATION_MODES.some((m) => m.id === id));
+      }
+
+      function gap_check_url(track_id) {
+        return `view.html?doc=m1-roadmap.md#${encodeURIComponent(track_id)}`;
+      }
+
+      function mount_job_target(root) {
+        const host = root.querySelector("#job-target-writein, [data-testid=guide-job-target]");
+        if (!host) return;
+
+        const session = guide_session();
+        const back = document.getElementById("back")?.href || "../";
+        const box = document.createElement("div");
+        box.className = "guide-job-target role-fit";
+        box.setAttribute("data-testid", "guide-job-target");
+
+        if (!session?.uid) {
+          box.innerHTML =
+            `<p class="hint warn">Sign in on <a href="${back}">Progress</a> first, then refresh this page. Same Job Target calculator as the top of Progress.</p>`;
+          host.replaceWith(box);
+          return;
+        }
+
+        const uid = session.uid;
+        let progress = guide_load_progress(uid);
+        const status = document.createElement("p");
+        status.className = "guide-job-target-status";
+        status.setAttribute("data-testid", "guide-job-target-status");
+
+        function refresh_status() {
+          const answers = progress.answers || {};
+          const tracks = selected_role_tracks(answers);
+          const path = answers.search_path || "";
+          const ready = Boolean(tracks.length && path);
+          status.textContent = ready
+            ? "Saved to Progress (same Job Target as the top of Progress / Job Optimizer)."
+            : "Autosaves to Progress · pick a Track and Path.";
+          status.classList.toggle("warn", !ready);
+        }
+
+        function patch(partial, opts = {}) {
+          progress = guide_save_progress(uid, { ...progress, ...partial });
+          if (opts.rerender !== false) render();
+          else refresh_status();
+        }
+
+        function set_answer(key, value, opts = {}) {
+          const answers = { ...(progress.answers || {}), [key]: value };
+          const sug = suggest_role_track(answers);
+          answers.role_suggested = sug.id || "";
+          patch({ answers }, opts);
+        }
+
+        function set_tracks(ids) {
+          const ordered = ROLE_TRACKS.map((t) => t.id).filter((id) => ids.includes(id));
+          const answers = {
+            ...(progress.answers || {}),
+            role_tracks: ordered,
+            role_track: ordered[0] || "",
+          };
+          const sug = suggest_role_track(answers);
+          answers.role_suggested = sug.id || "";
+          patch({ answers });
+        }
+
+        function pick_track(id) {
+          const selected = selected_role_tracks(progress.answers || {});
+          if (selected.includes(id)) set_tracks(selected.filter((x) => x !== id));
+          else set_tracks([...selected, id]);
+        }
+
+        function pick_level(id) {
+          const cur = progress.skill_level || "";
+          patch({ skill_level: cur === id ? "" : id });
+        }
+
+        function pick_location_mode(id) {
+          const answers = { ...(progress.answers || {}) };
+          const modes = location_modes_from(answers);
+          let next_modes;
+          if (modes.includes(id)) next_modes = modes.filter((x) => x !== id);
+          else next_modes = [...modes, id];
+          answers.job_location_modes = next_modes;
+          if (!next_modes.includes("hybrid") && !next_modes.includes("onsite")) {
+            answers.job_location_place = "";
+          }
+          const sug = suggest_role_track(answers);
+          answers.role_suggested = sug.id || "";
+          patch({ answers });
+        }
+
+        function pill_row(label, options, value, on_pick) {
+          const row = document.createElement("div");
+          row.className = "role-fit-row";
+          const lab = document.createElement("span");
+          lab.className = "role-fit-label";
+          lab.textContent = label;
+          const pills = document.createElement("div");
+          pills.className = "role-pills";
+          pills.setAttribute("role", "group");
+          pills.setAttribute("aria-label", label);
+          for (const opt of options) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `role-pill${value === opt ? " selected" : ""}`;
+            btn.textContent = opt;
+            btn.addEventListener("click", () => on_pick(opt));
+            pills.appendChild(btn);
+          }
+          row.appendChild(lab);
+          row.appendChild(pills);
+          return row;
+        }
+
+        function render() {
+          const answers = progress.answers || {};
+          const selected_ids = selected_role_tracks(answers);
+          const suggestion = suggest_role_track(answers);
+          const search_path = answers.search_path || "";
+          const location_modes = location_modes_from(answers);
+          const skill_level = progress.skill_level || "";
+          const needs_place =
+            location_modes.includes("hybrid") || location_modes.includes("onsite");
+          const can_submit = Boolean(selected_ids.length && search_path);
+
+          box.replaceChildren();
+
+          const hint = document.createElement("p");
+          hint.className = "hint";
+          hint.textContent =
+            "Same Job Target as Progress (Track, Path, level, remote/hybrid, industry, compensation floor).";
+          box.appendChild(hint);
+
+          const track_row = document.createElement("div");
+          track_row.className = "role-fit-row";
+          const track_lab = document.createElement("span");
+          track_lab.className = "role-fit-label";
+          track_lab.textContent = "Track";
+          const track_pills = document.createElement("div");
+          track_pills.className = "role-pills role-pills-tracks";
+          track_pills.setAttribute("role", "group");
+          track_pills.setAttribute("aria-label", "Target job titles");
+          for (const track of ROLE_TRACKS) {
+            const is_selected = selected_ids.includes(track.id);
+            const is_suggested = suggestion.id === track.id;
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `role-pill track${is_selected ? " selected" : ""}${
+              is_suggested && !is_selected ? " suggested" : ""
+            }`;
+            btn.setAttribute("aria-pressed", String(is_selected));
+            btn.setAttribute("data-testid", `guide-role-track-${track.id}`);
+            btn.textContent = track.label;
+            btn.addEventListener("click", () => pick_track(track.id));
+            track_pills.appendChild(btn);
+          }
+          track_row.appendChild(track_lab);
+          track_row.appendChild(track_pills);
+          box.appendChild(track_row);
+
+          if (selected_ids.length) {
+            const gap = document.createElement("p");
+            gap.className = "role-fit-gap";
+            selected_ids.forEach((id, i) => {
+              if (i > 0) gap.appendChild(document.createTextNode(" · "));
+              const label = ROLE_TRACKS.find((t) => t.id === id)?.label || id;
+              const a = document.createElement("a");
+              a.className = "role-gap-link";
+              a.href = gap_check_url(id);
+              a.target = "_blank";
+              a.rel = "noreferrer";
+              a.textContent = selected_ids.length === 1 ? "Gap check" : `${label} gap`;
+              gap.appendChild(a);
+            });
+            box.appendChild(gap);
+          }
+
+          const suggest = document.createElement("details");
+          suggest.className = "role-fit-suggest-fold";
+          suggest.setAttribute("data-testid", "guide-rolefit-suggest");
+          const sum = document.createElement("summary");
+          sum.textContent = "Suggest from your skills";
+          suggest.appendChild(sum);
+          suggest.appendChild(
+            pill_row("Years", YEARS_OPTIONS, answers.role_years || "", (v) =>
+              set_answer("role_years", v),
+            ),
+          );
+          suggest.appendChild(
+            pill_row("Python", SKILL_OPTIONS, answers.role_python || "", (v) =>
+              set_answer("role_python", v),
+            ),
+          );
+          suggest.appendChild(
+            pill_row("SQL", SKILL_OPTIONS, answers.role_sql || "", (v) =>
+              set_answer("role_sql", v),
+            ),
+          );
+          suggest.appendChild(
+            pill_row("R", SKILL_OPTIONS, answers.role_r || "", (v) => set_answer("role_r", v)),
+          );
+          const past = document.createElement("label");
+          past.className = "role-fit-past";
+          past.innerHTML = "<span>Past jobs (optional)</span>";
+          const past_in = document.createElement("input");
+          past_in.type = "text";
+          past_in.value = answers.role_past_jobs || "";
+          past_in.placeholder = "BI analyst 2y · or · pipelines";
+          past_in.addEventListener("input", () =>
+            set_answer("role_past_jobs", past_in.value, { rerender: false }),
+          );
+          past.appendChild(past_in);
+          suggest.appendChild(past);
+          if (suggestion.ready) {
+            const p = document.createElement("p");
+            p.className = "role-fit-suggest";
+            p.appendChild(document.createTextNode(suggestion.reason));
+            if (suggestion.id && !selected_ids.includes(suggestion.id)) {
+              p.appendChild(document.createTextNode(" "));
+              const use = document.createElement("button");
+              use.type = "button";
+              use.className = "linkish";
+              use.textContent = "Use suggestion";
+              use.addEventListener("click", () =>
+                set_tracks([...selected_ids, suggestion.id]),
+              );
+              p.appendChild(use);
+            }
+            suggest.appendChild(p);
+          }
+          box.appendChild(suggest);
+
+          const path_row = document.createElement("div");
+          path_row.className = "role-fit-row";
+          const path_lab = document.createElement("span");
+          path_lab.className = "role-fit-label";
+          path_lab.textContent = "Path";
+          const path_pills = document.createElement("div");
+          path_pills.className = "role-pills role-pills-tracks";
+          path_pills.setAttribute("role", "group");
+          path_pills.setAttribute("aria-label", "Search path");
+          for (const path of SEARCH_PATHS) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `role-pill track${search_path === path.id ? " selected" : ""}`;
+            btn.setAttribute("data-testid", `guide-role-path-${path.id}`);
+            btn.textContent = path.label;
+            btn.addEventListener("click", () => set_answer("search_path", path.id));
+            path_pills.appendChild(btn);
+          }
+          path_row.appendChild(path_lab);
+          path_row.appendChild(path_pills);
+          box.appendChild(path_row);
+          if (!search_path) {
+            const ph = document.createElement("p");
+            ph.className = "hint";
+            ph.textContent = "Search-ready skips Project · Build-proof requires it";
+            box.appendChild(ph);
+          }
+
+          const plan = document.createElement("div");
+          plan.className = "role-fit-plan";
+          const hours = document.createElement("label");
+          hours.className = "role-fit-past";
+          hours.innerHTML = "<span>Hours/week</span>";
+          const hours_in = document.createElement("input");
+          hours_in.type = "text";
+          hours_in.inputMode = "numeric";
+          hours_in.value = answers.target_hours_week || "";
+          hours_in.placeholder = "Applying + skill building, e.g. 10";
+          hours_in.setAttribute("data-testid", "guide-target-hours-week");
+          hours_in.addEventListener("input", () =>
+            set_answer("target_hours_week", hours_in.value, { rerender: false }),
+          );
+          hours.appendChild(hours_in);
+          plan.appendChild(hours);
+
+          const job_by = document.createElement("div");
+          job_by.className = "role-fit-past role-fit-job-by";
+          job_by.innerHTML = "<span>Want a job by</span>";
+          const job_by_controls = document.createElement("div");
+          job_by_controls.className = "role-fit-job-by-controls";
+          const asap = document.createElement("button");
+          asap.type = "button";
+          asap.className = `role-pill${answers.job_by === "asap" ? " selected" : ""}`;
+          asap.setAttribute("data-testid", "guide-job-by-asap");
+          asap.textContent = "ASAP";
+          asap.addEventListener("click", () =>
+            set_answer("job_by", answers.job_by === "asap" ? "" : "asap"),
+          );
+          const date = document.createElement("input");
+          date.type = "date";
+          date.value = /^\d{4}-\d{2}-\d{2}$/.test(answers.job_by || "") ? answers.job_by : "";
+          date.setAttribute("data-testid", "guide-job-by");
+          date.addEventListener("change", () => set_answer("job_by", date.value));
+          job_by_controls.appendChild(asap);
+          job_by_controls.appendChild(date);
+          job_by.appendChild(job_by_controls);
+          plan.appendChild(job_by);
+          box.appendChild(plan);
+
+          const level_row = document.createElement("div");
+          level_row.className = "role-fit-row";
+          const level_lab = document.createElement("span");
+          level_lab.className = "role-fit-label";
+          level_lab.textContent = "Level";
+          const level_pills = document.createElement("div");
+          level_pills.className = "role-pills role-pills-tracks";
+          level_pills.setAttribute("role", "group");
+          level_pills.setAttribute("aria-label", "Level");
+          for (const opt of LEVEL_OPTIONS) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `role-pill track${skill_level === opt.id ? " selected" : ""}`;
+            btn.setAttribute("aria-pressed", String(skill_level === opt.id));
+            btn.setAttribute("data-testid", `guide-job-level-${opt.id}`);
+            btn.textContent = opt.label;
+            btn.addEventListener("click", () => pick_level(opt.id));
+            level_pills.appendChild(btn);
+          }
+          level_row.appendChild(level_lab);
+          level_row.appendChild(level_pills);
+          box.appendChild(level_row);
+
+          const loc = document.createElement("div");
+          loc.className = "role-fit-location";
+          loc.setAttribute("data-testid", "guide-job-location");
+          const loc_lab = document.createElement("p");
+          loc_lab.className = "role-fit-location-label";
+          loc_lab.textContent = "Remote / hybrid";
+          loc.appendChild(loc_lab);
+          const loc_hint = document.createElement("p");
+          loc_hint.className = "hint";
+          loc_hint.textContent = "Tap in order of preference. First pick is rank 1.";
+          loc.appendChild(loc_hint);
+          const loc_pills = document.createElement("div");
+          loc_pills.className = "role-pills role-pills-tracks";
+          loc_pills.setAttribute("role", "group");
+          loc_pills.setAttribute("aria-label", "Remote / hybrid");
+          for (const mode of LOCATION_MODES) {
+            const rank = location_modes.indexOf(mode.id);
+            const selected = rank >= 0;
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `role-pill track${selected ? " selected" : ""}`;
+            btn.setAttribute("aria-pressed", String(selected));
+            btn.setAttribute("data-testid", `guide-job-location-${mode.id}`);
+            if (selected) {
+              const badge = document.createElement("span");
+              badge.className = "role-pill-rank";
+              badge.setAttribute("aria-hidden", "true");
+              badge.textContent = String(rank + 1);
+              btn.appendChild(badge);
+            }
+            btn.appendChild(document.createTextNode(mode.label));
+            btn.addEventListener("click", () => pick_location_mode(mode.id));
+            loc_pills.appendChild(btn);
+          }
+          loc.appendChild(loc_pills);
+          if (needs_place) {
+            const place = document.createElement("label");
+            place.className = "role-fit-past";
+            place.innerHTML = "<span>Location</span>";
+            const place_in = document.createElement("input");
+            place_in.type = "text";
+            place_in.value = answers.job_location_place || "";
+            place_in.placeholder = "City / metro / region";
+            place_in.setAttribute("data-testid", "guide-job-location-place");
+          place_in.addEventListener("input", () =>
+            set_answer("job_location_place", place_in.value, { rerender: false }),
+          );
+            place.appendChild(place_in);
+            loc.appendChild(place);
+          }
+          box.appendChild(loc);
+
+          const constraints = document.createElement("div");
+          constraints.className = "role-fit-plan";
+          const industry = document.createElement("label");
+          industry.className = "role-fit-past";
+          industry.innerHTML = "<span>Industry</span>";
+          const industry_in = document.createElement("input");
+          industry_in.type = "text";
+          industry_in.value = answers.job_industry || "";
+          industry_in.placeholder = "Health, fintech, climate…";
+          industry_in.setAttribute("data-testid", "guide-job-industry");
+          industry_in.addEventListener("input", () =>
+            set_answer("job_industry", industry_in.value, { rerender: false }),
+          );
+          industry.appendChild(industry_in);
+          constraints.appendChild(industry);
+          const comp = document.createElement("label");
+          comp.className = "role-fit-past";
+          comp.innerHTML = "<span>Compensation floor</span>";
+          const comp_in = document.createElement("input");
+          comp_in.type = "text";
+          comp_in.inputMode = "numeric";
+          comp_in.value = answers.comp_floor || "";
+          comp_in.placeholder = "$120k";
+          comp_in.setAttribute("data-testid", "guide-comp-floor");
+          comp_in.addEventListener("input", () =>
+            set_answer("comp_floor", comp_in.value, { rerender: false }),
+          );
+          comp.appendChild(comp_in);
+          constraints.appendChild(comp);
+          box.appendChild(constraints);
+
+          const notes = document.createElement("label");
+          notes.className = "role-fit-past";
+          notes.innerHTML = "<span>Notes</span>";
+          const notes_in = document.createElement("textarea");
+          notes_in.rows = 2;
+          notes_in.value = answers.job_location_notes || "";
+          notes_in.placeholder = "Visa, commute max, timezone, etc.";
+          notes_in.setAttribute("data-testid", "guide-job-location-notes");
+          notes_in.addEventListener("input", () =>
+            set_answer("job_location_notes", notes_in.value, { rerender: false }),
+          );
+          notes.appendChild(notes_in);
+          box.appendChild(notes);
+
+          const submit = document.createElement("button");
+          submit.type = "button";
+          submit.className = "primary role-fit-submit";
+          submit.setAttribute("data-testid", "guide-job-target-submit");
+          submit.disabled = !can_submit;
+          submit.textContent = "Submit";
+          submit.addEventListener("click", () => {
+            if (!can_submit) return;
+            refresh_status();
+            status.textContent = "Saved to Progress. Job Target is set.";
+            status.classList.remove("warn");
+          });
+          box.appendChild(submit);
+          if (!can_submit) {
+            const need = document.createElement("p");
+            need.className = "hint";
+            need.textContent = "Pick a Track and Path before submitting";
+            box.appendChild(need);
+          }
+
+          box.appendChild(status);
+          refresh_status();
+        }
+
+        render();
+        host.replaceWith(box);
+      }
+
+      function mount_company_fit_writein(root) {
+        const host = root.querySelector("#company-fit-writein, [data-testid=guide-company-fit]");
+        if (!host) return;
+
+        const session = guide_session();
+        const back = document.getElementById("back")?.href || "../";
+        const box = document.createElement("div");
+        box.className = "guide-company-fit";
+        box.setAttribute("data-testid", "guide-company-fit");
+
+        if (!session?.uid) {
+          box.innerHTML =
+            `<p class="hint warn">Sign in on <a href="${back}">Progress</a> first, then refresh this page to rank companies here. Same sheet as Company Fit.</p>`;
+          host.replaceWith(box);
+          return;
+        }
+
+        const uid = session.uid;
+        let sheet = guide_load_company_fit(uid);
+        const status = document.createElement("p");
+        status.className = "guide-company-fit-status";
+        status.setAttribute("data-testid", "guide-company-fit-status");
+
+        function refresh_status(msg) {
+          status.textContent =
+            msg || "Autosaves to Progress · same Company Fit worksheet (?ws=company-fit).";
+          status.classList.remove("warn");
+        }
+
+        function persist(next, resort, remount) {
+          guide_save_company_fit(uid, next, resort !== false);
+          sheet = guide_load_company_fit(uid);
+          if (remount === false) {
+            paint_summary();
+            refresh_status("Saved.");
+            return;
+          }
+          render();
+          refresh_status(resort === false ? "Saved." : "Saved. Ranked.");
+        }
+
+        function paint_summary() {
+          const host = box.querySelector("[data-testid=guide-company-fit-summary]");
+          if (!host) return;
+          const buckets = guide_fit_rank_summary(sheet.rows, sheet.traits);
+          host.replaceChildren();
+          const title = document.createElement("h4");
+          title.textContent = "Auto-rank from this sheet";
+          const dl = document.createElement("dl");
+          for (const id of ["stretch", "stepping", "sandbox"]) {
+            const row = document.createElement("div");
+            const dt = document.createElement("dt");
+            dt.textContent = GUIDE_TIER_LABELS[id];
+            const dd = document.createElement("dd");
+            dd.textContent = buckets[id].length ? buckets[id].join(", ") : "-";
+            row.appendChild(dt);
+            row.appendChild(dd);
+            dl.appendChild(row);
+          }
+          host.appendChild(title);
+          host.appendChild(dl);
+        }
+
+        function render() {
+          box.replaceChildren();
+
+          const hint = document.createElement("p");
+          hint.className = "hint";
+          hint.textContent =
+            "Weights 1-5 (higher = matters more). Scores 1-5 per trait. Fit is a weighted average; blank scores are skipped.";
+          box.appendChild(hint);
+
+          const traits_wrap = document.createElement("div");
+          traits_wrap.className = "guide-company-fit-traits";
+          traits_wrap.setAttribute("data-testid", "guide-company-fit-traits");
+
+          sheet.traits.forEach((trait) => {
+            const row = document.createElement("div");
+            row.className = "guide-company-fit-trait";
+
+            const label = document.createElement("input");
+            label.type = "text";
+            label.value = trait.label;
+            label.setAttribute("aria-label", "Trait name");
+            label.setAttribute("data-testid", `guide-company-fit-trait-label-${trait.id}`);
+            label.addEventListener("change", () => {
+              const traits = sheet.traits.map((t) =>
+                t.id === trait.id ? { ...t, label: label.value } : t,
+              );
+              persist({ traits, rows: sheet.rows }, false);
+            });
+
+            const weight = document.createElement("input");
+            weight.type = "number";
+            weight.min = "1";
+            weight.max = "5";
+            weight.value = String(trait.weight);
+            weight.setAttribute("aria-label", "Trait weight");
+            weight.setAttribute("data-testid", `guide-company-fit-trait-weight-${trait.id}`);
+            weight.addEventListener("change", () => {
+              const traits = sheet.traits.map((t) =>
+                t.id === trait.id ? { ...t, weight: Number(weight.value) || t.weight } : t,
+              );
+              persist({ traits, rows: sheet.rows }, true);
+            });
+
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.textContent = "Remove";
+            remove.disabled = sheet.traits.length <= 1;
+            remove.setAttribute("data-testid", `guide-company-fit-trait-remove-${trait.id}`);
+            remove.addEventListener("click", () => {
+              if (sheet.traits.length <= 1) return;
+              const traits = sheet.traits.filter((t) => t.id !== trait.id);
+              const rows = sheet.rows.map((r) => {
+                const scores = { ...r.scores };
+                delete scores[trait.id];
+                return { ...r, scores };
+              });
+              persist({ traits, rows }, true);
+            });
+
+            row.appendChild(label);
+            row.appendChild(weight);
+            row.appendChild(remove);
+            traits_wrap.appendChild(row);
+          });
+          box.appendChild(traits_wrap);
+
+          const trait_actions = document.createElement("div");
+          trait_actions.className = "guide-company-fit-actions";
+          const add_trait = document.createElement("button");
+          add_trait.type = "button";
+          add_trait.textContent = "Add trait";
+          add_trait.setAttribute("data-testid", "guide-company-fit-add-trait");
+          add_trait.addEventListener("click", () => {
+            persist(
+              {
+                traits: [
+                  ...sheet.traits,
+                  { id: guide_fit_new_id("t"), label: "New trait", weight: 3 },
+                ],
+                rows: sheet.rows,
+              },
+              true,
+            );
+          });
+          trait_actions.appendChild(add_trait);
+          box.appendChild(trait_actions);
+
+          const row_actions = document.createElement("div");
+          row_actions.className = "guide-company-fit-actions";
+
+          const names = guide_fit_names_from_brainstorm(
+            guide_load_progress(uid).worksheets?.brainstorm || {},
+          );
+          const has_named = sheet.rows.some((r) => String(r.company || "").trim());
+          if (names.length && !has_named) {
+            const seed = document.createElement("button");
+            seed.type = "button";
+            seed.textContent = "Load from company list";
+            seed.setAttribute("data-testid", "guide-company-fit-seed");
+            seed.addEventListener("click", () => {
+              persist(
+                {
+                  traits: sheet.traits,
+                  rows: names.map((company) => guide_empty_fit_row(company)),
+                },
+                false,
+              );
+            });
+            row_actions.appendChild(seed);
+          }
+
+          const add_row = document.createElement("button");
+          add_row.type = "button";
+          add_row.textContent = "Add company";
+          add_row.setAttribute("data-testid", "guide-company-fit-add-row");
+          add_row.addEventListener("click", () => {
+            const rows = sheet.rows.length ? sheet.rows : [];
+            persist({ traits: sheet.traits, rows: [...rows, guide_empty_fit_row()] }, false);
+          });
+          row_actions.appendChild(add_row);
+          box.appendChild(row_actions);
+
+          const display_rows = sheet.rows.length
+            ? guide_fit_sorted(sheet.rows, sheet.traits)
+            : [guide_empty_fit_row()];
+
+          const wrap = document.createElement("div");
+          wrap.className = "guide-company-fit-table-wrap";
+          const table = document.createElement("table");
+          table.className = "guide-company-fit-table";
+          table.setAttribute("data-testid", "guide-company-fit-table");
+
+          const thead = document.createElement("thead");
+          const head_row = document.createElement("tr");
+          function guide_trait_header(label) {
+            if (label === "Work/life balance") return "Work/life";
+            if (label === "Career growth") return "Growth";
+            return label;
+          }
+          const headers = [
+            { text: "Company", className: "cf-col-company" },
+            { text: "Role", className: "cf-col-role" },
+            ...sheet.traits.map((t) => ({
+              text: guide_trait_header(t.label),
+              className: "cf-score",
+              title: t.label,
+            })),
+            { text: "Fit", className: "cf-col-fit" },
+            { text: "Tier", className: "cf-col-tier" },
+            { text: "Interest", className: "cf-col-interest" },
+            { text: "Green", className: "cf-col-flag" },
+            { text: "Red", className: "cf-col-flag" },
+            { text: "URL", className: "cf-col-url" },
+            { text: "Notes", className: "cf-col-notes" },
+            { text: "", className: "cf-remove-cell" },
+          ];
+          for (const item of headers) {
+            const th = document.createElement("th");
+            th.textContent = item.text;
+            if (item.className) th.className = item.className;
+            if (item.title) th.title = item.title;
+            head_row.appendChild(th);
+          }
+          thead.appendChild(head_row);
+          table.appendChild(thead);
+
+          const auto_map = guide_fit_assign_auto(sheet.rows, sheet.traits);
+          const tbody = document.createElement("tbody");
+          display_rows.forEach((row) => {
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-testid", `guide-company-fit-row-${row.id}`);
+
+            function ensure_row_in_sheet() {
+              if (sheet.rows.some((r) => r.id === row.id)) return sheet.rows;
+              return [...sheet.rows, row];
+            }
+
+            function text_cell(field, placeholder, test_suffix, className, rows) {
+              const input = document.createElement("textarea");
+              input.rows = rows || 2;
+              input.value = row[field] || "";
+              input.placeholder = placeholder;
+              if (field === "url" && row.url) input.title = row.url;
+              input.setAttribute("data-testid", `guide-company-fit-${test_suffix}-${row.id}`);
+              input.addEventListener("change", () => {
+                const rows_next = ensure_row_in_sheet().map((r) =>
+                  r.id === row.id ? { ...r, [field]: input.value } : r,
+                );
+                persist({ traits: sheet.traits, rows: rows_next }, false, false);
+              });
+              const td = document.createElement("td");
+              if (className) td.className = className;
+              td.appendChild(input);
+              tr.appendChild(td);
+            }
+
+            text_cell("company", "Company", "company", "cf-col-company");
+            text_cell("role", "Role", "role", "cf-col-role");
+
+            sheet.traits.forEach((trait) => {
+              const score_in = document.createElement("input");
+              score_in.type = "number";
+              score_in.min = "1";
+              score_in.max = "5";
+              score_in.value =
+                row.scores?.[trait.id] === undefined || row.scores?.[trait.id] === null
+                  ? ""
+                  : String(row.scores[trait.id]);
+              score_in.setAttribute("data-testid", `guide-company-fit-score-${row.id}-${trait.id}`);
+              score_in.addEventListener("change", () => {
+                const rows = ensure_row_in_sheet().map((r) => {
+                  if (r.id !== row.id) return r;
+                  const scores = { ...r.scores };
+                  if (score_in.value === "") delete scores[trait.id];
+                  else scores[trait.id] = Number(score_in.value);
+                  return { ...r, scores };
+                });
+                persist({ traits: sheet.traits, rows }, true, false);
+              });
+              const td = document.createElement("td");
+              td.className = "cf-score";
+              td.appendChild(score_in);
+              tr.appendChild(td);
+            });
+
+            const auto_score = guide_fit_score(row, sheet.traits);
+            const td_fit = document.createElement("td");
+            td_fit.className = "guide-company-fit-total cf-col-fit";
+            const fit_in = document.createElement("input");
+            fit_in.type = "number";
+            fit_in.min = "1";
+            fit_in.max = "5";
+            fit_in.step = "0.1";
+            fit_in.value =
+              row.fit_override !== null && row.fit_override !== undefined
+                ? guide_fit_format(row.fit_override)
+                : guide_fit_format(auto_score);
+            fit_in.placeholder = "Fit";
+            fit_in.title =
+              row.fit_override != null
+                ? "Manual Fit (clear to use trait average)"
+                : "Fit from traits (edit to override)";
+            fit_in.setAttribute("data-testid", `guide-company-fit-total-${row.id}`);
+            fit_in.addEventListener("change", () => {
+              const rows = ensure_row_in_sheet().map((r) => {
+                if (r.id !== row.id) return r;
+                if (fit_in.value === "") return { ...r, fit_override: null };
+                const n = Number(fit_in.value);
+                return {
+                  ...r,
+                  fit_override: Number.isFinite(n) ? Math.round(n * 10) / 10 : null,
+                };
+              });
+              persist({ traits: sheet.traits, rows }, true, false);
+            });
+            td_fit.appendChild(fit_in);
+            tr.appendChild(td_fit);
+
+            const auto_tier = auto_map.get(row.id) || "";
+            const tier_sel = document.createElement("select");
+            tier_sel.setAttribute("data-testid", `guide-company-fit-tier-${row.id}`);
+            const auto_opt = document.createElement("option");
+            auto_opt.value = "auto";
+            auto_opt.textContent = auto_tier
+              ? `· ${GUIDE_TIER_LABELS[auto_tier] || auto_tier}`
+              : "Auto";
+            tier_sel.appendChild(auto_opt);
+            for (const id of ["stretch", "stepping", "sandbox"]) {
+              const opt = document.createElement("option");
+              opt.value = id;
+              opt.textContent = GUIDE_TIER_LABELS[id];
+              tier_sel.appendChild(opt);
+            }
+            tier_sel.value = row.tier_mode || "auto";
+            if (auto_tier) tier_sel.title = `Auto: ${GUIDE_TIER_LABELS[auto_tier] || auto_tier}`;
+            tier_sel.addEventListener("change", () => {
+              const rows = ensure_row_in_sheet().map((r) =>
+                r.id === row.id ? { ...r, tier_mode: tier_sel.value } : r,
+              );
+              persist({ traits: sheet.traits, rows }, true, false);
+            });
+            const td_tier = document.createElement("td");
+            td_tier.className = "cf-col-tier";
+            td_tier.appendChild(tier_sel);
+            tr.appendChild(td_tier);
+
+            text_cell("interest", "high /\nmed / low", "interest", "cf-col-interest");
+            text_cell("green_flag", "Green\nflag", "green", "cf-col-flag");
+            text_cell("red_flag", "Red\nflag", "red", "cf-col-flag");
+            text_cell("url", "URL", "url", "cf-col-url", 1);
+            text_cell("notes", "Notes", "notes", "cf-col-notes");
+
+            const td_rm = document.createElement("td");
+            td_rm.className = "cf-remove-cell";
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.textContent = "−";
+            remove.setAttribute("aria-label", "Remove company");
+            remove.title = "Remove";
+            remove.setAttribute("data-testid", `guide-company-fit-remove-${row.id}`);
+            remove.addEventListener("click", () => {
+              const rows = sheet.rows.filter((r) => r.id !== row.id);
+              persist({ traits: sheet.traits, rows }, true);
+            });
+            td_rm.appendChild(remove);
+            tr.appendChild(td_rm);
+
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          wrap.appendChild(table);
+          box.appendChild(wrap);
+
+          const summary = document.createElement("div");
+          summary.className = "guide-company-fit-summary";
+          summary.setAttribute("data-testid", "guide-company-fit-summary");
+          box.appendChild(summary);
+
+          const save_row = document.createElement("div");
+          save_row.className = "guide-company-fit-actions";
+          const save = document.createElement("button");
+          save.type = "button";
+          save.className = "guide-company-fit-save";
+          save.textContent = "Save";
+          save.setAttribute("data-testid", "guide-company-fit-save");
+          save.addEventListener("click", () => persist(sheet, true, true));
+          save_row.appendChild(save);
+          box.appendChild(save_row);
+          box.appendChild(status);
+          paint_summary();
+        }
+
+        render();
+        refresh_status();
+        host.replaceWith(box);
+      }
 
       fetch(doc)
         .then((r) => {
@@ -205,13 +1979,16 @@
           return r.text();
         })
         .then((md) => {
-          document.getElementById("content").innerHTML = marked.parse(md);
+          const heading_ids = extract_html_heading_ids(md);
+          const content = document.getElementById("content");
+          content.innerHTML = marked.parse(md);
+          apply_html_heading_ids(content, heading_ids);
+          mount_job_target(content);
+          mount_company_fit_writein(content);
           document.title = document.querySelector("article h1")?.textContent || doc;
-          const hash = location.hash.slice(1);
-          if (hash) {
-            const el = document.getElementById(hash);
-            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
+          scroll_to_hash();
+          // Hash can arrive after parse on some navigations
+          requestAnimationFrame(scroll_to_hash);
         })
         .catch((err) => {
           document.getElementById("content").innerHTML =

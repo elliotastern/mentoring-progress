@@ -11,7 +11,7 @@ function ws(id, label = "Worksheet") {
 export const FOUNDATIONS = [
   {
     id: "m0",
-    title: "Module 0 — Onboard",
+    title: "Module 0: Onboard",
     min_checks: 4,
     worksheet: ws("module-exit-0", "Open Module 0 exit worksheet"),
     items: [
@@ -39,7 +39,7 @@ export const FOUNDATIONS = [
   },
   {
     id: "m1",
-    title: "Module 1 — Path",
+    title: "Module 1: Path",
     min_checks: 7,
     answer_label: "Answer — my primary goal this quarter (one line)",
     answer_key: "m1_goal",
@@ -133,11 +133,11 @@ export const FOUNDATIONS = [
   },
   {
     id: "m3",
-    title: "Module 3 — Portfolio",
-    min_checks: 7,
-    answer_label: "Answer — my product one-liner",
+    title: "Module 3: Portfolio",
+    min_checks: 9,
+    answer_label: "Answer: my product one-liner",
     answer_key: "m3_oneliner",
-    worksheet: ws("module-exit-3", "Open Module 3 exit worksheet"),
+    worksheet: ws("module-exit-3", "Open Module 3 Exit · Portfolio final"),
     items: [
       {
         id: "m3_overview",
@@ -161,12 +161,13 @@ export const FOUNDATIONS = [
       },
       {
         id: "m3_linkedin",
-        label: "Maximize LinkedIn",
+        label: "Maximize LinkedIn (headline matches Job Target title)",
+        sheet: ws("linkedin", "Worksheet"),
         doc: { href: "docs/view.html?doc=m3-linkedin.md", label: "Guide" },
       },
       {
         id: "m3_portfolio",
-        label: "Maximize Portfolio",
+        label: "Maximize Portfolio (public proof home noted)",
         doc: { href: "docs/view.html?doc=m3-portfolio.md", label: "Guide" },
       },
       {
@@ -180,23 +181,64 @@ export const FOUNDATIONS = [
         doc: { href: "docs/view.html?doc=m3-cover.md", label: "Guide" },
       },
       {
-        id: "m3_habit",
-        label: "Portfolio Touch-Up habit started (30 mins daily)",
+        id: "projects",
+        label: "1-2 proof projects that look like that job's day-to-day work",
+        sheet: ws("package-match", "Worksheet"),
+        doc: {
+          href: "docs/view.html?doc=overview-v8.md#the-numbers-role-specific-proof",
+          label: "Guide",
+        },
+      },
+      {
+        id: "artifact",
+        label: "One artifact a stranger can open and understand in about 6 seconds",
+        sheet: ws("package-match", "Worksheet"),
+        doc: {
+          href: "docs/view.html?doc=portfolio-package.md",
+          label: "Guide",
+        },
       },
     ],
   },
 ];
 
-/** Module 4: always listed; all Job Search stages are visible (locked stages are peek-only). */
+/** Module 4: always listed; Job Search stages sit under it (locked stages are peek-only). */
 export const MODULE_4 = {
   id: "m4",
-  title: "Module 4 — Job Search",
+  title: "Module 4: Job Search",
   min_checks: 0,
+  /** Step 1 prereq checks (role / companies / portfolio). */
+  prereq_ids: ["m4_know_role", "m4_know_companies", "m4_portfolio_ready"],
   items: [
     {
+      id: "m4_know_role",
+      label: "Know your job target",
+      step: "prereq",
+    },
+    {
+      id: "m4_know_companies",
+      label: "Know what companies are your target (10-15)",
+      step: "prereq",
+      sheet: ws("company-fit", "Company Fit"),
+    },
+    {
+      id: "m4_portfolio_ready",
+      label: "Portfolio final submitted (LinkedIn, resume, GitHub, personal site)",
+      step: "prereq",
+      sheet: ws("module-exit-3", "Portfolio final"),
+    },
+    {
       id: "m4_overview",
-      label: "Job Search Overview — start with This week",
-      doc: { href: "docs/view.html?doc=overview-v8.md#this-week", label: "Guide" },
+      label: "Read the Overview",
+      step: "overview",
+      doc: { href: "docs/view.html?doc=overview-v8.md", label: "Read Guide" },
+    },
+    {
+      id: "m4_tracker",
+      label: "Tracker ready (columns + practice row)",
+      step: "tracker",
+      sheet: ws("tracker-setup", "Tracker setup"),
+      doc: { href: "docs/view.html?doc=ws-tracker-setup.md", label: "Guide" },
     },
   ],
 };

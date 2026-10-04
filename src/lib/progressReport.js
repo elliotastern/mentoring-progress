@@ -1,10 +1,9 @@
-import { STAGES, WEEKLY } from "../data/stages.js";
+import { STAGES } from "../data/stages.js";
 import { MODULES } from "../data/foundations.js";
 import { WORKSHEETS, sheet_fillin_stats } from "../data/worksheets.js";
-import { stage_pass_status, weekly_open } from "./gates.js";
+import { stage_pass_status } from "./gates.js";
 import { is_search_ready } from "./roleFit.js";
 import { sheet_module_stats } from "./checkSync.js";
-import { streak_drivers_met, tally_goal_met, tally_number } from "./weeklyStreak.js";
 
 function stage_by_id(id) {
   return STAGES.find((s) => s.id === id);
@@ -48,15 +47,15 @@ function sheet_content_stats(progress, sheet) {
 
 function proof_pillar(progress) {
   const checks = progress.checks || {};
-  const stage = stage_by_id("1");
-  const status = stage_pass_status(stage, progress);
-  // Module 3 owns resume / LinkedIn / public home; Stage 1 Package owns job-matched proof.
+  const m3 = MODULES.find((m) => m.id === "m3");
+  const status = m3 ? stage_pass_status(m3, progress) : { core_done: 0, core_need: 0 };
+  // Module 3 owns resume / LinkedIn / public home and role-matched proof.
   const lines = [
     check_line(checks, "m3_linkedin", "LinkedIn (Module 3)", "mod_m3"),
     check_line(checks, "m3_resume", "Resume (Module 3)", "mod_m3"),
     check_line(checks, "m3_portfolio", "Portfolio / public proof (Module 3)", "mod_m3"),
-    check_line(checks, "projects", "Proof projects (Package)", "stage_1"),
-    check_line(checks, "artifact", "6-second artifact (Package)", "stage_1"),
+    check_line(checks, "projects", "Proof projects (Module 3)", "mod_m3"),
+    check_line(checks, "artifact", "6-second artifact (Module 3)", "mod_m3"),
   ];
   const m3_ids = ["m3_linkedin", "m3_resume", "m3_portfolio"];
   const proof_ids = ["projects", "artifact"];
@@ -77,17 +76,30 @@ function proof_pillar(progress) {
         lines: lines.filter((l) => m3_ids.includes(l.id)),
       },
       {
-        title: "Package match",
+        title: "Role-matched proof",
         lines: lines.filter((l) => proof_ids.includes(l.id)),
       },
     ],
-    detail: `${status.core_done}/${status.core_need} package proof`,
+    detail: `${status.core_done}/${status.core_need} Module 3 portfolio`,
   };
 }
 
 function skills_pillar(progress) {
   const checks = progress.checks || {};
-  const stage = stage_by_id("4");
+  const stage = stage_by_id("1");
+  // Level row lives in later/job-search.js (APPLY_DEFERRED). Not on the site.
+  if (!stage?.needs_level) {
+    return {
+      id: "skills",
+      label: "Skills",
+      percent: 0,
+      done: 0,
+      need: 0,
+      lines: [],
+      detail: "later",
+      deferred: true,
+    };
+  }
   const level = progress.skill_level || "";
   const lines = [];
   let done = 0;
@@ -95,17 +107,16 @@ function skills_pillar(progress) {
 
   if (level && stage.level_items?.[level]) {
     for (const item of stage.level_items[level]) {
-      lines.push(check_line(checks, item.id, item.label, "stage_4"));
+      lines.push(check_line(checks, item.id, item.label, "stage_1"));
       need += 1;
       if (checks[item.id]) done += 1;
     }
   } else {
-    // Until a level is chosen, send people to Stage 4 core (always in DOM).
     lines.push(
-      check_line(checks, "know_row", "Pick level in Stage 4", "stage_4"),
+      check_line(checks, "skill_level", "Pick level on Job Target", "rolefit"),
     );
     need = 1;
-    done = checks.know_row ? 1 : 0;
+    done = 0;
   }
 
   return {
@@ -115,24 +126,18 @@ function skills_pillar(progress) {
     done,
     need,
     lines,
-    detail: level ? `${level} row` : "pick level in Stage 4",
+    detail: level ? `${level} row` : "pick level on Job Target",
   };
 }
 
 function application_pillar(progress) {
   const checks = progress.checks || {};
   const strategy_ids = [
-    { id: "chart_e_score", label: "Strategy laid out (Chart E)" },
-    { id: "six_plus", label: "Only continue at Chart E 6+" },
-    { id: "careers_page", label: "Careers page before apply" },
-    { id: "tailor", label: "Tailor résumé to duties" },
-    { id: "apply_site", label: "Apply on employer site" },
-    { id: "outreach", label: "Role-specific outreach" },
-    { id: "tracker_fields", label: "Tracker fields logged" },
-    { id: "wellfound_msg", label: "Wellfound message done" },
+    { id: "job_optimizer_plan", label: "Weekly Application Dashboard hours set" },
+    { id: "tracker_fields", label: "Tracker row logged" },
   ];
   const lines = strategy_ids.map((row) =>
-    check_line(checks, row.id, row.label, "stage_3"),
+    check_line(checks, row.id, row.label, "stage_1"),
   );
   const done = lines.filter((l) => l.done).length;
   const need = lines.length;
@@ -148,39 +153,21 @@ function application_pillar(progress) {
   };
 }
 
-function weekly_pillar(progress) {
-  const tallies = progress.weekly_tallies || {};
-  const drivers = WEEKLY.tallies.filter((t) => t.streak_driver);
-  const lines = drivers.map((t) => {
-    const value = tally_number(tallies, t.id);
-    const met = tally_goal_met(tallies, t);
-    return {
-      id: t.id,
-      label: t.label,
-      done: met,
-      value,
-      goal: t.goal_min,
-      detail: `${value} / ${t.goal_min}+`,
-      work: { kind: "weekly", id: t.id },
-    };
-  });
-  const goals_hit = lines.filter((l) => l.done).length;
-  const streak = Number(progress.weekly_streak) || 0;
-  const streak_points = Math.min(2, streak > 0 ? 1 + (streak >= 3 ? 1 : 0) : 0);
-  const done = goals_hit + streak_points;
-  const need = drivers.length + 2;
+function weekly_pillar(_progress) {
+  // Weekly Loop lives in later/job-search.js (WEEKLY_LOOP). Not on the site.
   return {
     id: "weekly",
     label: "Weekly Progress",
-    percent: pct(done, need),
-    done,
-    need,
-    lines,
-    streak,
-    best_streak: Number(progress.weekly_best_streak) || 0,
-    drivers_met: streak_drivers_met(tallies),
-    unlocked: weekly_open(progress),
-    detail: streak > 0 ? `${streak} wk streak` : "build a streak",
+    percent: 0,
+    done: 0,
+    need: 0,
+    lines: [],
+    streak: 0,
+    best_streak: 0,
+    drivers_met: false,
+    unlocked: false,
+    detail: "later",
+    deferred: true,
   };
 }
 
@@ -397,7 +384,7 @@ export function progress_report(progress) {
     weekly_pillar(progress),
     docs_worksheets_pillar(progress),
   ];
-  const scored = pillars.filter((p) => p.id !== "weekly");
+  const scored = pillars.filter((p) => p.id !== "weekly" && !p.deferred);
   const avg = scored.reduce((sum, p) => sum + p.percent, 0) / scored.length;
   const overall = Math.min(100, Math.round(avg));
 

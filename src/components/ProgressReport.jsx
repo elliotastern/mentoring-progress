@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { progress_report } from "../lib/progressReport.js";
 import { get_fold, set_fold } from "../lib/foldPrefs.js";
 import { TipText } from "./Tip.jsx";
+import perspective_comic from "../assets/perspective-comic.png";
 
 const PRECURSOR_IDS = ["docs", "weekly"];
 const PORTFOLIO_BAND_IDS = ["proof", "skills", "application"];
@@ -179,7 +180,7 @@ function map_pillars(report, ids) {
   return ids
     .map((id) => {
       const pillar = report.pillars.find((p) => p.id === id);
-      if (!pillar) return null;
+      if (!pillar || pillar.deferred) return null;
       if (id === "weekly") {
         return { ...pillar, label: "Progress", short_label: "Progress" };
       }
@@ -291,14 +292,14 @@ export function ProgressReport({ progress, on_work_on, next_hint = "" }) {
                 <span className="progress-next-action">{next_hint}</span>
               </>
             ) : (
-              "Open for Modules · Progress · Portfolio · Skills · Apply"
+              "Open for Modules · Portfolio · Apply"
             )}
           </p>
         </button>
         <figure className="perspective-hero" data-testid="perspective-hero">
           <img
-            src={`${import.meta.env.BASE_URL}perspective-comic.png`}
-            alt="When you feel like I am getting nowhere — Remember I've come so far"
+            src={perspective_comic}
+            alt="When you feel like I am getting nowhere. Remember I've come so far"
             width={1024}
             height={572}
             decoding="async"

@@ -33,6 +33,18 @@ export const SEARCH_PATHS = [
 export const YEARS_OPTIONS = ["0–1", "1–3", "3–5", "5+"];
 export const SKILL_OPTIONS = ["None", "Basic", "Solid", "Strong"];
 
+export const LEVEL_OPTIONS = [
+  { id: "entry", label: "Entry" },
+  { id: "mid", label: "Mid" },
+  { id: "senior", label: "Senior" },
+];
+
+export const LOCATION_MODES = [
+  { id: "remote", label: "Remote" },
+  { id: "hybrid", label: "Hybrid" },
+  { id: "onsite", label: "In person" },
+];
+
 export function proof_label_for_track(track_id) {
   return PROOF_BY_TRACK[track_id] || "project that matches the job";
 }
@@ -195,12 +207,50 @@ export function format_job_by_label(job_by) {
   });
 }
 
-export function job_target_title(track_ids, job_by = "") {
+export function format_level_label(level) {
+  const id = String(level || "").trim();
+  return LEVEL_OPTIONS.find((opt) => opt.id === id)?.label || "";
+}
+
+export function location_modes_from(answers) {
+  const raw = answers?.job_location_modes;
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((id) => LOCATION_MODES.some((m) => m.id === id));
+}
+
+export function format_location_modes_label(modes) {
+  if (!Array.isArray(modes) || !modes.length) return "";
+  return modes
+    .map((id) => LOCATION_MODES.find((m) => m.id === id)?.label || "")
+    .filter(Boolean)
+    .join("/");
+}
+
+export function format_comp_floor_label(raw) {
+  const value = String(raw || "").trim();
+  if (!value) return "";
+  if (/^\$/.test(value)) return value;
+  return `$${value}`;
+}
+
+/** Compact extras for fold title: Mid · Remote/Hybrid · Health · $120k */
+export function job_target_constraint_bits(progress) {
+  const answers = progress?.answers || {};
+  const level = format_level_label(progress?.skill_level || answers.job_level);
+  const location = format_location_modes_label(location_modes_from(answers));
+  const industry = String(answers.job_industry || "").trim();
+  const comp = format_comp_floor_label(answers.comp_floor);
+  return [level, location, industry, comp].filter(Boolean);
+}
+
+export function job_target_title(track_ids, job_by = "", progress = null) {
   const labels = role_track_labels(track_ids);
   const when = format_job_by_label(job_by);
-  if (!labels.length) return when ? `Job Target ${when}` : "Job Target";
+  const extras = progress ? job_target_constraint_bits(progress) : [];
+  const tail = [when, ...extras].filter(Boolean).join(" · ");
+  if (!labels.length) return tail ? `Job Target ${tail}` : "Job Target";
   const roles = labels.join(", ");
-  return when ? `Job Target: ${roles} ${when}` : `Job Target: ${roles}`;
+  return tail ? `Job Target: ${roles} ${tail}` : `Job Target: ${roles}`;
 }
 
 export function role_track_chosen(progress) {

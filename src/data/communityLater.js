@@ -8,7 +8,7 @@
  *    - Set m0.min_checks from 4 → 5.
  *
  * 2. foundations.js (Module 3):
- *    - Append m3_slack item back to m3.items (before m3_habit).
+ *    - Append m3_slack item back to m3.items (after artifact).
  *
  * 3. stages.js (Stage 5):
  *    - Append m5_mock item back to stage "5" items (before drills_habit).
@@ -56,7 +56,7 @@ export const COMMUNITY_LATER = {
     {
       id: "m3_slack",
       label:
-        "Posted product summary + one-liner in #3-optimizing-portfolio and asked for feedback",
+      "Posted product summary + one-liner + Portfolio final (LinkedIn, resume, GitHub, personal site links or screenshots) in #3-optimizing-portfolio and asked for feedback",
     },
     {
       id: "m5_mock",
@@ -84,8 +84,12 @@ export const COMMUNITY_LATER_WORKSHEET = {
     {
       title: "Portfolio feedback (#3-optimizing-portfolio)",
       fields: [
-        text("slack_posted", "Posted in #3-optimizing-portfolio (date)"),
-        check("asked_feedback", "Asked for feedback"),
+        text(
+          "slack_posted",
+          "Posted Portfolio final in #3-optimizing-portfolio (date)",
+          "links and/or screenshots / Word doc",
+        ),
+        check("asked_feedback", "Asked for feedback on LinkedIn, resume, GitHub, personal site"),
       ],
     },
     {

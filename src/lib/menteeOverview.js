@@ -11,6 +11,10 @@ import {
   SKILL_OPTIONS,
   is_search_ready,
   format_job_by_label,
+  format_level_label,
+  format_location_modes_label,
+  format_comp_floor_label,
+  location_modes_from,
 } from "./roleFit.js";
 
 function answer(progress, key) {
@@ -68,8 +72,8 @@ function portfolio_rows(checks) {
       label: "Public proof (Module 3)",
       ok: public_home,
     },
-    { id: "projects", label: "Proof projects (Package)", ok: Boolean(checks.projects) },
-    { id: "artifact", label: "6-second artifact (Package)", ok: Boolean(checks.artifact) },
+    { id: "projects", label: "Proof projects (Module 3)", ok: Boolean(checks.projects) },
+    { id: "artifact", label: "6-second artifact (Module 3)", ok: Boolean(checks.artifact) },
   ].map((row) => ({ ...row, status: mark(row.ok) }));
 }
 
@@ -105,6 +109,23 @@ export function build_mentee_overview(progress) {
     { label: "R", value: answers.role_r || "—" },
   ];
 
+  const level =
+    format_level_label(progress.skill_level) ||
+    sheet(progress, "brainstorm", "level") ||
+    "—";
+  const location =
+    format_location_modes_label(location_modes_from(answers)) ||
+    sheet(progress, "brainstorm", "location") ||
+    "—";
+  const industry =
+    answer(progress, "job_industry") ||
+    sheet(progress, "brainstorm", "industry") ||
+    "—";
+  const comp_floor =
+    format_comp_floor_label(answers.comp_floor) ||
+    format_comp_floor_label(sheet(progress, "brainstorm", "comp_floor")) ||
+    "—";
+
   return {
     job_target: {
       tracks: role_track_labels(tracks),
@@ -113,6 +134,10 @@ export function build_mentee_overview(progress) {
       years: answers.role_years || "—",
       hours_week: format_hours_week(answers.target_hours_week),
       job_by: format_job_by(answers.job_by),
+      level,
+      location,
+      industry,
+      comp_floor,
     },
     skills: {
       best: best_skills(answers),

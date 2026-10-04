@@ -5,6 +5,15 @@
 import { sheet_fillin_stats } from "../data/worksheets.js";
 
 export const SYNC_MAP = {
+  "search-ready": {
+    know_role: "m4_know_role",
+    know_companies: "m4_know_companies",
+    portfolio_optimized: "m4_portfolio_ready",
+    m3_resume_done: "m3_resume",
+    m3_linkedin_done: "m3_linkedin",
+    m3_portfolio_done: "m3_portfolio",
+    ready_to_search: "m4_search_ready",
+  },
   "module-exit-0": {
     overview: "m0_overview",
     provided: "m0_provided",
@@ -38,6 +47,8 @@ export const SYNC_MAP = {
     port_max: "m3_portfolio",
     resume_max: "m3_resume",
     cover_max: "m3_cover",
+    projects_done: "projects",
+    artifact_done: "artifact",
     portfolio_habit: "m3_habit",
   },
   "community-later": {
@@ -61,41 +72,21 @@ export const SYNC_MAP = {
     github_live: "github",
     site_live: "personal_site",
   },
-  "chart-e": {
-    verified: "chart_e_score",
-    tailored: "tailor",
-    applied: "careers_page",
-    outreach: "outreach",
-    logged: "tracker_fields",
-  },
-  "networking-scripts": {
-    wellfound_done: "wellfound_msg",
-  },
   "skills-fork": {
-    apply_parallel: "parallel",
-    entry_readme: "e1",
-    entry_certs: "e2",
+    entry_readme: "e2",
+    entry_certs: "e3",
     entry_python: "e4",
     mid_assumed: "m1",
     senior_no_tutorials: "s1",
     senior_distribution: "s2",
   },
-  "interview-drills": {
-    sql_done: "sql",
-    case_aloud: "case",
-    loop_named: "loop_named",
-    drills_habit: "drills_habit",
-  },
   "loop-ready": {
+    loop_named: "loop_named",
     intro_aloud: "recruiter_story",
     sql_set_done: "tech_ready",
     case_story_done: "case_ready",
     car_aloud: "behavioral_ready",
     scripts_aloud: "scripts_ready",
-    dayof_done: "dayof_ready",
-    notes_fields: "notes_fields",
-    note_same_day: "after_screen",
-    followup_habit: "after_screen",
   },
   "comp-planning": {
     comp_done: "comp",
@@ -104,13 +95,6 @@ export const SYNC_MAP = {
     salary_practiced: "salary_practiced",
     negotiate_done: "negotiate_ready",
     levers_done: "levers_ready",
-  },
-  "weekly-loop": {
-    c_warm: "warm",
-    c_li: "li_connect",
-    c_careers: "careers_pref",
-    c_easy: "easy_zero",
-    c_follow: "outreach",
   },
 };
 
@@ -241,8 +225,8 @@ export function apply_fillin_derived(progress) {
   // Do not auto-tick Aim "primary_title" from answers.title / brainstorm text.
   // Mentee checks that box (or a future worksheet Done checkbox) on purpose.
 
-  // Package stage no longer re-gates Module 3 work: mirror M3 into package check ids
-  // so Progress report / worksheets stay consistent without a second checklist.
+  // Mirror Module 3 surface checks into legacy resume/linkedin/github ids
+  // so Progress report / worksheets stay consistent.
   if (checks.m3_resume && !checks.resume) {
     checks.resume = true;
     changed = true;
@@ -253,6 +237,12 @@ export function apply_fillin_derived(progress) {
   }
   if (checks.m3_portfolio && !checks.github && !checks.personal_site) {
     checks.github = true;
+    changed = true;
+  }
+
+  // One tracker criterion: tracker-setup completion also marks Module 4 Tracker ready.
+  if (checks.tracker && !checks.m4_tracker) {
+    checks.m4_tracker = true;
     changed = true;
   }
 
