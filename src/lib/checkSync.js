@@ -44,6 +44,7 @@ export const SYNC_MAP = {
     selling: "m3_selling",
     impact: "m3_impact",
     li_max: "m3_linkedin",
+    github_max: "m3_github",
     port_max: "m3_portfolio",
     resume_max: "m3_resume",
     cover_max: "m3_cover",
@@ -237,6 +238,12 @@ export function apply_fillin_derived(progress) {
   }
   if (checks.m3_portfolio && !checks.github && !checks.personal_site) {
     checks.github = true;
+    changed = true;
+  }
+  // GitHub used to live inside Maximize Portfolio: carry that tick over once,
+  // but leave an explicit untick (false) alone.
+  if (checks.m3_portfolio && checks.m3_github === undefined) {
+    checks.m3_github = true;
     changed = true;
   }
 

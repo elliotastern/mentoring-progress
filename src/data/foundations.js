@@ -166,8 +166,13 @@ export const FOUNDATIONS = [
         doc: { href: "docs/view.html?doc=m3-linkedin.md", label: "Guide" },
       },
       {
+        id: "m3_github",
+        label: "Maximize GitHub (profile + project READMEs)",
+        doc: { href: "docs/view.html?doc=m3-github.md", label: "Guide" },
+      },
+      {
         id: "m3_portfolio",
-        label: "Maximize Portfolio (public proof home noted)",
+        label: "Maximize Portfolio website (public proof home noted)",
         doc: { href: "docs/view.html?doc=m3-portfolio.md", label: "Guide" },
       },
       {

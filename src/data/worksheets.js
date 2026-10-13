@@ -945,7 +945,10 @@ export const WORKSHEETS = [
           check("li_max", "Maximize LinkedIn (headline matches Job Target title)", {
             href: "docs/view.html?doc=m3-linkedin.md",
           }),
-          check("port_max", "Maximize Portfolio (public proof home noted)", {
+          check("github_max", "Maximize GitHub (profile + project READMEs)", {
+            href: "docs/view.html?doc=m3-github.md",
+          }),
+          check("port_max", "Maximize Portfolio website (public proof home noted)", {
             href: "docs/view.html?doc=m3-portfolio.md",
           }),
           check("resume_max", "Maximize Resume", {

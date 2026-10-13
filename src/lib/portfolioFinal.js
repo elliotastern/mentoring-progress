@@ -214,6 +214,7 @@ export function apply_portfolio_gate_checks(progress) {
     checks.m3_linkedin = true;
     checks.m3_resume = true;
     checks.m3_portfolio = true;
+    checks.m3_github = true;
   }
 
   worksheets["search-ready"] = search;
