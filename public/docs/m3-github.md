@@ -115,13 +115,9 @@ Below the opening, include:
 - **Folder structure** and a **flow diagram** if the project has several steps
 - **Credits and license:** credit those who helped. See [choosealicense.com](https://choosealicense.com/) if you need help picking a license
 
-Example `requirements.txt`:
+Example `requirements.txt` file:
 
-```text
-pandas==2.2.2
-scikit-learn==1.5.0
-matplotlib==3.9.0
-```
+![Example requirements.txt file on GitHub with one package per line](assets/m3-github/requirements-example.png)
 
 Tips for making it easier to read:
 
@@ -134,7 +130,7 @@ Tips for specific roles:
 
 - **Data Analyst** 👨‍💻👩‍💻: a short video explaining your project is a nice addition, though not needed for your first version
 - **Data Scientist** 👨‍🔬🧑‍🔬: link a dashboard (for example Streamlit) so people can try your project without downloading files
-- **Data Engineer** 👷👷‍♀️: a diagram of your pipeline is a must
+- **Data Engineer** 👷👷‍♀️: a diagram of your pipeline is a must (see the example diagram below)
 - **ML Engineer** 🤖: link a dashboard or demo, and show results with pictures
 
 You should be able to explain every part of what you wrote: how the model works under the hood, what each metric means, and what each feature in your data is. If you cannot, go back to Step 2.
@@ -152,10 +148,31 @@ Small things reviewers notice in seconds:
 
 ### Examples of great READMEs
 
-- **Data Analyst:** [Pro Sports Salary Analysis](https://github.com/JP-Butler/Pro_Sports_Salary_Analysis). A picture that represents the project, a video presentation, and a linked table of contents.
-- **Data Scientist:** [African Finance Analysis](https://github.com/Davisy/Financial-Inclusion-in-Africa-App/blob/master/README.md?ref=hackernoon.com). An engaging picture and a Streamlit dashboard link, so nobody has to download the project.
-- **Data Engineer:** [Real-Time Violence Detection on AWS](https://github.com/Rahul-Vasan/Realtime-Violence-Detection). Picture, video, table of contents, and a diagram that makes the structure easy to understand.
-- **ML Engineer:** [Energy Demand Remote Communities](https://github.com/JDandre/energy_demand_remote_communities). Video, result pictures, and a clear file structure.
+**Data Analyst:** [Pro Sports Salary Analysis](https://github.com/JP-Butler/Pro_Sports_Salary_Analysis)
+
+![Pro Sports Salary Analysis README: theme picture, one-line summary, Tableau link and table of contents](assets/m3-github/example-data-analyst.jpg)
+
+Why it works: a picture that represents the project, a one-line summary, a link to the Tableau work, and a linked table of contents.
+
+**Data Scientist:** [African Finance Analysis](https://github.com/Davisy/Financial-Inclusion-in-Africa-App/blob/master/README.md?ref=hackernoon.com)
+
+![Financial Inclusion in Africa App README: Open in Streamlit badge, plain one-line summary and picture](assets/m3-github/example-data-scientist.jpg)
+
+Why it works: one plain sentence says what it does, the picture draws you in, and the Streamlit link means nobody has to download the project.
+
+**Data Engineer:** [Real-Time Violence Detection on AWS](https://github.com/Rahul-Vasan/Realtime-Violence-Detection)
+
+![Realtime Violence Detection README: picture, presentation video link and table of contents](assets/m3-github/example-data-engineer.jpg)
+
+Why it works: picture, video and table of contents at the top, plus a diagram that makes the structure easy to understand:
+
+![Solution architecture diagram from the same README, showing how the AWS services connect](assets/m3-github/example-architecture-diagram.jpg)
+
+**ML Engineer:** [Energy Demand Remote Communities](https://github.com/JDandre/energy_demand_remote_communities)
+
+![Energy Demand README: overview, video demo link and file structure](assets/m3-github/example-ml-engineer.png)
+
+Why it works: a clear overview, a video demo, and a file structure that helps people navigate the repository.
 
 Starting template: [Bonus: Readme Template](https://docs.google.com/document/d/1KKozb_yPAU-CKH_vW0ZCuoQIjKq2NZj6KexxHk3D8ww/edit?usp=sharing)
 
@@ -188,15 +205,29 @@ The longer you have worked on a project, the better it looks, as it shows commit
 This is a welcome page at the top of your profile. Keep it short: who you are, your target role, and a link to your best project. Example: [SalaheddineAD (Salah Eddine Ait Daoud)](https://github.com/SalaheddineAD)
 
 1. Press the “+” at the upper right of the page and then press “New repository”.
+
+   ![GitHub profile page with the plus menu open and New repository at the top](assets/m3-github/step1-new-repository.png)
+
 2. Name the repository your username. A box will appear saying this is a special repository for your GitHub profile.
+
+   ![Repository name matching the username, with GitHub's special repository message](assets/m3-github/step2-name-repository.png)
+
 3. Check off “Add a README file”.
+
+   ![Create repository form with Public selected and Add a README file checked](assets/m3-github/step3-add-readme.png)
+
 4. Press README.md on your new repository.
+
+   ![New profile repository showing the README.md file](assets/m3-github/step4-open-readme.png)
+
 5. Paste in the template for your role, then edit your name, the languages you do and do not know, and other details:
    - [Data Analyst Readme](https://docs.google.com/document/d/1DxfQ7md92bb6LPmIQrXUmDPbdVWCvC5Lp6BeBOzKcZs/edit)
    - [Data Scientist Readme](https://docs.google.com/document/d/1MRihgjX_cU53Ld_jtiEBXkaPF-5GKGX9c3BbTlbYIYA/edit?usp=sharing)
    - [Data Engineer Readme](https://docs.google.com/document/d/1G2k9Ibn60hezhRZmJLGuLPg8D56pmq0jdij91ohU7FY/edit?usp=sharing)
    - [ML Engineer Readme](https://docs.google.com/document/d/1WlRdJ3LV1ouON03L9foJP7Scg6t41paYObARND7RtXg/edit?usp=sharing)
 6. Toggle between “Code” and “Preview” to see how it looks and update as needed.
+
+   <img src="assets/m3-github/step6-code-preview.png" alt="README editor with the Preview and Code toggle" style="width: 380px;" />
 
 **Done when:** your profile opens with a short welcome that names your target role and links to your best project.
 
